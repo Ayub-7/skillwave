@@ -1,6 +1,6 @@
 'use server';
 
-import { signIn } from '@/auth';
+import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
@@ -9,6 +9,10 @@ type InvoiceFormData = {
   customerId: string;
   amount: string;
   status: string;
+};
+type LoginFormData = {
+  email: string;
+  password: string;
 };
 export async function createInvoice(formData: InvoiceFormData) {
   // Set values from FormData
@@ -61,10 +65,7 @@ export async function deleteInvoice(id: string) {
   }
 }
 
-export async function authenticate(
-  prevState: string | undefined,
-  formData: FormData,
-) {
+export async function authenticate(formData: LoginFormData) {
   try {
     await signIn('credentials', formData);
   } catch (error) {
@@ -78,4 +79,8 @@ export async function authenticate(
     }
     throw error;
   }
+}
+
+export async function signOutAction() {
+  await signOut();
 }
