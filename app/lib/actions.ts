@@ -2,9 +2,12 @@
 
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
+import { SignJWT, jwtVerify } from 'jose';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+
 type InvoiceFormData = {
   customerId: string;
   amount: string;
@@ -83,4 +86,20 @@ export async function authenticate(formData: LoginFormData) {
 
 export async function signOutAction() {
   await signOut();
+}
+
+const secretKey = process.env.SESSION_KEY;
+const key = new TextEncoder().encode(secretKey);
+
+export async function decrypt(input: string): Promise<any> {
+  const { payload } = await jwtVerify(input, key, {
+    algorithms: ['HS256'],
+  });
+  return JSON.stringify(payload);
+}
+
+export async function getSession() {
+  const session = cookies().get('session')?.value;
+  if (!session) return null;
+  return await decrypt(session);
 }

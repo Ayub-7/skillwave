@@ -1,5 +1,5 @@
 import SideNav from '@/app/ui/dashboard/sidenav';
-import UserAvatar from '@/app/ui/user-avatar';
+import UserAvatar from '@/app/ui/user-avatar-server';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
