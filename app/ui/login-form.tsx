@@ -8,17 +8,53 @@ import {
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/app/ui/button';
-import { useActionState } from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { authenticate } from '@/app/lib/actions';
+import { useState } from 'react';
+
+type LoginFormData = {
+  email: string;
+  password: string;
+};
 
 export default function LoginForm() {
-  const [errorMessage, formAction, isPending] = useActionState(
-    authenticate,
-    undefined,
-  );
+  const FormSchema = z.object({
+    email: z.string().email(),
+    password: z.string().min(6),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(FormSchema),
+  });
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(false);
+
+  const submitData = async (data: LoginFormData) => {
+    setIsPending(true);
+    setErrorMessage(null);
+
+    try {
+      await authenticate(data);
+    } catch (error) {
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage('An unknown error occurred');
+      }
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   return (
-    <form action={formAction} className="space-y-3">
+    <form onSubmit={handleSubmit(submitData)} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
@@ -33,6 +69,7 @@ export default function LoginForm() {
             </label>
             <div className="relative">
               <input
+                {...register('email')}
                 className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="email"
                 type="email"
@@ -41,6 +78,9 @@ export default function LoginForm() {
                 required
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email.message}</p>
+              )}
             </div>
           </div>
           <div className="mt-4">
@@ -52,6 +92,7 @@ export default function LoginForm() {
             </label>
             <div className="relative">
               <input
+                {...register('password')}
                 className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
                 id="password"
                 type="password"
@@ -61,10 +102,15 @@ export default function LoginForm() {
                 minLength={6}
               />
               <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+              {errors.password && (
+                <p className="text-sm text-red-500">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
-        <Button className="mt-4 w-full" aria-disabled={isPending}>
+        <Button className="mt-4 w-full" disabled={isPending}>
           Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
         <div

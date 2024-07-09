@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
+import { cookies } from 'next/headers';
+import { SignJWT } from 'jose';
 
 async function getUser(email: string): Promise<User | undefined> {
   try {
@@ -14,6 +16,17 @@ async function getUser(email: string): Promise<User | undefined> {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
   }
+}
+
+const secretKey = process.env.SESSION_KEY;
+const key = new TextEncoder().encode(secretKey);
+
+async function encrypt(payload: any) {
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('1 day')
+    .sign(key);
 }
 
 export const { auth, signIn, signOut } = NextAuth({
@@ -31,7 +44,12 @@ export const { auth, signIn, signOut } = NextAuth({
           if (!user) return null;
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
-          if (passwordsMatch) return user;
+          if (passwordsMatch) {
+            const expires = Date.now() + 24 * 60 * 60 * 1000;
+            const session = await encrypt({ user, expires });
+            cookies().set('session', session, { expires, httpOnly: true });
+            return user;
+          }
         }
 
         console.log('Invalid credentials');
