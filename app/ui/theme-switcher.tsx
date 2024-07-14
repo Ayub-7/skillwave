@@ -27,7 +27,6 @@ export function ThemeSwitcher() {
                 defaultSelected={theme === "dark"}
                 onValueChange={handleThemeChange}
                 size="lg"
-                color="success"
                 startContent={<SunIcon />}
                 endContent={<MoonIcon />}
             >
