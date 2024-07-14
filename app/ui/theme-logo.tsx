@@ -8,10 +8,12 @@ export default function ThemeImage() {
     const [currentTheme, setCurrentTheme] = useState();
 
     useEffect(() => {
-        if (theme) {
+        if (theme !== undefined) {
             setCurrentTheme(theme);
         }
     }, [theme]);
+
+    if (!currentTheme) return null;
 
     return (
         <Image
