@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 
 export default function ThemeImage() {
     const { theme } = useTheme();
-    const [currentTheme, setCurrentTheme] = useState('light');
+    const [currentTheme, setCurrentTheme] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (theme) {
             setCurrentTheme(theme);
         }
     }, [theme]);
+
+    if (!currentTheme) return null;
 
     return (
         <Image
