@@ -5,7 +5,7 @@ import { Card, CardFooter, CardBody } from "@nextui-org/card";
 export default function Profile() {
   return (
     <div className="p-4">
-      <Card className="max-w-sm w-full rounded-lg shadow-md bg-white">        
+      <Card className="max-w-sm w-full rounded-lg shadow-md bg-white">
         <CardBody className="overflow-visible py-4">
           <Image
             width={150}
