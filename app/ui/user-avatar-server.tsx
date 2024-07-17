@@ -19,6 +19,6 @@ export default async function UserAvatarServer() {
     if (!session) return null;
     return await decrypt(session) || '';
   }
-  const sessoin = await getSession() || '';
-  return <UserAvatarClient session={sessoin} />;
+  const session = await getSession() || '';
+  return <UserAvatarClient session={session} />;
 }
