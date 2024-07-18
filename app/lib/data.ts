@@ -1,5 +1,7 @@
 import { sql } from '@vercel/postgres';
 import { unstable_noStore as noStore } from 'next/cache';
+import { jwtVerify } from 'jose';
+import { cookies } from 'next/headers';
 import {
   CustomerField,
   CustomersTableType,
@@ -242,4 +244,20 @@ export async function getUser(email: string) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
   }
+}
+
+const secretKey = process.env.SESSION_KEY;
+const key = new TextEncoder().encode(secretKey);
+
+async function decrypt(input: string): Promise<any> {
+  const { payload } = await jwtVerify(input, key, {
+    algorithms: ['HS256'],
+  });
+  return JSON.stringify(payload);
+}
+
+export async function getSession() {
+  const session = cookies().get('session')?.value;
+  if (!session) return null;
+  return await decrypt(session) || '';
 }
