@@ -1,7 +1,6 @@
 import { Image } from "@nextui-org/image";
 import { Button } from "@nextui-org/button";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
-import { Link } from "@nextui-org/link";
 import { XIcon } from "@/app/ui/custom-icons/x-icon";
 import { TiktokIcon } from "@/app/ui/custom-icons/tiktok-icon";
 import { FacebookIcon } from "@/app/ui/custom-icons/facebook-icon";
