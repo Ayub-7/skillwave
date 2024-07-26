@@ -95,6 +95,7 @@ export default function Profile() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
         {courses.map(course => (
           <CourseCard
+            key={course.id}
             title={course.title}
             description={course.description}
             imageUrl={course.imageUrl}
