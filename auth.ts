@@ -9,9 +9,9 @@ import { cookies } from 'next/headers';
 import { SignJWT } from 'jose';
 import {prisma} from "@/app/lib/prisma"
 
-async function getUser(email: string){
+async function getUser(email: string): Promise<User | undefined> {
   try {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findMany({
       where: {
         email: email
       }
@@ -19,7 +19,7 @@ async function getUser(email: string){
     const hashedPassword = await bcrypt.hash("password", 10);
     const passwordsMatch = await bcrypt.compare("password", hashedPassword);
     console.log(passwordsMatch, 'ppo', hashedPassword)
-    return user;
+    return user.at(0);
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
