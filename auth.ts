@@ -9,7 +9,7 @@ import { cookies } from 'next/headers';
 import { SignJWT } from 'jose';
 import {prisma} from "@/app/lib/prisma"
 
-async function getUser(email: string): Awaitable<User | null> {
+async function getUser(email: string): Promise<User | null> {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -55,7 +55,7 @@ export const { auth, signIn, signOut } = NextAuth({
             const expires = Date.now() + 24 * 60 * 60 * 1000;
             const session = await encrypt({ user, expires });
             cookies().set('session', session, { expires, httpOnly: true });
-            return user;
+            return user as any;
           }
         }
 
