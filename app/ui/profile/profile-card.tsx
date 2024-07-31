@@ -7,8 +7,8 @@ import { FacebookIcon } from "@/app/ui/custom-icons/facebook-icon";
 import { InstagramIcon } from "@/app/ui/custom-icons/instagram-icon";
 import { LinkedinIcon } from "@/app/ui/custom-icons/linkedin-icon";
 import { YoutubeIcon } from "@/app/ui/custom-icons/youtube-icon";
-import { PencilIcon } from '@heroicons/react/24/outline';
 import { getSession } from "@/app/lib/data";
+import EditProfileModal from "@/app/ui/profile/edit-profile-modal";
 
 export default async function ProfileCard() {
     const session = await getSession() || '';
@@ -69,9 +69,7 @@ export default async function ProfileCard() {
                         </a>
                     </div>
                     <div className="flex">
-                        <Button variant="shadow" isIconOnly>
-                            <PencilIcon className="w-6 h-6" />
-                        </Button>
+                        <EditProfileModal />
                     </div>
                 </CardHeader>
                 <CardBody className="overflow-visible flex flex-col items-center py-4">
@@ -82,8 +80,7 @@ export default async function ProfileCard() {
                     />
                     <h2 className="mt-4 text-xl font-semibold text-center">{JsonSession.user.name}</h2>
                     <p className="mt-1 text-sm text-center">
-                        Software Developer passionate about creating meaningful applications.
-                        I want to give you all the tools to be great. Lets Go!
+                        {JsonSession.user.bio}
                     </p>
                 </CardBody>
             </Card>
