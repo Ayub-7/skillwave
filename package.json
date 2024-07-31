@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "prisma generate && next build",
     "dev": "next dev",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check --ignore-unknown .",
@@ -9,10 +9,14 @@
     "lint": "next lint",
     "seed": "node -r dotenv/config ./scripts/seed.js"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.7.0",
     "@nextui-org/react": "^2.4.2",
+    "@prisma/client": "^5.17.0",
     "@tailwindcss/forms": "^0.5.7",
     "@types/node": "20.5.7",
     "@vercel/postgres": "^0.5.1",
@@ -43,7 +47,9 @@
     "eslint-config-next": "^14.0.0",
     "eslint-config-prettier": "9.0.0",
     "prettier": "^3.0.3",
-    "prettier-plugin-tailwindcss": "0.5.4"
+    "prettier-plugin-tailwindcss": "0.5.4",
+    "prisma": "^5.17.0",
+    "ts-node": "^10.9.2"
   },
   "engines": {
     "node": ">=18.17.0"

@@ -7,11 +7,19 @@ import type { User } from '@/app/lib/definitions';
 import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
 import { SignJWT } from 'jose';
+import {prisma} from "@/app/lib/prisma"
 
-async function getUser(email: string): Promise<User | undefined> {
+async function getUser(email: string){
   try {
-    const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
-    return user.rows[0];
+    const user = await prisma.user.findFirst({
+      where: {
+        email: email
+      }
+    });
+    const hashedPassword = await bcrypt.hash("password", 10);
+    const passwordsMatch = await bcrypt.compare("password", hashedPassword);
+    console.log(passwordsMatch, 'ppo', hashedPassword)
+    return user;
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
@@ -41,8 +49,10 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);
+          console.log(user, 'hii')
           if (!user) return null;
           const passwordsMatch = await bcrypt.compare(password, user.password);
+          console.log('okn', passwordsMatch)
 
           if (passwordsMatch) {
             const expires = Date.now() + 24 * 60 * 60 * 1000;
