@@ -1,16 +1,8 @@
 import React from "react";
 import ProfileCard from '@/app/ui/profile/profile-card'
 import { Divider } from "@nextui-org/divider";
-import CourseCard from '@/app/ui/profile/course-card'; // Assuming you have this component
-interface Course {
-  id: number;
-  title: string;
-  description: string;
-  imageUrl: string;
-  price: number;
-  created?: boolean;
-  purchased?: boolean;
-}
+import CourseCard from '@/app/ui/profile/course-card';
+
 export default function Profile() {
   // add ability to follow a user. add follow button somwhere on profile page
   const courses = [

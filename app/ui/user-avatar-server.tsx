@@ -1,6 +1,7 @@
 import React from 'react';
 import { jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
+import { getUser } from '@/app/lib/data';
 import UserAvatarClient from '@/app/ui/user-avatar-client';
 
 export default async function UserAvatarServer() {
@@ -20,5 +21,6 @@ export default async function UserAvatarServer() {
     return await decrypt(session) || '';
   }
   const session = await getSession() || '';
-  return <UserAvatarClient session={session} />;
+  const user = await getUser(JSON.parse(session).user.id)
+  return <UserAvatarClient user={user} />;
 }
