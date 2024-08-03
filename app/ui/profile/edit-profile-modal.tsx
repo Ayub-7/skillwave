@@ -33,7 +33,7 @@ export default function EditProfileModal({ user }: any) {
             <Button onPress={onOpen} variant="shadow" isIconOnly>
                 <PencilIcon className="w-6 h-6" />
             </Button>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+            <Modal placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
                         <>
