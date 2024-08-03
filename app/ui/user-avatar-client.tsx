@@ -10,8 +10,7 @@ import {
 import { signOutAction } from '@/app/lib/actions';
 import { Avatar } from '@nextui-org/avatar';
 
-export default function UserAvatarClient({ session }: { session: string }) {
-  const JsonSession = JSON.parse(session)
+export default function UserAvatarClient({ user }: any) {
   return (
     <Dropdown placement="bottom-start">
       <DropdownTrigger>
@@ -27,7 +26,7 @@ export default function UserAvatarClient({ session }: { session: string }) {
       <DropdownMenu aria-label="User Actions" variant="flat">
         <DropdownItem key="details" className="h-14 gap-2">
           <p className="font-bold">Signed in as</p>
-          <p className="font-bold">{JsonSession.user.name}</p>
+          <p className="font-bold">{user.name}</p>
         </DropdownItem>
         <DropdownItem key="profile" href="/dashboard/profile">My Profile</DropdownItem>
         <DropdownItem

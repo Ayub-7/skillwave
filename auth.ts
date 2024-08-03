@@ -46,10 +46,8 @@ export const { auth, signIn, signOut } = NextAuth({
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);
-          console.log(user, 'hii')
           if (!user) return null;
           const passwordsMatch = await bcrypt.compare(password, user.password);
-          console.log('okn', passwordsMatch)
 
           if (passwordsMatch) {
             const expires = Date.now() + 24 * 60 * 60 * 1000;

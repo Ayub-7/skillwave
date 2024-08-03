@@ -2,11 +2,10 @@
 
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
-import { SignJWT, jwtVerify } from 'jose';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+import {prisma} from "@/app/lib/prisma"
 
 type InvoiceFormData = {
   customerId: string;
@@ -17,6 +16,30 @@ type LoginFormData = {
   email: string;
   password: string;
 };
+
+interface UpdateUserInput {
+  id: number; // Assuming you use an ID to identify the user
+  name?: string;
+  bio?: string;
+}
+
+export async function updateUser({ id, name, bio }: UpdateUserInput) {
+  try {
+    await prisma.user.update({
+      where: { id }, // Specify the unique identifier
+      data: {
+        name,
+        bio,
+      },
+    });
+
+    revalidatePath('/dashboard/profile');
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw new Error('Failed to update user');
+  }
+}
 export async function createInvoice(formData: InvoiceFormData) {
   // Set values from FormData
   const { customerId, amount, status } = formData;
@@ -86,20 +109,4 @@ export async function authenticate(formData: LoginFormData) {
 
 export async function signOutAction() {
   await signOut();
-}
-
-const secretKey = process.env.SESSION_KEY;
-const key = new TextEncoder().encode(secretKey);
-
-export async function decrypt(input: string): Promise<any> {
-  const { payload } = await jwtVerify(input, key, {
-    algorithms: ['HS256'],
-  });
-  return JSON.stringify(payload);
-}
-
-export async function getSession() {
-  const session = cookies().get('session')?.value;
-  if (!session) return null;
-  return await decrypt(session);
 }

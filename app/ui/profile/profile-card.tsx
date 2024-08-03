@@ -7,12 +7,13 @@ import { FacebookIcon } from "@/app/ui/custom-icons/facebook-icon";
 import { InstagramIcon } from "@/app/ui/custom-icons/instagram-icon";
 import { LinkedinIcon } from "@/app/ui/custom-icons/linkedin-icon";
 import { YoutubeIcon } from "@/app/ui/custom-icons/youtube-icon";
-import { getSession } from "@/app/lib/data";
+import { getSession, getUser } from "@/app/lib/data";
 import EditProfileModal from "@/app/ui/profile/edit-profile-modal";
 
 export default async function ProfileCard() {
     const session = await getSession() || '';
     const JsonSession = JSON.parse(session);
+    const user = await getUser(JsonSession.user.id)
 
     return (
         <div className="pt-0">
@@ -69,7 +70,7 @@ export default async function ProfileCard() {
                         </a>
                     </div>
                     <div className="flex">
-                        <EditProfileModal />
+                        <EditProfileModal user={user} />
                     </div>
                 </CardHeader>
                 <CardBody className="overflow-visible flex flex-col items-center py-4">
@@ -78,9 +79,9 @@ export default async function ProfileCard() {
                         alt="User Profile Image"
                         src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
                     />
-                    <h2 className="mt-4 text-xl font-semibold text-center">{JsonSession.user.name}</h2>
+                    <h2 className="mt-4 text-xl font-semibold text-center">{user?.name}</h2>
                     <p className="mt-1 text-sm text-center">
-                        {JsonSession.user.bio}
+                        {user?.bio}
                     </p>
                 </CardBody>
             </Card>

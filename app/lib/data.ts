@@ -12,6 +12,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
+import {prisma} from "@/app/lib/prisma"
 
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
@@ -236,16 +237,6 @@ export async function fetchFilteredCustomers(query: string) {
   }
 }
 
-export async function getUser(email: string) {
-  try {
-    const user = await sql`SELECT * FROM users WHERE email=${email}`;
-    return user.rows[0] as User;
-  } catch (error) {
-    console.error('Failed to fetch user:', error);
-    throw new Error('Failed to fetch user.');
-  }
-}
-
 const secretKey = process.env.SESSION_KEY;
 const key = new TextEncoder().encode(secretKey);
 
@@ -260,4 +251,9 @@ export async function getSession() {
   const session = cookies().get('session')?.value;
   if (!session) return null;
   return await decrypt(session) || '';
+}
+
+export async function getUser(userId: number) {
+  const user = await prisma.user.findUnique({where: {id: userId}})
+  return user
 }
