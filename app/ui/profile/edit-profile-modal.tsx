@@ -73,7 +73,7 @@ export default function EditProfileModal({ user }: any) {
                                     isDisabled={isInvalid}
                                     onPress={() => handleAction(onClose)}
                                 >
-                                    Action
+                                    Save
                                 </Button>
                             </ModalFooter>
                         </>
