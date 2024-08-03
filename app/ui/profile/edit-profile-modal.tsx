@@ -7,11 +7,25 @@ import { Button } from '@nextui-org/react';
 import { Input, Textarea } from "@nextui-org/input";
 
 export default function EditProfileModal({ user }: any) {
+    const [isMobile, setIsMobile] = React.useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [name, setName] = React.useState(user.name);
     const [bio, setBio] = React.useState(user.bio || '');
 
     const isInvalid = React.useMemo(() => name === "", [name]);
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768); // 768px is a common breakpoint for mobile devices
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     // Handler function for the Action button
     const handleAction = async (onClose: () => void) => {
@@ -33,7 +47,7 @@ export default function EditProfileModal({ user }: any) {
             <Button onPress={onOpen} variant="shadow" isIconOnly>
                 <PencilIcon className="w-6 h-6" />
             </Button>
-            <Modal placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
+            <Modal isDismissable={!isMobile} placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
                         <>
