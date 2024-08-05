@@ -9,11 +9,17 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  name     String
-  bio      String
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String
+  name      String
+  bio       String?
+  instagram String?
+  facebook  String?
+  tiktok    String?
+  youtube   String?
+  linkedin  String?
+  twitter   String?
 }
 
 model Course {

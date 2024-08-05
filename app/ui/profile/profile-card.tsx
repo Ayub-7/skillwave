@@ -20,54 +20,66 @@ export default async function ProfileCard() {
             <Card className="max-w-sm w-full md:max-w-sm rounded-lg shadow-md relative">
                 <CardHeader className="flex justify-between items-center">
                     <div className="flex">
-                        <a
-                            href="https://x.com/johndoe1"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-blue-600"
-                        >
-                            <XIcon />
-                        </a>
-                        <a
-                            href="https://tiktok.com/johndoe"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-blue-600"
-                        >
-                            <TiktokIcon />
-                        </a>
-                        <a
-                            href="https://youtube.com/johndoe"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-blue-600"
-                        >
-                            <YoutubeIcon />
-                        </a>
-                        <a
-                            href="https://instagram.com/johndoe"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-blue-600"
-                        >
-                            <InstagramIcon />
-                        </a>
-                        <a
-                            href="https://linkedin.com/in/johndoe"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-blue-600"
-                        >
-                            <LinkedinIcon />
-                        </a>
-                        <a
-                            href="https://facebook.com/johndoe"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="hover:text-blue-600"
-                        >
-                            <FacebookIcon />
-                        </a>
+                        {user?.twitter && (
+                            <a
+                                href={`https://x.com/${user?.twitter}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-blue-600"
+                            >
+                                <XIcon />
+                            </a>
+                        )}
+                        {user?.tiktok && (
+                            <a
+                                href={`https://tiktok.com/${user?.tiktok}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-blue-600"
+                            >
+                                <TiktokIcon />
+                            </a>
+                        )}
+                        {user?.youtube && (
+                            <a
+                                href={`https://youtube.com/${user?.youtube}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-blue-600"
+                            >
+                                <YoutubeIcon />
+                            </a>
+                        )}
+                        {user?.instagram && (
+                            <a
+                                href={`https://instagram.com/${user?.instagram}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-blue-600"
+                            >
+                                <InstagramIcon />
+                            </a>
+                        )}
+                        {user?.linkedin && (
+                            <a
+                                href={`https://linkedin.com/in/${user?.linkedin}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-blue-600"
+                            >
+                                <LinkedinIcon />
+                            </a>
+                        )}
+                        {user?.facebook && (
+                            <a
+                                href={`https://facebook.com/${user?.facebook}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:text-blue-600"
+                            >
+                                <FacebookIcon />
+                            </a>
+                        )}
                     </div>
                     <div className="flex">
                         <EditProfileModal user={user} />
