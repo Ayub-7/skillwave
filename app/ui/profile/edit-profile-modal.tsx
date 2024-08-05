@@ -69,7 +69,7 @@ export default function EditProfileModal({ user }: any) {
             <Button onPress={onOpen} variant="shadow" isIconOnly>
                 <PencilIcon className="w-6 h-6" />
             </Button>
-            <Modal scrollBehavior="inside" isDismissable={!isMobile} placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
+            <Modal disableAnimation scrollBehavior="inside" isDismissable={!isMobile} placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
                         <>
@@ -85,6 +85,9 @@ export default function EditProfileModal({ user }: any) {
                                     variant="bordered"
                                     type="string"
                                     label="Name"
+                                    classNames={{
+                                        input: "text-custom-16", // Tailwind class to ensure minimum font size
+                                    }}
                                 />
                                 <Textarea
                                     value={bio}
@@ -94,7 +97,7 @@ export default function EditProfileModal({ user }: any) {
                                     type="string"
                                     label="Bio"
                                     classNames={{
-                                        input: "bg-transparent border-none focus:ring-0",
+                                        input: "bg-transparent border-none focus:ring-0 text-custom-16",
                                         innerWrapper: "bg-transparent",
                                         inputWrapper: "bg-transparent shadow-none",
                                     }}
@@ -107,6 +110,9 @@ export default function EditProfileModal({ user }: any) {
                                     label="X"
                                     placeholder="Enter X username"
                                     endContent=<XIcon />
+                                    classNames={{
+                                        input: "text-custom-16", // Tailwind class to ensure minimum font size
+                                    }}
                                 />
                                 <Input
                                     value={instagram}
@@ -116,6 +122,9 @@ export default function EditProfileModal({ user }: any) {
                                     label="Instagram"
                                     placeholder="Enter Instagram username"
                                     endContent=<InstagramIcon />
+                                    classNames={{
+                                        input: "text-custom-16", // Tailwind class to ensure minimum font size
+                                    }}
                                 />
                                 <Input
                                     value={linkedin}
@@ -125,6 +134,9 @@ export default function EditProfileModal({ user }: any) {
                                     label="LinkedIn"
                                     placeholder="Enter LinkedIn username"
                                     endContent=<LinkedinIcon />
+                                    classNames={{
+                                        input: "text-custom-16", // Tailwind class to ensure minimum font size
+                                    }}
                                 />
                                 <Input
                                     value={facebook}
@@ -134,6 +146,9 @@ export default function EditProfileModal({ user }: any) {
                                     label="Facebook"
                                     placeholder="Enter Facebook username"
                                     endContent=<FacebookIcon />
+                                    classNames={{
+                                        input: "text-custom-16", // Tailwind class to ensure minimum font size
+                                    }}
                                 />
                                 <Input
                                     value={tiktok}
@@ -143,6 +158,9 @@ export default function EditProfileModal({ user }: any) {
                                     label="TikTok"
                                     placeholder="Enter TikTok username"
                                     endContent=<TiktokIcon />
+                                    classNames={{
+                                        input: "text-custom-16", // Tailwind class to ensure minimum font size
+                                    }}
                                 />
                                 <Input
                                     value={youtube}
@@ -150,8 +168,11 @@ export default function EditProfileModal({ user }: any) {
                                     variant="bordered"
                                     type="string"
                                     label="YouTube"
-                                    placeholder="Enter YouTube username i.e @john_doe"
+                                    placeholder="YouTube username i.e @john_doe"
                                     endContent=<YoutubeIcon />
+                                    classNames={{
+                                        input: "text-custom-16", // Tailwind class to ensure minimum font size
+                                    }}
                                 />
                             </ModalBody>
                             <ModalFooter>

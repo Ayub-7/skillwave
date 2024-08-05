@@ -20,6 +20,9 @@ const config: Config = {
           600: '#2F6FEB',
         },
       },
+      fontSize: {
+        'custom-16': '16px',
+      },
     },
     keyframes: {
       shimmer: {
