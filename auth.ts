@@ -9,7 +9,7 @@ import { cookies } from 'next/headers';
 import { SignJWT } from 'jose';
 import {prisma} from "@/app/lib/prisma"
 
-async function getUser(email: string): Promise<User | null> {
+async function getUser(email: string) {
   try {
     const user = await prisma.user.findUnique({
       where: {
