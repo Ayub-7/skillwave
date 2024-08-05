@@ -19,17 +19,31 @@ type LoginFormData = {
 
 interface UpdateUserInput {
   id: number; // Assuming you use an ID to identify the user
-  name?: string;
+  name: string;
   bio?: string;
+  twitter?: string
+  instagram?: string; // Optional field
+  linkedin?: string; // Optional field
+  facebook?: string; // Optional field
+  tiktok?: string; // Optional field
+  youtube?: string; // Optional field
 }
 
-export async function updateUser({ id, name, bio }: UpdateUserInput) {
+export async function updateUser(input: UpdateUserInput) {
+    const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube } = input;
+
   try {
     await prisma.user.update({
       where: { id }, // Specify the unique identifier
-      data: {
+     data: {
         name,
         bio,
+        twitter,
+        instagram,
+        linkedin,
+        facebook,
+        tiktok,
+        youtube,
       },
     });
 

@@ -2,6 +2,12 @@
 import React from "react";
 import { updateUser } from "@/app/lib/actions";
 import { PencilIcon } from '@heroicons/react/24/outline';
+import { XIcon } from "@/app/ui/custom-icons/x-icon";
+import { TiktokIcon } from "@/app/ui/custom-icons/tiktok-icon";
+import { FacebookIcon } from "@/app/ui/custom-icons/facebook-icon";
+import { InstagramIcon } from "@/app/ui/custom-icons/instagram-icon";
+import { LinkedinIcon } from "@/app/ui/custom-icons/linkedin-icon";
+import { YoutubeIcon } from "@/app/ui/custom-icons/youtube-icon";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
 import { Button } from '@nextui-org/react';
 import { Input, Textarea } from "@nextui-org/input";
@@ -9,8 +15,18 @@ import { Input, Textarea } from "@nextui-org/input";
 export default function EditProfileModal({ user }: any) {
     const [isMobile, setIsMobile] = React.useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    // State for profile details
     const [name, setName] = React.useState(user.name);
     const [bio, setBio] = React.useState(user.bio || '');
+
+    // State for social media links
+    const [twitter, setTwitter] = React.useState(user.twitter || '');
+    const [instagram, setInstagram] = React.useState(user.instagram || '');
+    const [linkedin, setLinkedin] = React.useState(user.linkedin || '');
+    const [facebook, setFacebook] = React.useState(user.facebook || '');
+    const [tiktok, setTiktok] = React.useState(user.tiktok || '');
+    const [youtube, setYoutube] = React.useState(user.youtube || '');
 
     const isInvalid = React.useMemo(() => name === "", [name]);
 
@@ -35,6 +51,12 @@ export default function EditProfileModal({ user }: any) {
                 id: user.id,
                 name: name,
                 bio: bio,
+                twitter: twitter,
+                instagram: instagram,
+                linkedin: linkedin,
+                facebook: facebook,
+                tiktok: tiktok,
+                youtube: youtube
             });
         } catch (error) {
             console.error('Error updating user:', error);
@@ -76,6 +98,60 @@ export default function EditProfileModal({ user }: any) {
                                         innerWrapper: "bg-transparent",
                                         inputWrapper: "bg-transparent shadow-none",
                                     }}
+                                />
+                                <Input
+                                    value={twitter}
+                                    onChange={(e) => setTwitter(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="X"
+                                    placeholder="Enter X username"
+                                    endContent=<XIcon />
+                                />
+                                <Input
+                                    value={instagram}
+                                    onChange={(e) => setInstagram(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="Instagram"
+                                    placeholder="Enter Instagram username"
+                                    endContent=<InstagramIcon />
+                                />
+                                <Input
+                                    value={linkedin}
+                                    onChange={(e) => setLinkedin(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="LinkedIn"
+                                    placeholder="Enter LinkedIn username"
+                                    endContent=<LinkedinIcon />
+                                />
+                                <Input
+                                    value={facebook}
+                                    onChange={(e) => setFacebook(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="Facebook"
+                                    placeholder="Enter Facebook username"
+                                    endContent=<FacebookIcon />
+                                />
+                                <Input
+                                    value={tiktok}
+                                    onChange={(e) => setTiktok(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="TikTok"
+                                    placeholder="Enter TikTok username"
+                                    endContent=<TiktokIcon />
+                                />
+                                <Input
+                                    value={youtube}
+                                    onChange={(e) => setYoutube(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="YouTube"
+                                    placeholder="Enter YouTube username i.e @john_doe"
+                                    endContent=<YoutubeIcon />
                                 />
                             </ModalBody>
                             <ModalFooter>
