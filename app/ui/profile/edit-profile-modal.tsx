@@ -115,42 +115,6 @@ export default function EditProfileModal({ user }: any) {
                                     }}
                                 />
                                 <Input
-                                    value={instagram}
-                                    onChange={(e) => setInstagram(e.target.value)}
-                                    variant="bordered"
-                                    type="string"
-                                    label="Instagram"
-                                    placeholder="Enter Instagram username"
-                                    endContent=<InstagramIcon />
-                                    classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
-                                    }}
-                                />
-                                <Input
-                                    value={linkedin}
-                                    onChange={(e) => setLinkedin(e.target.value)}
-                                    variant="bordered"
-                                    type="string"
-                                    label="LinkedIn"
-                                    placeholder="Enter LinkedIn username"
-                                    endContent=<LinkedinIcon />
-                                    classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
-                                    }}
-                                />
-                                <Input
-                                    value={facebook}
-                                    onChange={(e) => setFacebook(e.target.value)}
-                                    variant="bordered"
-                                    type="string"
-                                    label="Facebook"
-                                    placeholder="Enter Facebook username"
-                                    endContent=<FacebookIcon />
-                                    classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
-                                    }}
-                                />
-                                <Input
                                     value={tiktok}
                                     onChange={(e) => setTiktok(e.target.value)}
                                     variant="bordered"
@@ -170,6 +134,42 @@ export default function EditProfileModal({ user }: any) {
                                     label="YouTube"
                                     placeholder="YouTube username i.e @john_doe"
                                     endContent=<YoutubeIcon />
+                                    classNames={{
+                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                    }}
+                                />
+                                <Input
+                                    value={instagram}
+                                    onChange={(e) => setInstagram(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="Instagram"
+                                    placeholder="Enter Instagram username"
+                                    endContent=<InstagramIcon />
+                                    classNames={{
+                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                    }}
+                                />
+                                <Input
+                                    value={facebook}
+                                    onChange={(e) => setFacebook(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="Facebook"
+                                    placeholder="Enter Facebook username"
+                                    endContent=<FacebookIcon />
+                                    classNames={{
+                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                    }}
+                                />
+                                <Input
+                                    value={linkedin}
+                                    onChange={(e) => setLinkedin(e.target.value)}
+                                    variant="bordered"
+                                    type="string"
+                                    label="LinkedIn"
+                                    placeholder="Enter LinkedIn username"
+                                    endContent=<LinkedinIcon />
                                     classNames={{
                                         input: "text-md", // Tailwind class to ensure minimum font size
                                     }}
