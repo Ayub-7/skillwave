@@ -254,6 +254,22 @@ export async function getSession() {
 }
 
 export async function getUser(userId: number) {
-  const user = await prisma.user.findUnique({where: {id: userId}})
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      courses: true,
+    },
+  });
   return user
+}
+
+export async function getPurchasedCourses(user: any) {
+  const purchased = await prisma.course.findMany({
+    where: {
+      id: {
+        in: user.purchasedCourses
+      }
+    }
+  })
+  return purchased
 }

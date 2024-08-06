@@ -9,21 +9,36 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  password  String
-  name      String
-  bio       String?
-  instagram String?
-  facebook  String?
-  tiktok    String?
-  youtube   String?
-  linkedin  String?
-  twitter   String?
+  id               Int      @id @default(autoincrement())
+  email            String   @unique
+  password         String
+  name             String
+  bio              String?
+  instagram        String?
+  facebook         String?
+  tiktok           String?
+  youtube          String?
+  linkedin         String?
+  twitter          String?
+  courses          Course[] @relation("AuthorCourses")
+  purchasedCourses Int[]
 }
 
 model Course {
-  id          Int    @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
-  description String
+  description String?
+  Sections    Section[]
+  author      User      @relation("AuthorCourses", fields: [authorId], references: [id])
+  authorId    Int
+  price       Float     @default(0)
+  imageUrl    String?
+}
+
+model Section {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  course      Course  @relation(fields: [courseId], references: [id])
+  courseId    Int
 }
