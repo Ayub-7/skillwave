@@ -1,19 +1,18 @@
 'use client'
-import { Card, CardHeader, CardBody, CardFooter, Button, Image } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Image } from "@nextui-org/react";
 
 interface CourseCardProps {
     title: string;
-    description: string;
     imageUrl: string;
     price: number;
 }
 
-export default function CourseCard({ title, description, imageUrl, price }: CourseCardProps) {
+export default function CourseCard({ title, imageUrl, price }: CourseCardProps) {
     return (
         <Card className="py-4" isPressable>
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                 <h4 className="font-bold text-large">{title}</h4>
-                <p className="text-tiny uppercase font-bold">{description}</p>
+                {/* <p className="text-tiny uppercase font-bold">{description}</p> */}
             </CardHeader>
             <CardBody className="overflow-visible py-2">
                 <Image
