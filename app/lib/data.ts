@@ -273,3 +273,12 @@ export async function getPurchasedCourses(user: any) {
   })
   return purchased
 }
+
+export async function getCourse(id: number) {
+  const course = await prisma.course.findUnique({
+    where: {
+      id: id
+    }
+  })
+  return course
+}
