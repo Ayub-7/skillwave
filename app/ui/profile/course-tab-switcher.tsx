@@ -9,6 +9,7 @@ export default function CourseTabSwitcher({ myCourses, purchasedCourses }: any) 
                 <Tab key="Purchased" title="Purchased">
                     {purchasedCourses.map((course: any) => (
                         <CourseCard
+                            key={course.id}
                             id={course.id}
                             title={course.name}
                             imageUrl={course.imageUrl}
@@ -19,6 +20,7 @@ export default function CourseTabSwitcher({ myCourses, purchasedCourses }: any) 
                 <Tab key="Created" title="Created">
                     {myCourses.map((course: any) => (
                         <CourseCard
+                            key={course.id}
                             id={course.id}
                             title={course.name}
                             imageUrl={course.imageUrl}
