@@ -278,6 +278,18 @@ export async function getCourse(id: number) {
   const course = await prisma.course.findUnique({
     where: {
       id: id
+    },
+    include: {
+      Sections: true
+    }
+  })
+  return course
+}
+
+export async function getSection(id: number) {
+  const course = await prisma.section.findUnique({
+    where: {
+      id: id
     }
   })
   return course
