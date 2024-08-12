@@ -1,5 +1,4 @@
 import { Image } from "@nextui-org/image";
-import { Button } from "@nextui-org/button";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { XIcon } from "@/app/ui/custom-icons/x-icon";
 import { TiktokIcon } from "@/app/ui/custom-icons/tiktok-icon";
@@ -9,6 +8,7 @@ import { LinkedinIcon } from "@/app/ui/custom-icons/linkedin-icon";
 import { YoutubeIcon } from "@/app/ui/custom-icons/youtube-icon";
 import { getSession, getUser } from "@/app/lib/data";
 import EditProfileModal from "@/app/ui/profile/edit-profile-modal";
+import CreateCourseModal from "@/app/ui/profile/create-course-modal";
 
 export default async function ProfileCard() {
     const session = await getSession() || '';
@@ -81,7 +81,8 @@ export default async function ProfileCard() {
                             </a>
                         )}
                     </div>
-                    <div className="flex">
+                    <div className="flex gap-1">
+                        <CreateCourseModal user={user} />
                         <EditProfileModal user={user} />
                     </div>
                 </CardHeader>

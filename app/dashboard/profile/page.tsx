@@ -16,8 +16,8 @@ export default async function Profile() {
         <ProfileCard />
       </div>
       <Divider className="w-full mt-8" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-        <CourseTabSwitcher myCourses={user?.courses} purchasedCourses={purchasedCourses} />
+      <div>
+        <CourseTabSwitcher myCourses={user?.courses} purchasedCourses={purchasedCourses} currUserId={user?.id} />
       </div>
     </div>
   );
