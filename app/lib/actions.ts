@@ -29,6 +29,13 @@ interface UpdateUserInput {
   youtube?: string; // Optional field
 }
 
+interface courseInput {
+  name: string;
+  description?: string;
+  authorId: number;
+  price: number;
+}
+
 export async function updateUser(input: UpdateUserInput) {
     const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube } = input;
 
@@ -54,6 +61,44 @@ export async function updateUser(input: UpdateUserInput) {
     throw new Error('Failed to update user');
   }
 }
+
+export async function createCourse(input: courseInput, sections: { name: string; description: string; }[]) {
+  const {name, description, authorId, price} = input
+  await prisma.course.create({
+    data: {
+      name,
+      description,
+      author: {
+        connect: {
+          id: authorId
+        }
+      },
+      price,
+      Sections: {
+        createMany: {
+          data: sections
+        }
+      }
+    }
+  })
+  revalidatePath('/dashboard/profile');
+}
+
+export async function deleteCourse(id: number) {
+  const deleteSections = prisma.section.deleteMany({
+    where: {
+      courseId: id
+    }
+  })
+  const deleteCourse = prisma.course.delete({
+    where: {
+      id
+    }
+  })
+  await prisma.$transaction([deleteSections, deleteCourse])
+  revalidatePath('/dashboard/profile');
+}
+
 export async function createInvoice(formData: InvoiceFormData) {
   // Set values from FormData
   const { customerId, amount, status } = formData;

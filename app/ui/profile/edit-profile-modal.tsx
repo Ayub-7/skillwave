@@ -11,6 +11,7 @@ import { YoutubeIcon } from "@/app/ui/custom-icons/youtube-icon";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
 import { Button } from '@nextui-org/react';
 import { Input, Textarea } from "@nextui-org/input";
+import { Tooltip } from "@nextui-org/tooltip";
 
 export default function EditProfileModal({ user }: any) {
     const [isMobile, setIsMobile] = React.useState(false);
@@ -66,9 +67,11 @@ export default function EditProfileModal({ user }: any) {
 
     return (
         <>
-            <Button onPress={onOpen} variant="shadow" isIconOnly>
-                <PencilIcon className="w-6 h-6" />
-            </Button>
+            <Tooltip content="Edit Profile">
+                <Button onPress={onOpen} variant="shadow" isIconOnly>
+                    <PencilIcon className="w-6 h-6" />
+                </Button>
+            </Tooltip>
             <Modal scrollBehavior="inside" isDismissable={!isMobile} placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
