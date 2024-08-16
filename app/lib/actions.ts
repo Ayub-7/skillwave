@@ -84,12 +84,58 @@ export async function createCourse(input: courseInput, sections: { name: string;
   revalidatePath('/dashboard/profile');
 }
 
+export async function updateCourse(id: number, input: courseInput, sections: { id: number; name: string; description: string; }[]) {
+  const { name, description, price } = input;
+
+  await prisma.course.update({
+    where: { id },
+    data: {
+      name,
+      description,
+      price,
+    },
+  });
+
+  await prisma.$transaction(
+    sections.map(section =>
+      prisma.section.upsert({
+        where: { id: section.id}, 
+        update: {
+          name: section.name,
+          description: section.description,
+        },
+        create: {
+          name: section.name,
+          description: section.description,
+          course: {
+            connect: {
+              id,
+            },
+          },
+        },
+      })
+    )
+  );
+
+  revalidatePath('/dashboard/profile');
+}
+
+export async function deleteSection(id: number) {
+  await prisma.section.delete({
+    where: {
+      id
+    }
+  })
+  revalidatePath('/dashboard/profile');
+}
+
 export async function deleteCourse(id: number) {
   const deleteSections = prisma.section.deleteMany({
     where: {
       courseId: id
     }
   })
+  
   const deleteCourse = prisma.course.delete({
     where: {
       id

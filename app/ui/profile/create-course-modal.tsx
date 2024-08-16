@@ -4,6 +4,7 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import { Spinner } from "@nextui-org/spinner";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
 import { Input, Textarea } from "@nextui-org/input";
 import { createCourse } from "@/app/lib/actions";
@@ -15,6 +16,7 @@ export default function CreateCourseModal({ user }: any) {
     const [description, setDescription] = React.useState('');
     const [price, setPrice] = React.useState('');
     const [items, setItems] = React.useState([{ name: '', description: '' }]);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -53,7 +55,7 @@ export default function CreateCourseModal({ user }: any) {
 
     const handleSubmit = async (onClose: () => void) => {
         if (!isFormValid) return;
-        onClose();
+        setIsLoading(true)
         try {
             await createCourse({
                 name: name,
@@ -61,11 +63,13 @@ export default function CreateCourseModal({ user }: any) {
                 authorId: user.id,
                 price: parseFloat(price),
             }, items);
+            setIsLoading(false)
+            onClose();
         } catch (error) {
             console.error('Error updating user:', error);
+            setIsLoading(false)
+            onClose();
         };
-        console.log('done')
-        console.log(items, user);
     };
 
     return (
@@ -91,6 +95,7 @@ export default function CreateCourseModal({ user }: any) {
                                         variant="bordered"
                                         type="string"
                                         label="Name"
+                                        isDisabled={isLoading}
                                     />
                                     <Textarea
                                         value={description}
@@ -98,6 +103,7 @@ export default function CreateCourseModal({ user }: any) {
                                         onChange={(e) => setDescription(e.target.value)}
                                         type="string"
                                         label="Description"
+                                        isDisabled={isLoading}
                                         classNames={{
                                             input: "bg-transparent border-none focus:ring-0",
                                             innerWrapper: "bg-transparent",
@@ -110,10 +116,10 @@ export default function CreateCourseModal({ user }: any) {
                                         type="number"
                                         color={isInvalidPrice ? "danger" : "default"}
                                         errorMessage="Please enter name"
-                                        // label="Price"
                                         variant="bordered"
                                         placeholder="Price"
                                         onChange={(e) => setPrice(e.target.value)}
+                                        isDisabled={isLoading}
                                         startContent={
                                             <div className="pointer-events-none flex items-center">
                                                 <span className="text-default-400 text-small">$</span>
@@ -124,7 +130,6 @@ export default function CreateCourseModal({ user }: any) {
                                             innerWrapper: "bg-transparent",
                                             inputWrapper: "bg-transparent shadow-none",
                                         }}
-
                                     />
                                 </div>
                                 <Accordion key={items.length} variant="splitted" selectionMode="multiple">
@@ -141,6 +146,7 @@ export default function CreateCourseModal({ user }: any) {
                                                     value={item.name}
                                                     variant="bordered"
                                                     onChange={(event) => handleInputChange(index, event)}
+                                                    isDisabled={isLoading}
                                                 />
                                                 <Textarea
                                                     type="string"
@@ -149,6 +155,7 @@ export default function CreateCourseModal({ user }: any) {
                                                     value={item.description}
                                                     variant="bordered"
                                                     onChange={(event) => handleInputChange(index, event)}
+                                                    isDisabled={isLoading}
                                                     classNames={{
                                                         input: "bg-transparent border-none focus:ring-0",
                                                         innerWrapper: "bg-transparent",
@@ -158,6 +165,7 @@ export default function CreateCourseModal({ user }: any) {
                                                 <Button
                                                     color="danger"
                                                     variant="light"
+                                                    isDisabled={isLoading}
                                                     onClick={() => handleRemoveItem(index)}
                                                 >
                                                     Remove
@@ -168,14 +176,14 @@ export default function CreateCourseModal({ user }: any) {
                                 </Accordion>
                                 <div className="flex justify-center">
                                     <Tooltip content="Add Section">
-                                        <Button onClick={() => handleAddItem()} variant="faded" isIconOnly>
+                                        <Button isDisabled={isLoading} onClick={() => handleAddItem()} variant="faded" isIconOnly>
                                             <PlusIcon className="w-6 h-6" />
                                         </Button>
                                     </Tooltip>
                                 </div>
                             </ModalBody>
                             <ModalFooter>
-                                <Button color="danger" variant="light" onPress={onClose}>
+                                <Button isDisabled={isLoading} color="danger" variant="light" onPress={onClose}>
                                     Close
                                 </Button>
                                 <Tooltip
@@ -186,9 +194,9 @@ export default function CreateCourseModal({ user }: any) {
                                         <Button
                                             color="primary"
                                             onPress={() => handleSubmit(onClose)}
-                                            isDisabled={!isFormValid}
+                                            isDisabled={!isFormValid || isLoading}
                                         >
-                                            Create
+                                            {isLoading ? <Spinner color="success" /> : 'Create'}
                                         </Button>
                                     </div>
                                 </Tooltip>
