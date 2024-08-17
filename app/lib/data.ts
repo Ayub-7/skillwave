@@ -257,7 +257,11 @@ export async function getUser(userId: number) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: {
-      courses: true,
+      courses: {
+        include: {
+          Sections: true
+        }
+      },
     },
   });
   return user

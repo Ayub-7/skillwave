@@ -1,90 +1,119 @@
 'use client'
+import React from "react";
 import { Card, CardHeader, CardBody, CardFooter, Image } from "@nextui-org/react";
 import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from "next-themes";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
+import { Spinner } from "@nextui-org/spinner";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { deleteCourse } from "@/app/lib/actions";
+import EditCourseModal from "./edit-course-modal";
 
-interface CourseCardProps {
-    id: number;
-    title: string;
-    imageUrl: string;
-    price: number;
-    authorId: number;
-    currUserId: number;
-}
-
-export default function CourseCard({ id, title, imageUrl, price, authorId, currUserId }: CourseCardProps) {
+export default function CourseCard({ id, course, currUserId }: any) {
     const { theme } = useTheme();
     const router = useRouter();
     const pathname = usePathname();
+    const [editDialogOpen, setEditDialogOpen] = React.useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const handleCardPress = () => {
         router.push(`/dashboard/courses/${id}`);
     };
 
     const courseImage = () => {
-        if (!imageUrl) {
+        if (!course.imageUrl) {
             return `/SW-${theme}-sm.png`;
         }
-        return imageUrl;
+        return course.imageUrl;
     };
 
     const handleEdit = (e: React.MouseEvent) => {
         e.stopPropagation();
-        // Add edit logic here
-        console.log("Edit course", id);
+        setEditDialogOpen(true);
+    };
+
+    const handleDeleteClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setDeleteDialogOpen(true);
     };
 
     const handleDelete = async () => {
-        // Add delete logic here
+        setIsLoading(true)
         try {
             await deleteCourse(id);
+            setIsLoading(false)
+            setDeleteDialogOpen(false);
         } catch (error) {
+            setIsLoading(false)
             console.error('Error deleting course:', error);
-        };
-        console.log("Delete course", id);
+        }
     };
 
-    const showDropdown = pathname === '/dashboard/profile' && authorId === currUserId;
+    const showDropdown = pathname === '/dashboard/profile' && course.authorId === currUserId;
 
     return (
-        <Card className="py-4 relative" isPressable>
-            <div className="absolute top-2 right-2 z-10">
-                {showDropdown && (
-                    <Dropdown>
-                        <DropdownTrigger>
-                            <Button isIconOnly size="sm" variant="light">
-                                <Bars3Icon className="h-5 w-5" />
-                            </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu aria-label="Course actions">
-                            <DropdownItem key="edit" onClick={handleEdit}>Edit</DropdownItem>
-                            <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleDelete}>
-                                Delete
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
-                )}
-            </div>
-            <div onClick={handleCardPress}>
-                <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                    <h4 className="font-bold text-large">{title}</h4>
-                </CardHeader>
-                <CardBody className="overflow-visible py-2">
-                    <Image
-                        alt="Card background"
-                        className="object-cover rounded-xl"
-                        src={courseImage()}
-                        width={270}
-                    />
-                </CardBody>
-                <CardFooter>
-                    <p>${price}</p>
-                </CardFooter>
-            </div>
-        </Card>
+        <>
+            <Card className="py-4 relative" isPressable>
+                <div className="absolute top-2 right-2 z-10">
+                    {showDropdown && (
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <Button isIconOnly size="sm" variant="light">
+                                    <Bars3Icon className="h-5 w-5" />
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Course actions">
+                                <DropdownItem key="edit" onClick={handleEdit}>Edit</DropdownItem>
+                                <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleDeleteClick}>
+                                    Delete
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    )}
+                </div>
+                <div onClick={handleCardPress}>
+                    <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+                        <h4 className="font-bold text-large">{course.name}</h4>
+                    </CardHeader>
+                    <CardBody className="overflow-visible py-2">
+                        <Image
+                            alt="Card background"
+                            className="object-cover rounded-xl"
+                            src={courseImage()}
+                            width={270}
+                        />
+                    </CardBody>
+                    <CardFooter>
+                        <p>${course.price}</p>
+                    </CardFooter>
+                </div>
+            </Card>
+            {editDialogOpen && (
+                <EditCourseModal
+                    course={course}
+                    isOpen={editDialogOpen}
+                    onClose={() => setEditDialogOpen(false)}
+                />
+            )}
+            <Modal isOpen={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+                <ModalContent>
+                    <ModalHeader className="flex flex-col gap-1">Confirm Deletion</ModalHeader>
+                    <ModalBody>
+                        <p>Are you sure you want to delete this course? This action cannot be undone.</p>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="default" variant="light" onPress={() => setDeleteDialogOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button color="danger" onPress={handleDelete}>
+                            {isLoading ? <Spinner color="white" /> : 'Delete'}
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+        </>
     );
 }

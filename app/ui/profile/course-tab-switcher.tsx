@@ -11,10 +11,7 @@ export default function CourseTabSwitcher({ myCourses, purchasedCourses, currUse
                 <CourseCard
                     key={course.id}
                     id={course.id}
-                    title={course.name}
-                    imageUrl={course.imageUrl}
-                    price={course.price}
-                    authorId={course.authorId}
+                    course={course}
                     currUserId={currUserId}
                 />
             ))}
