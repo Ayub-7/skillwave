@@ -204,7 +204,7 @@ export default function CreateCourseModal({ user }: any) {
                                             onPress={() => handleSubmit(onClose)}
                                             isDisabled={!isFormValid || isLoading}
                                         >
-                                            {isLoading ? <Spinner color="success" /> : 'Create'}
+                                            {isLoading ? <Spinner color="white" /> : 'Create'}
                                         </Button>
                                     </div>
                                 </Tooltip>

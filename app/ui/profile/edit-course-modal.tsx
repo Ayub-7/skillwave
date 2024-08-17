@@ -200,7 +200,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
                                 onPress={handleSubmit}
                                 isDisabled={!isFormValid || isLoading}
                             >
-                                {isLoading ? <Spinner color="success" /> : 'Update'}
+                                {isLoading ? <Spinner color="white" /> : 'Update'}
                             </Button>
                         </div>
                     </Tooltip>
