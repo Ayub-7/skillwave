@@ -4,25 +4,20 @@ import { Card, CardHeader, CardBody, CardFooter, Image } from "@nextui-org/react
 import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from "next-themes";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
+import { Spinner } from "@nextui-org/spinner";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { deleteCourse } from "@/app/lib/actions";
 import EditCourseModal from "./edit-course-modal";
-
-// interface CourseCardProps {
-//     id: number;
-//     title: string;
-//     imageUrl: string;
-//     price: number;
-//     authorId: number;
-//     currUserId: number;
-// }
 
 export default function CourseCard({ id, course, currUserId }: any) {
     const { theme } = useTheme();
     const router = useRouter();
     const pathname = usePathname();
     const [editDialogOpen, setEditDialogOpen] = React.useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     const handleCardPress = () => {
         router.push(`/dashboard/courses/${id}`);
@@ -38,16 +33,23 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const handleEdit = (e: React.MouseEvent) => {
         e.stopPropagation();
         setEditDialogOpen(true);
-        console.log("Edit course", id, editDialogOpen);
+    };
+
+    const handleDeleteClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setDeleteDialogOpen(true);
     };
 
     const handleDelete = async () => {
+        setIsLoading(true)
         try {
             await deleteCourse(id);
+            setIsLoading(false)
+            setDeleteDialogOpen(false);
         } catch (error) {
+            setIsLoading(false)
             console.error('Error deleting course:', error);
-        };
-        console.log("Delete course", id);
+        }
     };
 
     const showDropdown = pathname === '/dashboard/profile' && course.authorId === currUserId;
@@ -65,7 +67,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Course actions">
                                 <DropdownItem key="edit" onClick={handleEdit}>Edit</DropdownItem>
-                                <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleDelete}>
+                                <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleDeleteClick}>
                                     Delete
                                 </DropdownItem>
                             </DropdownMenu>
@@ -95,8 +97,23 @@ export default function CourseCard({ id, course, currUserId }: any) {
                     isOpen={editDialogOpen}
                     onClose={() => setEditDialogOpen(false)}
                 />
-            )
-            }
+            )}
+            <Modal isOpen={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+                <ModalContent>
+                    <ModalHeader className="flex flex-col gap-1">Confirm Deletion</ModalHeader>
+                    <ModalBody>
+                        <p>Are you sure you want to delete this course? This action cannot be undone.</p>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="default" variant="light" onPress={() => setDeleteDialogOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button color="danger" onPress={handleDelete}>
+                            {isLoading ? <Spinner color="white" /> : 'Delete'}
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </>
     );
 }

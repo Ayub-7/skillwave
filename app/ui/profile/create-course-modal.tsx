@@ -64,12 +64,20 @@ export default function CreateCourseModal({ user }: any) {
                 price: parseFloat(price),
             }, items);
             setIsLoading(false)
+            resetForm();
             onClose();
         } catch (error) {
             console.error('Error updating user:', error);
             setIsLoading(false)
             onClose();
         };
+    };
+
+    const resetForm = () => {
+        setName('');
+        setDescription('');
+        setPrice('');
+        setItems([{ name: '', description: '' }]);
     };
 
     return (
@@ -187,7 +195,7 @@ export default function CreateCourseModal({ user }: any) {
                                     Close
                                 </Button>
                                 <Tooltip
-                                    content={isFormValid ? "Create course" : formValidationMessage}
+                                    content={isLoading ? "Loading..." : isFormValid ? "Create course" : formValidationMessage}
                                     color={isFormValid ? "default" : "danger"}
                                 >
                                     <div>  {/* Wrapper div to ensure tooltip works */}

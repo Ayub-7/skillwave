@@ -53,12 +53,13 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
 
     const handleRemoveItem = async (index: number) => {
         const itemToRemove = items[index];
+        const newItems = items.filter((_, i) => i !== index);
+        setItems(newItems);
         if (itemToRemove.id) {
+            console.log('i exists')
             await deleteSection(itemToRemove.id);
             console.log('deleted: ', itemToRemove)
         }
-        const newItems = items.filter((_, i) => i !== index);
-        setItems(newItems);
     };
 
     const handleSubmit = async () => {
@@ -70,7 +71,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
                 description,
                 price: parseFloat(price),
                 authorId: course.authorId,
-            }, items as any);
+            }, items);
 
             console.log('Course updated successfully');
             setIsLoading(false)
@@ -190,7 +191,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
                         Close
                     </Button>
                     <Tooltip
-                        content={isFormValid ? "Update course" : formValidationMessage}
+                        content={isLoading ? "Loading..." : isFormValid ? "Update course" : formValidationMessage}
                         color={isFormValid ? "default" : "danger"}
                     >
                         <div>
