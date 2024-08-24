@@ -27,6 +27,7 @@ interface UpdateUserInput {
   facebook?: string; // Optional field
   tiktok?: string; // Optional field
   youtube?: string; // Optional field
+  imageUrl?: string;
 }
 
 interface courseInput {
@@ -34,10 +35,11 @@ interface courseInput {
   description?: string;
   authorId: number;
   price: number;
+  imageUrl?: string;
 }
 
 export async function updateUser(input: UpdateUserInput) {
-    const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube } = input;
+    const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, imageUrl } = input;
 
   try {
     await prisma.user.update({
@@ -51,6 +53,7 @@ export async function updateUser(input: UpdateUserInput) {
         facebook,
         tiktok,
         youtube,
+        imageUrl,
       },
     });
 
@@ -62,8 +65,8 @@ export async function updateUser(input: UpdateUserInput) {
   }
 }
 
-export async function createCourse(input: courseInput, sections: { name: string; description: string; }[]) {
-  const {name, description, authorId, price} = input
+export async function createCourse(input: courseInput, sections: { name: string; description: string; videoUrl?: string; }[]) {
+  const {name, description, authorId, price, imageUrl} = input
   await prisma.course.create({
     data: {
       name,
@@ -74,6 +77,7 @@ export async function createCourse(input: courseInput, sections: { name: string;
         }
       },
       price,
+      imageUrl,
       Sections: {
         createMany: {
           data: sections
@@ -84,8 +88,8 @@ export async function createCourse(input: courseInput, sections: { name: string;
   revalidatePath('/dashboard/profile');
 }
 
-export async function updateCourse(id: number, input: courseInput, sections: { id?: number; name: string; description: string; }[]) {
-  const { name, description, price } = input;
+export async function updateCourse(id: number, input: courseInput, sections: { id?: number; name: string; description: string; videoUrl?: string; }[]) {
+  const { name, description, price, imageUrl } = input;
 
   await prisma.course.update({
     where: { id },
@@ -93,6 +97,7 @@ export async function updateCourse(id: number, input: courseInput, sections: { i
       name,
       description,
       price,
+      imageUrl,
     },
   });
 
@@ -105,6 +110,7 @@ export async function updateCourse(id: number, input: courseInput, sections: { i
           data: {
             name: section.name,
             description: section.description,
+            videoUrl: section.videoUrl,
           },
         });
       } else {
@@ -113,6 +119,7 @@ export async function updateCourse(id: number, input: courseInput, sections: { i
           data: {
             name: section.name,
             description: section.description,
+            videoUrl: section.videoUrl,
             course: {
               connect: {
                 id,

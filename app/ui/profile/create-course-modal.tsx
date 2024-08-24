@@ -8,15 +8,17 @@ import { Spinner } from "@nextui-org/spinner";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
 import { Input, Textarea } from "@nextui-org/input";
 import { createCourse } from "@/app/lib/actions";
-
+import { Image } from "@nextui-org/image";
+import { UploadButton } from "@/app/lib/uploadthing";
 
 export default function CreateCourseModal({ user }: any) {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [price, setPrice] = React.useState('');
-    const [items, setItems] = React.useState([{ name: '', description: '' }]);
+    const [items, setItems] = React.useState([{ name: '', description: '', videoUrl: '' }]);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [imageUrl, setImageUrl] = React.useState(user.imageUrl || '');
 
     const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -25,6 +27,12 @@ export default function CreateCourseModal({ user }: any) {
             newItems[index][name] = value;
             setItems(newItems);
         }
+    };
+
+    const handleVideoUpload = (index: number, url: string) => {
+        const newItems = [...items];
+        newItems[index].videoUrl = url;
+        setItems(newItems);
     };
 
     const isInvalidName = React.useMemo(() => name === "", [name]);
@@ -44,11 +52,10 @@ export default function CreateCourseModal({ user }: any) {
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems([...items, { name: '', description: '' }]);
+        setItems([...items, { name: '', description: '', videoUrl: '' }]);
     };
 
     const handleRemoveItem = (index: number) => {
-        console.log(index)
         const newItems = items.filter((_, i) => i !== index);
         setItems(newItems);
     };
@@ -62,6 +69,7 @@ export default function CreateCourseModal({ user }: any) {
                 description: description,
                 authorId: user.id,
                 price: parseFloat(price),
+                imageUrl: imageUrl,
             }, items);
             setIsLoading(false)
             resetForm();
@@ -77,7 +85,8 @@ export default function CreateCourseModal({ user }: any) {
         setName('');
         setDescription('');
         setPrice('');
-        setItems([{ name: '', description: '' }]);
+        setItems([{ name: '', description: '', videoUrl: '' }]);
+        setImageUrl(user.imageUrl || '');
     };
 
     return (
@@ -87,7 +96,7 @@ export default function CreateCourseModal({ user }: any) {
                     <PlusIcon className="w-6 h-6" />
                 </Button>
             </Tooltip>
-            <Modal size="3xl" placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
+            <Modal isDismissable={false} size="3xl" placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
                         <>
@@ -139,6 +148,32 @@ export default function CreateCourseModal({ user }: any) {
                                             inputWrapper: "bg-transparent shadow-none",
                                         }}
                                     />
+                                    <div className="flex flex-col items-center gap-4">
+                                        <h3 className="text-lg font-semibold">Course Image</h3>
+                                        {imageUrl ? (
+                                            <div className="flex flex-col items-center gap-4">
+                                                <Image
+                                                    src={imageUrl}
+                                                    alt="Course Image"
+                                                    width={200}
+                                                    height={200}
+                                                />
+                                                <Button onPress={() => setImageUrl('')}>
+                                                    Change Image
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <UploadButton
+                                                endpoint="imageUploader"
+                                                onClientUploadComplete={(res) => {
+                                                    setImageUrl(res[0].url)
+                                                }}
+                                                onUploadError={(error: Error) => {
+                                                    alert(`ERROR! ${error.message}`);
+                                                }}
+                                            />
+                                        )}
+                                    </div>
                                 </div>
                                 <Accordion key={items.length} variant="splitted" selectionMode="multiple">
                                     {items.map((item: any, index: number) => (
@@ -170,6 +205,32 @@ export default function CreateCourseModal({ user }: any) {
                                                         inputWrapper: "bg-transparent shadow-none",
                                                     }}
                                                 />
+                                                <div className="flex flex-col items-center gap-4">
+                                                    <h3 className="text-lg font-semibold">Section Video</h3>
+                                                    {item.videoUrl ? (
+                                                        <div className="flex flex-col items-center gap-4">
+                                                            <video
+                                                                src={item.videoUrl}
+                                                                width={200}
+                                                                height={200}
+                                                                controls
+                                                            />
+                                                            <Button onPress={() => handleVideoUpload(index, '')}>
+                                                                Change Video
+                                                            </Button>
+                                                        </div>
+                                                    ) : (
+                                                        <UploadButton
+                                                            endpoint="videoUploader"
+                                                            onClientUploadComplete={(res) => {
+                                                                handleVideoUpload(index, res[0].url)
+                                                            }}
+                                                            onUploadError={(error: Error) => {
+                                                                alert(`ERROR! ${error.message}`);
+                                                            }}
+                                                        />
+                                                    )}
+                                                </div>
                                                 <Button
                                                     color="danger"
                                                     variant="light"

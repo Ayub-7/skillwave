@@ -9,13 +9,17 @@ import { InstagramIcon } from "@/app/ui/custom-icons/instagram-icon";
 import { LinkedinIcon } from "@/app/ui/custom-icons/linkedin-icon";
 import { YoutubeIcon } from "@/app/ui/custom-icons/youtube-icon";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/modal";
+import { Image } from "@nextui-org/image";
 import { Button } from '@nextui-org/react';
 import { Input, Textarea } from "@nextui-org/input";
 import { Tooltip } from "@nextui-org/tooltip";
+import { UploadButton } from "@/app/lib/uploadthing";
 
 export default function EditProfileModal({ user }: any) {
     const [isMobile, setIsMobile] = React.useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+    const [imageUrl, setImageUrl] = React.useState(user.imageUrl || '');
 
     // State for profile details
     const [name, setName] = React.useState(user.name);
@@ -33,7 +37,7 @@ export default function EditProfileModal({ user }: any) {
 
     React.useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768); // 768px is a common breakpoint for mobile devices
+            setIsMobile(window.innerWidth <= 768);
         };
 
         handleResize();
@@ -44,7 +48,6 @@ export default function EditProfileModal({ user }: any) {
         };
     }, []);
 
-    // Handler function for the Action button
     const handleAction = async (onClose: () => void) => {
         onClose();
         try {
@@ -57,7 +60,8 @@ export default function EditProfileModal({ user }: any) {
                 linkedin: linkedin,
                 facebook: facebook,
                 tiktok: tiktok,
-                youtube: youtube
+                youtube: youtube,
+                imageUrl: imageUrl,
             });
         } catch (error) {
             console.error('Error updating user:', error);
@@ -78,6 +82,33 @@ export default function EditProfileModal({ user }: any) {
                         <>
                             <ModalHeader className="flex flex-col gap-1">Edit Profile</ModalHeader>
                             <ModalBody>
+                                <div className="flex flex-col items-center gap-4">
+                                    <h3 className="text-lg font-semibold">Profile Picture</h3>
+                                    {imageUrl ? (
+                                        <div className="flex flex-col items-center gap-4">
+                                            <Image
+                                                src={imageUrl}
+                                                alt="Profile Picture"
+                                                width={200}
+                                                height={200}
+                                            />
+                                            <Button onPress={() => setImageUrl('')}>
+                                                Change Image
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <UploadButton
+                                            endpoint="imageUploader"
+                                            onClientUploadComplete={(res) => {
+                                                setImageUrl(res[0].url)
+                                            }}
+                                            onUploadError={(error: Error) => {
+                                                // Do something with the error.
+                                                alert(`ERROR! ${error.message}`);
+                                            }}
+                                        />
+                                    )}
+                                </div>
                                 <Input
                                     value={name}
                                     isRequired
@@ -89,7 +120,7 @@ export default function EditProfileModal({ user }: any) {
                                     type="string"
                                     label="Name"
                                     classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                        input: "text-md",
                                     }}
                                 />
                                 <Textarea
@@ -114,7 +145,7 @@ export default function EditProfileModal({ user }: any) {
                                     placeholder="Enter X username"
                                     endContent=<XIcon />
                                     classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                        input: "text-md",
                                     }}
                                 />
                                 <Input
@@ -126,7 +157,7 @@ export default function EditProfileModal({ user }: any) {
                                     placeholder="Enter TikTok username"
                                     endContent=<TiktokIcon />
                                     classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                        input: "text-md",
                                     }}
                                 />
                                 <Input
@@ -138,7 +169,7 @@ export default function EditProfileModal({ user }: any) {
                                     placeholder="YouTube username i.e @john_doe"
                                     endContent=<YoutubeIcon />
                                     classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                        input: "text-md",
                                     }}
                                 />
                                 <Input
@@ -150,7 +181,7 @@ export default function EditProfileModal({ user }: any) {
                                     placeholder="Enter Instagram username"
                                     endContent=<InstagramIcon />
                                     classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                        input: "text-md",
                                     }}
                                 />
                                 <Input
@@ -162,7 +193,7 @@ export default function EditProfileModal({ user }: any) {
                                     placeholder="Enter Facebook username"
                                     endContent=<FacebookIcon />
                                     classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                        input: "text-md",
                                     }}
                                 />
                                 <Input
@@ -174,7 +205,7 @@ export default function EditProfileModal({ user }: any) {
                                     placeholder="Enter LinkedIn username"
                                     endContent=<LinkedinIcon />
                                     classNames={{
-                                        input: "text-md", // Tailwind class to ensure minimum font size
+                                        input: "text-md",
                                     }}
                                 />
                             </ModalBody>

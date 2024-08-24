@@ -87,11 +87,19 @@ export default async function ProfileCard() {
                     </div>
                 </CardHeader>
                 <CardBody className="overflow-visible flex flex-col items-center py-4">
-                    <Image
-                        width={90}
-                        alt="User Profile Image"
-                        src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
-                    />
+                    {user?.imageUrl ? (
+                        <Image
+                            width={90}
+                            alt="User Profile Image"
+                            src={user?.imageUrl}
+                        />
+                    ) : (
+                        <Image
+                            width={90}
+                            alt="User Profile Image"
+                            src="/default-profile-image.png"
+                        />
+                    )}
                     <h2 className="mt-4 text-xl font-semibold text-center">{user?.name}</h2>
                     <p className="mt-1 text-sm text-center">
                         {user?.bio}

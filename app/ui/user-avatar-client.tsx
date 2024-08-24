@@ -18,7 +18,7 @@ export default function UserAvatarClient({ user }: any) {
           isBordered
           as="button"
           className="transition-transform"
-          src="https://i.pravatar.cc/150?u=a04258a2462d826712d"
+          src={user.imageUrl !== '' ? user.imageUrl : `/default-profile-image.png`}
           size="md"
           color="primary"
         />

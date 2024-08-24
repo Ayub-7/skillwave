@@ -1,6 +1,6 @@
 import { getCourse } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
-import SectionsBar from '@/app/ui/course/sections-bar';
+import { Image } from "@nextui-org/image";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
@@ -15,6 +15,19 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <div className="text-center max-w-2xl mx-auto">
                     <h1 className="text-3xl font-bold mb-4">{course.name}</h1>
                     <p className="text-lg mb-8">{course.description}</p>
+                    {course.imageUrl && (
+                        <div className="mb-8 w-full aspect-video">
+                            <Image
+                                isZoomed
+                                src={course.imageUrl}
+                                alt={course.name}
+                                classNames={{
+                                    img: "w-full h-full object-cover",
+                                    wrapper: "w-full h-full",
+                                }}
+                            />
+                        </div>
+                    )}
                     {/* Additional content can go here */}
                 </div>
             </div>
