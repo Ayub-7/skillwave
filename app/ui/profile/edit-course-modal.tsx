@@ -7,12 +7,15 @@ import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import { Spinner } from "@nextui-org/spinner";
 import { Input, Textarea } from "@nextui-org/input";
+import { Image } from "@nextui-org/image";
+import { UploadButton } from "@/app/lib/uploadthing";
 import { deleteSection, updateCourse } from "@/app/lib/actions";
 
 interface Section {
     id?: number;
     name: string;
     description: string;
+    videoUrl?: string;
 }
 
 export default function EditCourseModal({ course, isOpen, onClose }: any) {
@@ -21,6 +24,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
     const [price, setPrice] = React.useState(course.price);
     const [items, setItems] = React.useState<Section[]>(course.Sections);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [imageUrl, setImageUrl] = React.useState(course.imageUrl || '');
 
     const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -29,6 +33,12 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
             newItems[index][name] = value;
             setItems(newItems);
         }
+    };
+
+    const handleVideoUpload = (index: number, url: string) => {
+        const newItems = [...items];
+        newItems[index].videoUrl = url;
+        setItems(newItems);
     };
 
     const isInvalidName = React.useMemo(() => name === "", [name]);
@@ -48,7 +58,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems([...items, { name: '', description: '' }]);
+        setItems([...items, { name: '', description: '', videoUrl: '' }]);
     };
 
     const handleRemoveItem = async (index: number) => {
@@ -56,9 +66,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
         const newItems = items.filter((_, i) => i !== index);
         setItems(newItems);
         if (itemToRemove.id) {
-            console.log('i exists')
             await deleteSection(itemToRemove.id);
-            console.log('deleted: ', itemToRemove)
         }
     };
 
@@ -71,6 +79,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
                 description,
                 price: parseFloat(price),
                 authorId: course.authorId,
+                imageUrl,
             }, items);
 
             console.log('Course updated successfully');
@@ -85,7 +94,7 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
 
 
     return (
-        <Modal size="3xl" placement="top-center" isOpen={isOpen} onClose={onClose}>
+        <Modal isDismissable={false} size="3xl" placement="top-center" isOpen={isOpen} onClose={onClose}>
             <ModalContent>
                 <ModalHeader className="flex flex-col gap-1">Edit Course</ModalHeader>
                 <ModalBody>
@@ -135,9 +144,35 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
                                 inputWrapper: "bg-transparent shadow-none",
                             }}
                         />
+                        <div className="flex flex-col items-center gap-4">
+                            <h3 className="text-lg font-semibold">Course Image</h3>
+                            {imageUrl ? (
+                                <div className="flex flex-col items-center gap-4">
+                                    <Image
+                                        src={imageUrl}
+                                        alt="Course Image"
+                                        width={200}
+                                        height={200}
+                                    />
+                                    <Button onPress={() => setImageUrl('')}>
+                                        Change Image
+                                    </Button>
+                                </div>
+                            ) : (
+                                <UploadButton
+                                    endpoint="imageUploader"
+                                    onClientUploadComplete={(res) => {
+                                        setImageUrl(res[0].url)
+                                    }}
+                                    onUploadError={(error: Error) => {
+                                        alert(`ERROR! ${error.message}`);
+                                    }}
+                                />
+                            )}
+                        </div>
                     </div>
                     <Accordion key={items.length} variant="splitted" selectionMode="multiple">
-                        {items.map((item: any, index: number) => (
+                        {items.map((item: Section, index: number) => (
                             <AccordionItem key={index} aria-label={`Section ${index + 1}`}
                                 title={item?.name !== '' ? item?.name : `Section ${index + 1}`}
                             >
@@ -166,6 +201,32 @@ export default function EditCourseModal({ course, isOpen, onClose }: any) {
                                             inputWrapper: "bg-transparent shadow-none",
                                         }}
                                     />
+                                    <div className="flex flex-col items-center gap-4">
+                                        <h3 className="text-lg font-semibold">Section Video</h3>
+                                        {item.videoUrl ? (
+                                            <div className="flex flex-col items-center gap-4">
+                                                <video
+                                                    src={item.videoUrl}
+                                                    width={200}
+                                                    height={200}
+                                                    controls
+                                                />
+                                                <Button onPress={() => handleVideoUpload(index, '')}>
+                                                    Change Video
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <UploadButton
+                                                endpoint="videoUploader"
+                                                onClientUploadComplete={(res) => {
+                                                    handleVideoUpload(index, res[0].url)
+                                                }}
+                                                onUploadError={(error: Error) => {
+                                                    alert(`ERROR! ${error.message}`);
+                                                }}
+                                            />
+                                        )}
+                                    </div>
                                     <Button
                                         color="danger"
                                         variant="light"

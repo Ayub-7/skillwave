@@ -22,6 +22,7 @@ model User {
   twitter          String?
   courses          Course[] @relation("AuthorCourses")
   purchasedCourses Int[]
+  imageUrl         String?
 }
 
 model Course {
@@ -41,4 +42,5 @@ model Section {
   description String?
   course      Course  @relation(fields: [courseId], references: [id])
   courseId    Int
+  videoUrl    String?
 }
