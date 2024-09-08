@@ -13,7 +13,7 @@ export default async function Profile() {
   return (
     <div className="flex flex-col items-center w-full">
       <div className="flex justify-center">
-        <ProfileCard />
+        <ProfileCard user={user} />
       </div>
       <Divider className="w-full mt-8" />
       <div>

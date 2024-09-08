@@ -1,6 +1,7 @@
 import { getCourse } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Image } from "@nextui-org/image";
+import Tiptap from "@/app/components/tiptap";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
@@ -12,11 +13,10 @@ export default async function Page({ params }: { params: { id: string } }) {
     return (
         <main className="flex min-h-screen">
             <div className="flex-1 flex flex-col items-center p-6">
-                <div className="text-center max-w-2xl mx-auto">
+                <div className="text-center max-w-4xl mx-auto">
                     <h1 className="text-3xl font-bold mb-4">{course.name}</h1>
-                    <p className="text-lg mb-8">{course.description}</p>
                     {course.imageUrl && (
-                        <div className="mb-8 w-full aspect-video">
+                        <div className=" w-full aspect-video">
                             <Image
                                 isZoomed
                                 src={course.imageUrl}
@@ -28,6 +28,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             />
                         </div>
                     )}
+                    <Tiptap canEdit={false} description={course.description || ''} />
                     {/* Additional content can go here */}
                 </div>
             </div>

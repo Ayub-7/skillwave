@@ -1,8 +1,10 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function SectionsBar({ sections, courseId }: any) {
     const router = useRouter();
+    const pathname = usePathname();
+
 
     const handleCardPress = (sectionId: any) => {
         router.push(`/dashboard/courses/${courseId}/section/${sectionId}`);
@@ -12,6 +14,9 @@ export default function SectionsBar({ sections, courseId }: any) {
         console.log(courseId);
         router.push(`/dashboard/courses/${courseId}`);
     };
+    if (pathname.includes('/edit')) {
+        return null;
+    }
 
     return (
         <aside className="w-full sm:w-1/4 py-8 px-6">

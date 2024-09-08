@@ -15,7 +15,6 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const { theme } = useTheme();
     const router = useRouter();
     const pathname = usePathname();
-    const [editDialogOpen, setEditDialogOpen] = React.useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
 
@@ -28,11 +27,6 @@ export default function CourseCard({ id, course, currUserId }: any) {
             return `/SW-${theme}-sm.png`;
         }
         return course.imageUrl;
-    };
-
-    const handleEdit = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setEditDialogOpen(true);
     };
 
     const handleDeleteClick = (e: React.MouseEvent) => {
@@ -66,7 +60,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Course actions">
-                                <DropdownItem key="edit" onClick={handleEdit}>Edit</DropdownItem>
+                                <DropdownItem key="edit" onClick={() => router.push(`/dashboard/courses/${course.id}/edit`)}>Edit</DropdownItem>
                                 <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleDeleteClick}>
                                     Delete
                                 </DropdownItem>
@@ -81,9 +75,11 @@ export default function CourseCard({ id, course, currUserId }: any) {
                     <CardBody className="overflow-visible py-2">
                         <Image
                             alt="Card background"
-                            className="object-cover rounded-xl"
+                            //className="object-cover rounded-xl"
                             src={courseImage()}
-                            width={270}
+                            width={275}
+                            height={210}
+                            radius="sm"
                         />
                     </CardBody>
                     <CardFooter>
@@ -91,13 +87,6 @@ export default function CourseCard({ id, course, currUserId }: any) {
                     </CardFooter>
                 </div>
             </Card>
-            {editDialogOpen && (
-                <EditCourseModal
-                    course={course}
-                    isOpen={editDialogOpen}
-                    onClose={() => setEditDialogOpen(false)}
-                />
-            )}
             <Modal isOpen={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
                 <ModalContent>
                     <ModalHeader className="flex flex-col gap-1">Confirm Deletion</ModalHeader>

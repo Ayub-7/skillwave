@@ -1,3 +1,4 @@
+'use client'
 import { Image } from "@nextui-org/image";
 import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { XIcon } from "@/app/ui/custom-icons/x-icon";
@@ -6,14 +7,14 @@ import { FacebookIcon } from "@/app/ui/custom-icons/facebook-icon";
 import { InstagramIcon } from "@/app/ui/custom-icons/instagram-icon";
 import { LinkedinIcon } from "@/app/ui/custom-icons/linkedin-icon";
 import { YoutubeIcon } from "@/app/ui/custom-icons/youtube-icon";
-import { getSession, getUser } from "@/app/lib/data";
+import { PlusIcon } from "@heroicons/react/24/outline";
+import { Button } from "@nextui-org/button";
 import EditProfileModal from "@/app/ui/profile/edit-profile-modal";
-import CreateCourseModal from "@/app/ui/profile/create-course-modal";
+import { Tooltip } from "@nextui-org/tooltip";
+import { useRouter } from 'next/navigation';
 
-export default async function ProfileCard() {
-    const session = await getSession() || '';
-    const JsonSession = JSON.parse(session);
-    const user = await getUser(JsonSession.user.id)
+export default function ProfileCard({ user }: any) {
+    const router = useRouter();
 
     return (
         <div className="pt-0">
@@ -82,7 +83,15 @@ export default async function ProfileCard() {
                         )}
                     </div>
                     <div className="flex gap-1">
-                        <CreateCourseModal user={user} />
+                        <Tooltip color="primary" content="Create Course">
+                            <Button
+                                onClick={() => router.push('/dashboard/courses/create')}
+                                variant="shadow"
+                                isIconOnly
+                            >
+                                <PlusIcon className="w-6 h-6" />
+                            </Button>
+                        </Tooltip>
                         <EditProfileModal user={user} />
                     </div>
                 </CardHeader>
@@ -106,6 +115,6 @@ export default async function ProfileCard() {
                     </p>
                 </CardBody>
             </Card>
-        </div>
+        </div >
     );
 }
