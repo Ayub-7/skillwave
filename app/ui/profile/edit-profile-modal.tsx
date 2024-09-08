@@ -71,7 +71,7 @@ export default function EditProfileModal({ user }: any) {
 
     return (
         <>
-            <Tooltip content="Edit Profile">
+            <Tooltip color="primary" content="Edit Profile">
                 <Button onPress={onOpen} variant="shadow" isIconOnly>
                     <PencilIcon className="w-6 h-6" />
                 </Button>
