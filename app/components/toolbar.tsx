@@ -19,12 +19,11 @@ type Props = {
 };
 
 const Toolbar = ({ editor }: Props) => {
+    const { theme } = useTheme();
+
     if (!editor) {
         return null;
     }
-
-    const { theme } = useTheme();
-
     // Determine background colors based on theme
     const buttonBaseClass = 'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-600';
     const getButtonClass = (isActive: boolean) => {
