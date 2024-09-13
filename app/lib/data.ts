@@ -298,3 +298,7 @@ export async function getSection(id: number) {
   })
   return course
 }
+
+export async function getAllCourses() {
+  return await prisma.course.findMany() 
+}
