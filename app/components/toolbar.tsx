@@ -28,7 +28,7 @@ const Toolbar = ({ editor }: Props) => {
     const buttonBaseClass = 'p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-600';
     const getButtonClass = (isActive: boolean) => {
         const activeBg = theme === 'dark' ? 'bg-gray-700' : 'bg-gray-300';
-        const inactiveBg = theme === 'dark' ? 'bg-gray-900' : 'bg-transparent';
+        const inactiveBg = theme === 'dark' ? 'bg-neutral-900' : 'bg-transparent';
         return `${buttonBaseClass} ${isActive ? activeBg : inactiveBg}`;
     };
 

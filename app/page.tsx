@@ -1,4 +1,4 @@
-import { Image } from "@nextui-org/image";
+import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { lusitana } from '@/app/ui/fonts';
@@ -11,10 +11,9 @@ export default function Page() {
       <div className="flex justify-between items-center">
         <Image
           src={`/SW-dark-sm.png`}
-          width={100}
-          // height={32}
+          width={80}
+          height={80}
           alt="SW logo"
-          radius="none"
         />
       </div>
       <div className="py-8 px-4 text-center mb-12">

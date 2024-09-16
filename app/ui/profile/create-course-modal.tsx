@@ -106,7 +106,7 @@ export default function CreateCourseForm({ user }: any) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 space-y-8 rounded-lg shadow-2xl dark:shadow-2xl bg-white dark:bg-gray-900 shadow-gray-300/50 dark:shadow-gray-700/30">
+        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 space-y-8 rounded-lg shadow-2xl dark:shadow-2xl bg-white dark:bg-neutral-900 shadow-gray-300/50 dark:shadow-gray-700/30">
             <h2 className="text-3xl font-bold mb-6 text-center">Create Course</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
