@@ -21,6 +21,7 @@ export default function Tiptap({
         extensions: [StarterKit],
         content: description,
         editable: canEdit,
+        immediatelyRender: false,
         editorProps: {
             attributes: {
                 class: `w-full min-h-[80px] ${canEdit ? 'max-h-[300px] overflow-y-auto resize-y' : ''} bg-transparent text-foreground box-border rounded-medium ${canEdit ? 'border-2 border-default-200 hover:border-default-400 focus:border-default-400' : ''} focus:outline-none py-2 px-3 transition-all duration-200 ease-in-out text-justify`

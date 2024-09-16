@@ -5,18 +5,19 @@ export default function SectionsBar({ sections, courseId }: any) {
     const router = useRouter();
     const pathname = usePathname();
 
-
     const handleCardPress = (sectionId: any) => {
         router.push(`/dashboard/courses/${courseId}/section/${sectionId}`);
     };
 
     const backToPreview = () => {
-        console.log(courseId);
         router.push(`/dashboard/courses/${courseId}`);
     };
+
     if (pathname.includes('/edit')) {
         return null;
     }
+
+    const currentSectionId = pathname.split('/').pop();
 
     return (
         <aside className="w-full sm:w-1/4 py-8 px-6">
@@ -25,7 +26,8 @@ export default function SectionsBar({ sections, courseId }: any) {
                 <ul className="list-disc pl-5 space-y-4">
                     <li
                         onClick={backToPreview}
-                        className="text-lg hover:text-gray-400 transition-colors cursor-pointer"
+                        className={`text-lg transition-colors cursor-pointer ${!pathname.includes('/section/') ? 'font-bold text-blue-500' : 'hover:text-gray-400'
+                            }`}
                     >
                         Preview
                     </li>
@@ -33,7 +35,8 @@ export default function SectionsBar({ sections, courseId }: any) {
                         <li
                             onClick={() => handleCardPress(section.id)}
                             key={section.id}
-                            className="text-lg hover:text-gray-400 transition-colors cursor-pointer"
+                            className={`text-lg transition-colors cursor-pointer ${section.id.toString() === currentSectionId ? 'font-bold text-blue-500' : 'hover:text-gray-400'
+                                }`}
                         >
                             {section.name}
                         </li>
