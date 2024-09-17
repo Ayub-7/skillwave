@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import { Spinner } from "@nextui-org/spinner";
-import { Bars3Icon } from "@heroicons/react/24/outline";
+import { Bars3Icon, UserIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { deleteCourse } from "@/app/lib/actions";
 import EditCourseModal from "./edit-course-modal";
@@ -75,7 +75,6 @@ export default function CourseCard({ id, course, currUserId }: any) {
                     <CardBody className="overflow-visible py-2">
                         <Image
                             alt="Card background"
-                            //className="object-cover rounded-xl"
                             src={courseImage()}
                             width={275}
                             height={210}
@@ -83,11 +82,16 @@ export default function CourseCard({ id, course, currUserId }: any) {
                         />
                     </CardBody>
                     <CardFooter>
-                        <p>${course.price}</p>
+                        <div className="flex justify-between w-full">
+                            <div>${course.price}</div>
+                            {course.students > 0 && (
+                                <div className="flex"><UserIcon className="h-5 w-5" />{course.students.toLocaleString()}</div>
+                            )}
+                        </div>
                     </CardFooter>
                 </div>
             </Card>
-            <Modal isOpen={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+            <Modal isOpen={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)} disableAnimation>
                 <ModalContent>
                     <ModalHeader className="flex flex-col gap-1">Confirm Deletion</ModalHeader>
                     <ModalBody>

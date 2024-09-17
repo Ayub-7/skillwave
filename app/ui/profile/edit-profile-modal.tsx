@@ -76,7 +76,7 @@ export default function EditProfileModal({ user }: any) {
                     <PencilIcon className="w-6 h-6" />
                 </Button>
             </Tooltip>
-            <Modal scrollBehavior="inside" isDismissable={!isMobile} placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
+            <Modal disableAnimation scrollBehavior="inside" isDismissable={!isMobile} placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
                 <ModalContent>
                     {(onClose) => (
                         <>
