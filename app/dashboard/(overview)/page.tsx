@@ -17,7 +17,7 @@ export default async function Page() {
           <MagnifyingGlassIcon className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
         </div>
       </div>
-      <div className="flex justify-center mt-16">
+      <div className="flex justify-center mt-16 mb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {courses.map((course: any) => (
             <CourseCard
