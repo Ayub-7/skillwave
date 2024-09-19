@@ -11,7 +11,7 @@ import { UploadButton } from "@/app/lib/uploadthing";
 import { deleteSection, updateCourse } from "@/app/lib/actions";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import Tiptap from "@/app/components/tiptap";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 interface Section {
     id?: number;
@@ -129,13 +129,6 @@ export default function EditCourseModal({ course }: any) {
 
     return (
         <div>
-            <Toaster
-                containerStyle={{
-                    top: 65,
-                    right: 20,
-                    zIndex: 9999,
-                }}
-            />
             <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 space-y-8 rounded-lg shadow-2xl dark:shadow-2xl bg-white dark:bg-neutral-900 shadow-gray-300/50 dark:shadow-gray-700/30">
                 <h2 className="text-3xl font-bold mb-6 text-center">Edit Course</h2>
 

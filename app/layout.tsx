@@ -2,6 +2,7 @@ import '@/app/ui/global.css';
 import { karla } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import Providers from './providers';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: {
@@ -20,6 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${karla.className} antialiased`}>
+        <Toaster
+          containerStyle={{
+            top: 65,
+            right: 20,
+            zIndex: 9999,
+          }}
+        />
         <Providers>{children}</Providers>
       </body>
     </html>
