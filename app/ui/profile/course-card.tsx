@@ -9,7 +9,7 @@ import { Spinner } from "@nextui-org/spinner";
 import { Bars3Icon, UserIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { deleteCourse } from "@/app/lib/actions";
-import EditCourseModal from "./edit-course-modal";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function CourseCard({ id, course, currUserId }: any) {
     const { theme } = useTheme();
@@ -40,9 +40,22 @@ export default function CourseCard({ id, course, currUserId }: any) {
             await deleteCourse(id);
             setIsLoading(false)
             setDeleteDialogOpen(false);
+            toast.success('Course deleted successfully!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
         } catch (error) {
             setIsLoading(false)
-            console.error('Error deleting course:', error);
+            toast.error('Error, try again!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
         }
     };
 
@@ -50,6 +63,13 @@ export default function CourseCard({ id, course, currUserId }: any) {
 
     return (
         <>
+            <Toaster
+                containerStyle={{
+                    top: 65,
+                    right: 20,
+                    zIndex: 9999,
+                }}
+            />
             <Card className="py-4 relative" isPressable>
                 <div className="absolute top-2 right-2 z-10">
                     {showDropdown && (

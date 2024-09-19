@@ -10,6 +10,7 @@ import { createCourse } from "@/app/lib/actions";
 import { Image } from "@nextui-org/image";
 import { UploadButton } from "@/app/lib/uploadthing";
 import Tiptap from "@/app/components/tiptap";
+import toast, { Toaster } from 'react-hot-toast';
 
 interface CourseSection {
     name: string;
@@ -90,10 +91,22 @@ export default function CreateCourseForm({ user }: any) {
                 imageUrl: imageUrl,
             }, prepareItemsForSubmission(items));
             setIsLoading(false)
-            //resetForm();
+            toast.success('Course created successfully!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
         } catch (error) {
-            console.error('Error creating course:', error);
             setIsLoading(false)
+            toast.error('Error, try again!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
         };
     };
 
@@ -106,178 +119,187 @@ export default function CreateCourseForm({ user }: any) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 space-y-8 rounded-lg shadow-2xl dark:shadow-2xl bg-white dark:bg-neutral-900 shadow-gray-300/50 dark:shadow-gray-700/30">
-            <h2 className="text-3xl font-bold mb-6 text-center">Create Course</h2>
+        <div>
+            <Toaster
+                containerStyle={{
+                    top: 65,
+                    right: 20,
+                    zIndex: 9999,
+                }}
+            />
+            <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 space-y-8 rounded-lg shadow-2xl dark:shadow-2xl bg-white dark:bg-neutral-900 shadow-gray-300/50 dark:shadow-gray-700/30">
+                <h2 className="text-3xl font-bold mb-6 text-center">Create Course</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                    <Input
-                        value={name}
-                        isRequired
-                        color={isInvalidName ? "danger" : "default"}
-                        errorMessage={isInvalidName && "Please enter name"}
-                        onChange={(e) => setName(e.target.value)}
-                        variant="bordered"
-                        type="string"
-                        label="Name"
-                        isDisabled={isLoading}
-                    />
-                    <Input
-                        value={price}
-                        isRequired
-                        type="number"
-                        color={isInvalidPrice ? "danger" : "default"}
-                        errorMessage={isInvalidPrice && "Please enter price"}
-                        variant="bordered"
-                        placeholder="Price"
-                        onChange={(e) => setPrice(e.target.value)}
-                        isDisabled={isLoading}
-                        startContent={
-                            <div className="pointer-events-none flex items-center">
-                                <span className="text-default-400 text-small">$</span>
-                            </div>
-                        }
-                        classNames={{
-                            input: "bg-transparent border-none focus:ring-0 space-y-10",
-                            innerWrapper: "bg-transparent",
-                            inputWrapper: "bg-transparent shadow-none",
-                        }}
-                    />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                        <Input
+                            value={name}
+                            isRequired
+                            color={isInvalidName ? "danger" : "default"}
+                            errorMessage={isInvalidName && "Please enter name"}
+                            onChange={(e) => setName(e.target.value)}
+                            variant="bordered"
+                            type="string"
+                            label="Name"
+                            isDisabled={isLoading}
+                        />
+                        <Input
+                            value={price}
+                            isRequired
+                            type="number"
+                            color={isInvalidPrice ? "danger" : "default"}
+                            errorMessage={isInvalidPrice && "Please enter price"}
+                            variant="bordered"
+                            placeholder="Price"
+                            onChange={(e) => setPrice(e.target.value)}
+                            isDisabled={isLoading}
+                            startContent={
+                                <div className="pointer-events-none flex items-center">
+                                    <span className="text-default-400 text-small">$</span>
+                                </div>
+                            }
+                            classNames={{
+                                input: "bg-transparent border-none focus:ring-0 space-y-10",
+                                innerWrapper: "bg-transparent",
+                                inputWrapper: "bg-transparent shadow-none",
+                            }}
+                        />
+                    </div>
+
+                    <div className="space-y-4">
+                        <div className="p-4 rounded-lg flex flex-col items-center">
+                            <h3 className="text-lg font-semibold mb-2 px-10">Course Image</h3>
+                            {imageUrl ? (
+                                <div className="flex flex-col items-center gap-4">
+                                    <Image
+                                        src={imageUrl}
+                                        alt="Course Image"
+                                        width={200}
+                                        height={200}
+                                    />
+                                    <Button onPress={() => setImageUrl('')}>
+                                        Change Image
+                                    </Button>
+                                </div>
+                            ) : (
+                                <UploadButton
+                                    endpoint="imageUploader"
+                                    onClientUploadComplete={(res) => {
+                                        setImageUrl(res[0].url)
+                                    }}
+                                    onUploadError={(error: Error) => {
+                                        alert(`ERROR! ${error.message}`);
+                                    }}
+                                />
+                            )}
+                        </div>
+                    </div>
                 </div>
 
-                <div className="space-y-4">
-                    <div className="p-4 rounded-lg flex flex-col items-center">
-                        <h3 className="text-lg font-semibold mb-2 px-10">Course Image</h3>
-                        {imageUrl ? (
-                            <div className="flex flex-col items-center gap-4">
-                                <Image
-                                    src={imageUrl}
-                                    alt="Course Image"
-                                    width={200}
-                                    height={200}
+                <div className="p-4 rounded-lg">
+                    <h3 className="text-lg font-semibold mb-2">Course Description</h3>
+                    <Tiptap canEdit={true} description={description} onChange={(newDescription) => setDescription(newDescription)} />
+                </div>
+
+                <Accordion key={items.length} variant="splitted" selectionMode="multiple">
+                    {items.map((item: CourseSection, index: number) => (
+                        <AccordionItem key={index} aria-label={`Section ${index + 1}`}
+                            title={item.name !== '' ? item.name : `Section ${index + 1}`}
+                        >
+                            <div key={index} className="space-y-4 p-4">
+                                <Input
+                                    isRequired
+                                    type="string"
+                                    name="name"
+                                    label="Section Name"
+                                    value={item.name}
+                                    variant="bordered"
+                                    onChange={(event) => handleInputChange(index, event)}
+                                    isDisabled={isLoading}
                                 />
-                                <Button onPress={() => setImageUrl('')}>
-                                    Change Image
+                                <div className="p-4 rounded-lg">
+                                    <h4 className="text-md font-semibold mb-2">Section Description</h4>
+                                    <Tiptap
+                                        canEdit={true}
+                                        description={item.description}
+                                        onChange={(newDescription) => handleDescriptionChange(index, newDescription)}
+                                    />
+                                </div>
+                                <div className="flex flex-col items-center gap-4 p-4 rounded-lg">
+                                    <h4 className="text-md font-semibold">Section Video</h4>
+                                    {item.videoUrl ? (
+                                        <div className="flex flex-col items-center gap-4">
+                                            <video
+                                                src={item.videoUrl}
+                                                width={200}
+                                                height={200}
+                                                controls
+                                            />
+                                            <Button variant="flat" onPress={() => handleVideoUpload(index, '', false)}>
+                                                Change Video
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div className="w-[200px] h-[200px] flex items-center justify-center">
+                                            {item.isVideoUploading ? (
+                                                <Spinner color="white" />
+                                            ) : (
+                                                <UploadButton
+                                                    endpoint="videoUploader"
+                                                    onClientUploadComplete={(res) => {
+                                                        handleVideoUpload(index, res[0].url, false);
+                                                    }}
+                                                    onUploadBegin={() => {
+                                                        handleVideoUpload(index, '', true);
+                                                    }}
+                                                    onUploadError={(error: Error) => {
+                                                        handleVideoUpload(index, '', false);
+                                                        alert(`ERROR! ${error.message}`);
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                <Button
+                                    color="danger"
+                                    variant="light"
+                                    isDisabled={isLoading}
+                                    onClick={() => handleRemoveItem(index)}
+                                >
+                                    Remove
                                 </Button>
                             </div>
-                        ) : (
-                            <UploadButton
-                                endpoint="imageUploader"
-                                onClientUploadComplete={(res) => {
-                                    setImageUrl(res[0].url)
-                                }}
-                                onUploadError={(error: Error) => {
-                                    alert(`ERROR! ${error.message}`);
-                                }}
-                            />
-                        )}
-                    </div>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
+                <div className="flex justify-center">
+                    <Tooltip content="Add Section">
+                        <Button isDisabled={isLoading} onClick={handleAddItem} variant="faded" isIconOnly>
+                            <PlusIcon className="w-6 h-6" />
+                        </Button>
+                    </Tooltip>
                 </div>
-            </div>
-
-            <div className="p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2">Course Description</h3>
-                <Tiptap canEdit={true} description={description} onChange={(newDescription) => setDescription(newDescription)} />
-            </div>
-
-            <Accordion key={items.length} variant="splitted" selectionMode="multiple">
-                {items.map((item: CourseSection, index: number) => (
-                    <AccordionItem key={index} aria-label={`Section ${index + 1}`}
-                        title={item.name !== '' ? item.name : `Section ${index + 1}`}
+                <div className="flex justify-end gap-4">
+                    <Button isDisabled={isLoading} color="danger" variant="light" onClick={resetForm}>
+                        Reset
+                    </Button>
+                    <Tooltip
+                        content={isLoading ? "Loading..." : !isFormValid ? formValidationMessage : "Create course"}
+                        color={isFormValid ? "default" : "danger"}
                     >
-                        <div key={index} className="space-y-4 p-4">
-                            <Input
-                                isRequired
-                                type="string"
-                                name="name"
-                                label="Section Name"
-                                value={item.name}
-                                variant="bordered"
-                                onChange={(event) => handleInputChange(index, event)}
-                                isDisabled={isLoading}
-                            />
-                            <div className="p-4 rounded-lg">
-                                <h4 className="text-md font-semibold mb-2">Section Description</h4>
-                                <Tiptap
-                                    canEdit={true}
-                                    description={item.description}
-                                    onChange={(newDescription) => handleDescriptionChange(index, newDescription)}
-                                />
-                            </div>
-                            <div className="flex flex-col items-center gap-4 p-4 rounded-lg">
-                                <h4 className="text-md font-semibold">Section Video</h4>
-                                {item.videoUrl ? (
-                                    <div className="flex flex-col items-center gap-4">
-                                        <video
-                                            src={item.videoUrl}
-                                            width={200}
-                                            height={200}
-                                            controls
-                                        />
-                                        <Button variant="flat" onPress={() => handleVideoUpload(index, '', false)}>
-                                            Change Video
-                                        </Button>
-                                    </div>
-                                ) : (
-                                    <div className="w-[200px] h-[200px] flex items-center justify-center">
-                                        {item.isVideoUploading ? (
-                                            <Spinner color="white" />
-                                        ) : (
-                                            <UploadButton
-                                                endpoint="videoUploader"
-                                                onClientUploadComplete={(res) => {
-                                                    handleVideoUpload(index, res[0].url, false);
-                                                }}
-                                                onUploadBegin={() => {
-                                                    handleVideoUpload(index, '', true);
-                                                }}
-                                                onUploadError={(error: Error) => {
-                                                    handleVideoUpload(index, '', false);
-                                                    alert(`ERROR! ${error.message}`);
-                                                }}
-                                            />
-                                        )}
-                                    </div>
-                                )}
-                            </div>
+                        <div>
                             <Button
-                                color="danger"
-                                variant="light"
-                                isDisabled={isLoading}
-                                onClick={() => handleRemoveItem(index)}
+                                type="submit"
+                                color="primary"
+                                isDisabled={!isFormValid || isLoading}
                             >
-                                Remove
+                                {isLoading ? <Spinner color="white" /> : 'Create Course'}
                             </Button>
                         </div>
-                    </AccordionItem>
-                ))}
-            </Accordion>
-            <div className="flex justify-center">
-                <Tooltip content="Add Section">
-                    <Button isDisabled={isLoading} onClick={handleAddItem} variant="faded" isIconOnly>
-                        <PlusIcon className="w-6 h-6" />
-                    </Button>
-                </Tooltip>
-            </div>
-            <div className="flex justify-end gap-4">
-                <Button isDisabled={isLoading} color="danger" variant="light" onClick={resetForm}>
-                    Reset
-                </Button>
-                <Tooltip
-                    content={isLoading ? "Loading..." : !isFormValid ? formValidationMessage : "Create course"}
-                    color={isFormValid ? "default" : "danger"}
-                >
-                    <div>
-                        <Button
-                            type="submit"
-                            color="primary"
-                            isDisabled={!isFormValid || isLoading}
-                        >
-                            {isLoading ? <Spinner color="white" /> : 'Create Course'}
-                        </Button>
-                    </div>
-                </Tooltip>
-            </div>
-        </form>
+                    </Tooltip>
+                </div>
+            </form>
+        </div>
     );
 }
