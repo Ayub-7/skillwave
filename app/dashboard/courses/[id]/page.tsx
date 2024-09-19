@@ -15,19 +15,6 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex-1 flex flex-col items-center p-6">
                 <div className="text-center max-w-4xl mx-auto">
                     <h1 className="text-3xl font-bold mb-4">{course.name}</h1>
-                    {course.imageUrl && (
-                        <div className=" w-full aspect-video">
-                            <Image
-                                isZoomed
-                                src={course.imageUrl}
-                                alt={course.name}
-                                classNames={{
-                                    img: "w-full h-full object-cover",
-                                    wrapper: "w-full h-full",
-                                }}
-                            />
-                        </div>
-                    )}
                     <Tiptap canEdit={false} description={course.description || ''} />
                     {/* Additional content can go here */}
                 </div>

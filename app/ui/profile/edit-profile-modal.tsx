@@ -14,6 +14,7 @@ import { Button } from '@nextui-org/react';
 import { Input, Textarea } from "@nextui-org/input";
 import { Tooltip } from "@nextui-org/tooltip";
 import { UploadButton } from "@/app/lib/uploadthing";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function EditProfileModal({ user }: any) {
     const [isMobile, setIsMobile] = React.useState(false);
@@ -63,14 +64,35 @@ export default function EditProfileModal({ user }: any) {
                 youtube: youtube,
                 imageUrl: imageUrl,
             });
+            toast.success('Profile updated successfully!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
+
         } catch (error) {
-            console.error('Error updating user:', error);
+            toast.error('Error, try again!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
         };
-        console.log('done')
     }
+
 
     return (
         <>
+            <Toaster
+                containerStyle={{
+                    top: 65,
+                    right: 20,
+                    zIndex: 9999,
+                }}
+            />
             <Tooltip color="primary" content="Edit Profile">
                 <Button onPress={onOpen} variant="shadow" isIconOnly>
                     <PencilIcon className="w-6 h-6" />
