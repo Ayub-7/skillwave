@@ -168,7 +168,7 @@ export default function CreateCourseForm({ user }: any) {
 
                     <div className="space-y-4">
                         <div className="p-4 rounded-lg flex flex-col items-center">
-                            <h3 className="text-lg font-semibold mb-2 px-10">Course Image</h3>
+                            <h3 className="text-lg font-semibold mb-2 px-10">Course Thumbnail</h3>
                             {imageUrl ? (
                                 <div className="flex flex-col items-center gap-4">
                                     <Image
