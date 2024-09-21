@@ -35,6 +35,7 @@ model Course {
   price       Float     @default(0)
   imageUrl    String?
   students    Int       @default(0)
+  status      String    @default("DRAFT")
 }
 
 model Section {

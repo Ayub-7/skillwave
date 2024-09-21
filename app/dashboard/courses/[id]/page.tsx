@@ -13,10 +13,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     return (
         <main className="flex min-h-screen">
             <div className="flex-1 flex flex-col items-center p-6">
-                <div className="text-center max-w-4xl mx-auto">
+                <div className="text-center max-w-4xl mx-auto ml-16">
                     <h1 className="text-3xl font-bold mb-4">{course.name}</h1>
                     <Tiptap canEdit={false} description={course.description || ''} />
-                    {/* Additional content can go here */}
                 </div>
             </div>
         </main>

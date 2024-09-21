@@ -13,7 +13,12 @@ import EditProfileModal from "@/app/ui/profile/edit-profile-modal";
 import { Tooltip } from "@nextui-org/tooltip";
 import { useRouter } from 'next/navigation';
 
-export default function ProfileCard({ user }: any) {
+type ProfileCardProps = {
+    canEdit: boolean;
+    user: any;
+};
+
+export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
     const router = useRouter();
 
     return (
@@ -82,18 +87,20 @@ export default function ProfileCard({ user }: any) {
                             </a>
                         )}
                     </div>
-                    <div className="flex gap-1">
-                        <Tooltip color="primary" content="Create Course">
-                            <Button
-                                onClick={() => router.push('/dashboard/courses/create')}
-                                variant="shadow"
-                                isIconOnly
-                            >
-                                <PlusIcon className="w-6 h-6" />
-                            </Button>
-                        </Tooltip>
-                        <EditProfileModal user={user} />
-                    </div>
+                    {canEdit && (
+                        <div className="flex gap-1">
+                            <Tooltip color="primary" content="Create Course">
+                                <Button
+                                    onClick={() => router.push('/dashboard/courses/create')}
+                                    variant="shadow"
+                                    isIconOnly
+                                >
+                                    <PlusIcon className="w-6 h-6" />
+                                </Button>
+                            </Tooltip>
+                            <EditProfileModal user={user} />
+                        </div>
+                    )}
                 </CardHeader>
                 <CardBody className="overflow-visible flex flex-col items-center py-4">
                     {user?.imageUrl ? (
