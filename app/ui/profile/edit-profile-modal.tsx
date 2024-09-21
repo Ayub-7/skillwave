@@ -86,13 +86,6 @@ export default function EditProfileModal({ user }: any) {
 
     return (
         <>
-            <Toaster
-                containerStyle={{
-                    top: 65,
-                    right: 20,
-                    zIndex: 9999,
-                }}
-            />
             <Tooltip color="primary" content="Edit Profile">
                 <Button onPress={onOpen} variant="shadow" isIconOnly>
                     <PencilIcon className="w-6 h-6" />

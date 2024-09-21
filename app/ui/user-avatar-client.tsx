@@ -28,7 +28,7 @@ export default function UserAvatarClient({ user }: any) {
           <p className="font-bold">Signed in as</p>
           <p className="font-bold">{user.name}</p>
         </DropdownItem>
-        <DropdownItem key="profile" href="/dashboard/profile">My Profile</DropdownItem>
+        <DropdownItem key="profile" href={`/dashboard/profile/${user.id}`}>My Profile</DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"

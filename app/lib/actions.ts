@@ -161,6 +161,26 @@ export async function deleteCourse(id: number) {
   revalidatePath('/dashboard/profile');
 }
 
+export async function publishCourse(id: number) {
+  await prisma.course.update({
+    where: {id},
+    data: {
+      status: "PUBLISHED"
+    },
+  });
+  revalidatePath('/dashboard/profile');
+}
+
+export async function draftCourse(id: number) {
+  await prisma.course.update({
+    where: {id},
+    data: {
+      status: "DRAFT"
+    },
+  });
+  revalidatePath('/dashboard/profile');
+}
+
 export async function createInvoice(formData: InvoiceFormData) {
   // Set values from FormData
   const { customerId, amount, status } = formData;

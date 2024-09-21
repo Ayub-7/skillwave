@@ -8,14 +8,16 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextu
 import { Spinner } from "@nextui-org/spinner";
 import { Bars3Icon, UserIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
-import { deleteCourse } from "@/app/lib/actions";
-import toast, { Toaster } from 'react-hot-toast';
+import { deleteCourse, publishCourse, draftCourse } from "@/app/lib/actions";
+import toast from 'react-hot-toast';
 
 export default function CourseCard({ id, course, currUserId }: any) {
     const { theme } = useTheme();
     const router = useRouter();
     const pathname = usePathname();
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+    const [publishDialogOpen, setPublishDialogOpen] = React.useState(false);
+    const [draftDialogOpen, setDraftDialogOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
 
     const handleCardPress = () => {
@@ -32,6 +34,16 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const handleDeleteClick = (e: React.MouseEvent) => {
         e.stopPropagation();
         setDeleteDialogOpen(true);
+    };
+
+    const handlePublishClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setPublishDialogOpen(true);
+    };
+
+    const handleDraftClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setDraftDialogOpen(true);
     };
 
     const handleDelete = async () => {
@@ -59,18 +71,72 @@ export default function CourseCard({ id, course, currUserId }: any) {
         }
     };
 
-    const showDropdown = pathname === '/dashboard/profile' && course.authorId === currUserId;
+    const handlePublish = async () => {
+        setIsLoading(true)
+        try {
+            await publishCourse(id);
+            setIsLoading(false)
+            setPublishDialogOpen(false);
+            toast.success('Course published successfully!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
+        } catch (error) {
+            setIsLoading(false)
+            toast.error('Error, try again!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
+        }
+    };
+
+    const handleDraft = async () => {
+        setIsLoading(true)
+        try {
+            await draftCourse(id);
+            setIsLoading(false)
+            setDraftDialogOpen(false);
+            toast.success('Course is now drafted!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
+        } catch (error) {
+            setIsLoading(false)
+            toast.error('Error, try again!', {
+                duration: 3000,
+                position: 'top-right',
+                style: {
+                    zIndex: 9999,
+                },
+            });
+        }
+    };
+
+    const showDropdown = pathname === `/dashboard/profile/${currUserId}` && course.authorId === currUserId;
+    const onHomepage = pathname === '/dashboard';
+    const statusColor = course.status === "DRAFT" ? "orange" : "green";
+
 
     return (
         <>
-            <Toaster
-                containerStyle={{
-                    top: 65,
-                    right: 20,
-                    zIndex: 9999,
-                }}
-            />
             <Card className="py-4 relative" isPressable>
+                {showDropdown && (
+                    <div className="absolute top-2 left-2 z-10">
+                        <div
+                            className={`w-3 h-3 rounded-full ${statusColor === "orange" ? "bg-orange-500" : "bg-green-500"}`}
+                            title={course.status}
+                        />
+                    </div>
+                )}
                 <div className="absolute top-2 right-2 z-10">
                     {showDropdown && (
                         <Dropdown>
@@ -80,6 +146,15 @@ export default function CourseCard({ id, course, currUserId }: any) {
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Course actions">
+                                {course.status === "DRAFT" ? (
+                                    <DropdownItem key="publish" className="text-success" color="success" onClick={handlePublishClick}>
+                                        Publish
+                                    </DropdownItem>
+                                ) : (
+                                    <DropdownItem key="draft" className="text-warning" color="warning" onClick={handleDraftClick}>
+                                        Set As Draft
+                                    </DropdownItem>
+                                )}
                                 <DropdownItem key="edit" onClick={() => router.push(`/dashboard/courses/${course.id}/edit`)}>Edit</DropdownItem>
                                 <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleDeleteClick}>
                                     Delete
@@ -102,10 +177,28 @@ export default function CourseCard({ id, course, currUserId }: any) {
                         />
                     </CardBody>
                     <CardFooter>
-                        <div className="flex justify-between w-full">
-                            <div>${course.price}</div>
-                            {course.students > 0 && (
-                                <div className="flex"><UserIcon className="h-5 w-5" />{course.students.toLocaleString()}</div>
+                        <div className="flex flex-col w-full">
+                            <div className="flex justify-between w-full">
+                                <div>${course.price}</div>
+                                {course.students > 0 && (
+                                    <div className="flex">
+                                        <UserIcon className="h-5 w-5" />
+                                        {course.students.toLocaleString()}
+                                    </div>
+                                )}
+                            </div>
+                            {onHomepage && (
+                                <p className="text-left">
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation(); // Prevent click from bubbling up
+                                            router.push(`/dashboard/profile/${course.author.id}`);
+                                        }}
+                                        className="text-blue-500 hover:underline focus:outline-none"
+                                    >
+                                        {`Created By: ${course.author.name}`}
+                                    </button>
+                                </p>
                             )}
                         </div>
                     </CardFooter>
@@ -123,6 +216,39 @@ export default function CourseCard({ id, course, currUserId }: any) {
                         </Button>
                         <Button color="danger" onPress={handleDelete}>
                             {isLoading ? <Spinner color="white" /> : 'Delete'}
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Modal isOpen={publishDialogOpen} onClose={() => setPublishDialogOpen(false)} disableAnimation>
+                <ModalContent>
+                    <ModalHeader className="flex flex-col gap-1">Publish Course</ModalHeader>
+                    <ModalBody>
+                        <p>Are you sure you want to publish this course? This course will now be visible on your
+                            profile and homepage.</p>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="default" variant="light" onPress={() => setPublishDialogOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button color="success" onPress={handlePublish}>
+                            {isLoading ? <Spinner color="white" /> : 'Publish'}
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Modal isOpen={draftDialogOpen} onClose={() => setDraftDialogOpen(false)} disableAnimation>
+                <ModalContent>
+                    <ModalHeader className="flex flex-col gap-1">Draft Course</ModalHeader>
+                    <ModalBody>
+                        <p>Are you sure you want to set this course to draft? It will no longer be visible on your profile and homepage.</p>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="default" variant="light" onPress={() => setDraftDialogOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button color="warning" onPress={handleDraft}>
+                            {isLoading ? <Spinner color="white" /> : 'Draft'}
                         </Button>
                     </ModalFooter>
                 </ModalContent>

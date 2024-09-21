@@ -267,6 +267,13 @@ export async function getUser(userId: number) {
   return user
 }
 
+export async function getUserDetails(userId: number) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+  return user
+}
+
 export async function getPurchasedCourses(user: any) {
   const purchased = await prisma.course.findMany({
     where: {
@@ -300,5 +307,5 @@ export async function getSection(id: number) {
 }
 
 export async function getAllCourses() {
-  return await prisma.course.findMany() 
+  return await prisma.course.findMany({where: {status: "PUBLISHED"}, include: {author: true}}) 
 }
