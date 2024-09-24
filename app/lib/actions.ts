@@ -67,7 +67,7 @@ export async function updateUser(input: UpdateUserInput) {
 
 export async function createCourse(input: courseInput, sections: { name: string; description: string; videoUrl?: string; }[]) {
   const {name, description, authorId, price, imageUrl} = input
-  const course = await prisma.course.create({
+  await prisma.course.create({
     data: {
       name,
       description,
@@ -85,12 +85,12 @@ export async function createCourse(input: courseInput, sections: { name: string;
       }
     }
   })
-  revalidatePath(`/dashboard/courses/${course.id}`);
-  redirect(`/dashboard/courses/${course.id}`)
+  revalidatePath('/dashboard/profile');
+  redirect(`/dashboard/profile/${authorId}`)
 }
 
 export async function updateCourse(id: number, input: courseInput, sections: { id?: number; name: string; description: string; videoUrl?: string; }[]) {
-  const { name, description, price, imageUrl } = input;
+  const { name, description, authorId, price, imageUrl } = input;
 
   await prisma.course.update({
     where: { id },
@@ -132,8 +132,8 @@ export async function updateCourse(id: number, input: courseInput, sections: { i
     })
   );
 
-  revalidatePath(`/dashboard/courses/${id}`);
-  redirect(`/dashboard/courses/${id}`);
+  revalidatePath('/dashboard/profile');
+  redirect(`/dashboard/profile/${authorId}`);
 }
 
 export async function deleteSection(id: number) {

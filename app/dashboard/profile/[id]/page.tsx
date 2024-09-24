@@ -36,11 +36,13 @@ export default async function Page({ params }: { params: { id: string } }) {
           <div className="flex justify-center mt-16 mb-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {userProfile.courses.map((course: any) => (
-                <CourseCard
-                  key={course.id}
-                  id={course.id}
-                  course={course}
-                />
+                course.status === 'PUBLISHED' && (
+                  <CourseCard
+                    key={course.id}
+                    id={course.id}
+                    course={course}
+                  />
+                )
               ))}
             </div>
           </div>
