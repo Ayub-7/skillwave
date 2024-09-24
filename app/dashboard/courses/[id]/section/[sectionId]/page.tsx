@@ -14,7 +14,7 @@ export default async function Page({ params }: { params: { sectionId: string } }
     return (
         <main className="flex min-h-screen">
             <div className="flex-1 flex flex-col items-center p-6">
-                <div className="text-center max-w-4xl mx-auto">
+                <div className="text-center max-w-4xl mx-auto ml-16">
                     <Card className="w-full max-w-3xl mb-8">
                         <CardBody>
                             {section.videoUrl ? (
