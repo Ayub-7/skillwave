@@ -18,7 +18,7 @@ const LandingPage = () => {
         <div className="flex flex-col md:flex-row justify-between items-start gap-12">
           <div className="md:w-1/2">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              The modern platform for <span className="text-blue-500">course creators </span>🚀
+              The modern platform for <span className="text-blue-500">course creators</span>🚀
             </h1>
             <p className="text-xl mb-8 text-gray-300">
               The easiest way to create and sell online courses. Elevate your teaching and simplify your process with SkillWave.
