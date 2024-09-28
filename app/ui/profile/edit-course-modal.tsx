@@ -14,7 +14,7 @@ import Tiptap from "@/app/components/tiptap";
 import toast from 'react-hot-toast';
 
 interface Section {
-    id?: number;
+    id?: string;
     name: string;
     description: string;
     videoUrl?: string;
