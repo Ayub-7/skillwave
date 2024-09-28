@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 
 export default async function Layout({ children, params }: { children: React.ReactNode, params: { id: string } }) {
     const { id } = params;
-    const course = await getCourse(parseInt(id, 10)); // Fetch data
+    const course = await getCourse(id); // Fetch data
 
     if (!course) {
         notFound(); // Handle the case where course is not found

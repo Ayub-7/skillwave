@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation';
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id;
-  const userProfile = await getUser(parseInt(id, 10));
+  const userProfile = await getUser(id);
   if (!userProfile) {
     notFound();
   }

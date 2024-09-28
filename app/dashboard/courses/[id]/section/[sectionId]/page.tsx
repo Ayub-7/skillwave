@@ -6,7 +6,7 @@ import Tiptap from "@/app/components/tiptap";
 
 export default async function Page({ params }: { params: { sectionId: string } }) {
     const id = params.sectionId;
-    const section = await getSection(parseInt(id, 10))
+    const section = await getSection(id)
     if (!section) {
         notFound();
     }

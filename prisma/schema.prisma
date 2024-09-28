@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id               Int      @id @default(autoincrement())
+  id               String   @id @default(uuid())
   email            String   @unique
   password         String
   name             String
@@ -26,12 +26,12 @@ model User {
 }
 
 model Course {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   name        String
   description String?
   Sections    Section[]
   author      User      @relation("AuthorCourses", fields: [authorId], references: [id])
-  authorId    Int
+  authorId    String
   price       Float     @default(0)
   imageUrl    String?
   students    Int       @default(0)
@@ -39,10 +39,15 @@ model Course {
 }
 
 model Section {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(uuid())
   name        String
   description String?
   course      Course  @relation(fields: [courseId], references: [id])
-  courseId    Int
+  courseId    String
   videoUrl    String?
+}
+
+model EmailList {
+  id    String @id @default(uuid())
+  email String
 }

@@ -5,7 +5,7 @@ import Tiptap from "@/app/components/tiptap";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
-    const course = await getCourse(parseInt(id, 10));
+    const course = await getCourse(id);
     if (!course) {
         notFound();
     }
