@@ -253,7 +253,7 @@ export async function getSession() {
   return await decrypt(session) || '';
 }
 
-export async function getUser(userId: number) {
+export async function getUser(userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: {
@@ -267,7 +267,7 @@ export async function getUser(userId: number) {
   return user
 }
 
-export async function getUserDetails(userId: number) {
+export async function getUserDetails(userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
   });
@@ -285,7 +285,7 @@ export async function getPurchasedCourses(user: any) {
   return purchased
 }
 
-export async function getCourse(id: number) {
+export async function getCourse(id: string) {
   const course = await prisma.course.findUnique({
     where: {
       id: id
@@ -297,7 +297,7 @@ export async function getCourse(id: number) {
   return course
 }
 
-export async function getSection(id: number) {
+export async function getSection(id: string) {
   const course = await prisma.section.findUnique({
     where: {
       id: id

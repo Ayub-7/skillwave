@@ -6,6 +6,7 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import {prisma} from "@/app/lib/prisma"
+import { z } from 'zod';
 
 type InvoiceFormData = {
   customerId: string;
@@ -18,7 +19,7 @@ type LoginFormData = {
 };
 
 interface UpdateUserInput {
-  id: number; // Assuming you use an ID to identify the user
+  id: string; // Assuming you use an ID to identify the user
   name: string;
   bio?: string;
   twitter?: string
@@ -33,7 +34,7 @@ interface UpdateUserInput {
 interface courseInput {
   name: string;
   description?: string;
-  authorId: number;
+  authorId: string;
   price: number;
   imageUrl?: string;
 }
@@ -89,7 +90,7 @@ export async function createCourse(input: courseInput, sections: { name: string;
   redirect(`/dashboard/profile/${authorId}`)
 }
 
-export async function updateCourse(id: number, input: courseInput, sections: { id?: number; name: string; description: string; videoUrl?: string; }[]) {
+export async function updateCourse(id: string, input: courseInput, sections: { id?: string; name: string; description: string; videoUrl?: string; }[]) {
   const { name, description, authorId, price, imageUrl } = input;
 
   await prisma.course.update({
@@ -136,7 +137,7 @@ export async function updateCourse(id: number, input: courseInput, sections: { i
   redirect(`/dashboard/profile/${authorId}`);
 }
 
-export async function deleteSection(id: number) {
+export async function deleteSection(id: string) {
   await prisma.section.delete({
     where: {
       id
@@ -145,7 +146,7 @@ export async function deleteSection(id: number) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function deleteCourse(id: number) {
+export async function deleteCourse(id: string) {
   const deleteSections = prisma.section.deleteMany({
     where: {
       courseId: id
@@ -161,7 +162,7 @@ export async function deleteCourse(id: number) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function publishCourse(id: number) {
+export async function publishCourse(id: string) {
   await prisma.course.update({
     where: {id},
     data: {
@@ -171,7 +172,7 @@ export async function publishCourse(id: number) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function draftCourse(id: number) {
+export async function draftCourse(id: string) {
   await prisma.course.update({
     where: {id},
     data: {
@@ -179,6 +180,31 @@ export async function draftCourse(id: number) {
     },
   });
   revalidatePath('/dashboard/profile');
+}
+
+const EmailSchema = z.object({
+  email: z.string().email('Invalid email address'),
+});
+
+export async function addEmail(email: string) {
+  try {
+    // Validate the email
+    const validatedData = EmailSchema.parse({ email });
+
+    // If validation passes, add to the database
+    await prisma.emailList.create({
+      data: {
+        email: validatedData.email,
+      },
+    });
+
+    return { success: true, message: 'Email added successfully' };
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { success: false, message: error.errors[0].message };
+    }
+    return { success: false, message: 'An error occurred while adding the email' };
+  }
 }
 
 export async function createInvoice(formData: InvoiceFormData) {

@@ -128,9 +128,9 @@ export default function CourseCard({ id, course, currUserId }: any) {
 
     return (
         <>
-            <Card className="py-4 relative" isPressable>
+            <Card className="py-2 relative max-w-[250px]" isPressable>
                 {showDropdown && (
-                    <div className="absolute top-2 left-2 z-10">
+                    <div className="absolute top-1 left-1 z-10">
                         <div
                             className={`w-3 h-3 rounded-full ${statusColor === "orange" ? "bg-orange-500" : "bg-green-500"}`}
                             title={course.status}
@@ -164,25 +164,25 @@ export default function CourseCard({ id, course, currUserId }: any) {
                     )}
                 </div>
                 <div onClick={handleCardPress}>
-                    <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                        <h4 className="font-bold text-large">{course.name}</h4>
+                    <CardHeader className="pb-0 pt-1 px-3 flex-col items-start">
+                        <h4 className="font-bold text-md">{course.name}</h4>
                     </CardHeader>
-                    <CardBody className="overflow-visible py-2">
+                    <CardBody className="overflow-visible py-1">
                         <Image
                             alt="Card background"
                             src={courseImage()}
-                            width={275}
-                            height={210}
+                            width={230} // Reduced width
+                            height={175}
                             radius="sm"
                         />
                     </CardBody>
-                    <CardFooter>
+                    <CardFooter className="text-small">
                         <div className="flex flex-col w-full">
                             <div className="flex justify-between w-full">
                                 <div>${course.price}</div>
                                 {course.students > 0 && (
                                     <div className="flex">
-                                        <UserIcon className="h-5 w-5" />
+                                        <UserIcon className="h-4 w-4" />
                                         {course.students.toLocaleString()}
                                     </div>
                                 )}
