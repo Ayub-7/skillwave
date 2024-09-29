@@ -122,7 +122,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
     };
 
     const showDropdown = pathname === `/dashboard/profile/${currUserId}` && course.authorId === currUserId;
-    const onHomepage = pathname === '/dashboard';
+    const onHomepage = !pathname.includes('profile');
     const statusColor = course.status === "DRAFT" ? "orange" : "green";
 
 
