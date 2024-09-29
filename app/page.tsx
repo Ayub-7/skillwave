@@ -38,11 +38,11 @@ const LandingPage = () => {
 
 
   return (
-    <main className="flex min-h-screen flex-col p-6 bg-black text-white">
+    <main className="flex min-h-screen flex-col p-6 bg-white text-black">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-8">
           <Image
-            src="/SW-dark-sm.png"
+            src="/SW-light-sm.png"
             width={70}
             height={70}
             alt="SkillWave logo"
@@ -73,13 +73,13 @@ const LandingPage = () => {
                 🚀
               </motion.span>
             </motion.h1>
-            <p className="text-xl mb-8 text-gray-300">
+            <p className="text-xl mb-8 text-black-300">
               The easiest way to create and sell online courses. Elevate your teaching and simplify your process with Skill Wave.
             </p>
 
             <div className="bg-blue-900 p-6 rounded-lg mb-8">
-              <h2 className="text-2xl font-bold mb-2">🎉 Limited Time Offer</h2>
-              <p className="text-lg mb-4">Get lifetime access to Skill Wave at an unbeatable price!</p>
+              <h2 className="text-2xl font-bold mb-2 text-white">🎉 Limited Time Offer</h2>
+              <p className="text-lg mb-4 text-white">Get lifetime access to Skill Wave at an unbeatable price!</p>
               <Link
                 href="https://buy.stripe.com/fZe4iz8zadrOa5ieUU"
                 target="_blank"
@@ -96,7 +96,7 @@ const LandingPage = () => {
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="px-4 py-3 rounded-lg sm:rounded-l-lg sm:rounded-r-none bg-gray-800 text-white w-full"
+                  className="px-4 py-3 rounded-lg sm:rounded-l-lg sm:rounded-r-none bg-white-800 text-white w-full"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -131,7 +131,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="py-6 border-t border-gray-800">
+      <div className="py-6 border-t border-black-800">
         <div className="flex justify-center items-center space-x-4">
           <Link href="https://x.com/ali_ayub7" target="_blank" rel="noopener noreferrer">
             <Image
@@ -153,7 +153,7 @@ const LandingPage = () => {
           </Link>
         </div>
       </div>
-      <div className='flex justify-center text-gray-300'>
+      <div className='flex justify-center text-black-300'>
         Copyright © 2024 Skill Wave.
       </div>
     </main >
