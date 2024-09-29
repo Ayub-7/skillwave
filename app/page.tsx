@@ -77,7 +77,7 @@ const LandingPage = () => {
               The easiest way to create and sell online courses. Elevate your teaching and simplify your process with Skill Wave.
             </p>
 
-            <div className="bg-blue-900 p-6 rounded-lg mb-8">
+            <div className="bg-blue-800 p-6 rounded-lg mb-8">
               <h2 className="text-2xl font-bold mb-2 text-white">🎉 Limited Time Offer</h2>
               <p className="text-lg mb-4 text-white">Get lifetime access to Skill Wave at an unbeatable price!</p>
               <Link
