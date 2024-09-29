@@ -74,12 +74,12 @@ const LandingPage = () => {
               </motion.span>
             </motion.h1>
             <p className="text-xl mb-8 text-gray-300">
-              The easiest way to create and sell online courses. Elevate your teaching and simplify your process with SkillWave.
+              The easiest way to create and sell online courses. Elevate your teaching and simplify your process with Skill Wave.
             </p>
 
             <div className="bg-blue-900 p-6 rounded-lg mb-8">
               <h2 className="text-2xl font-bold mb-2">🎉 Limited Time Offer</h2>
-              <p className="text-lg mb-4">Get lifetime access to SkillWave at an unbeatable price!</p>
+              <p className="text-lg mb-4">Get lifetime access to Skill Wave at an unbeatable price!</p>
               <Link
                 href="https://buy.stripe.com/fZe4iz8zadrOa5ieUU"
                 target="_blank"
@@ -154,7 +154,7 @@ const LandingPage = () => {
         </div>
       </div>
       <div className='flex justify-center text-gray-300'>
-        Copyright © 2024 SkillWave.
+        Copyright © 2024 Skill Wave.
       </div>
     </main >
   );
