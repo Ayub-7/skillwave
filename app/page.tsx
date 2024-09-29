@@ -117,7 +117,7 @@ const LandingPage = () => {
             </div>
           </div>
           <div className="md:w-1/2">
-            <h2 className="text-center text-2xl font-bold mb-4">Demo⬇️</h2>
+            <h2 className="text-center text-2xl font-bold mb-4">Demo ⬇️</h2>
             <video
               className="rounded-lg w-full h-auto"
               controls
