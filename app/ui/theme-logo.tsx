@@ -18,8 +18,8 @@ export default function ThemeImage() {
     return (
         <Image
             src={`/SW-${currentTheme}-sm.png`}
-            width={80}
-            height={80}
+            width={70}
+            height={70}
             alt="SW logo"
         />
     )

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { XIcon } from "@/app/ui/custom-icons/x-icon";
+import { motion } from 'framer-motion';
 import { addEmail } from "@/app/lib/actions";
 
 const LandingPage = () => {
@@ -40,7 +40,7 @@ const LandingPage = () => {
   return (
     <main className="flex min-h-screen flex-col p-6 bg-black text-white">
       <div className="max-w-7xl mx-auto w-full">
-        <div className="flex justify-between items-center mb-16">
+        <div className="flex justify-between items-center mb-8">
           <Image
             src="/SW-dark-sm.png"
             width={70}
@@ -50,9 +50,29 @@ const LandingPage = () => {
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start gap-12">
           <div className="md:w-1/2">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              The modern platform for <span className="text-blue-500">course creators</span>🚀
-            </h1>
+            <motion.h1
+              className="text-4xl md:text-5xl font-bold mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
+              The modern platform for{" "}
+              <motion.span
+                className="text-blue-500"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+              >
+                course creators
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 1, duration: 0.5 }}
+              >
+                🚀
+              </motion.span>
+            </motion.h1>
             <p className="text-xl mb-8 text-gray-300">
               The easiest way to create and sell online courses. Elevate your teaching and simplify your process with SkillWave.
             </p>
@@ -62,6 +82,8 @@ const LandingPage = () => {
               <p className="text-lg mb-4">Get lifetime access to SkillWave at an unbeatable price!</p>
               <Link
                 href="https://buy.stripe.com/fZe4iz8zadrOa5ieUU"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg bg-blue-500 px-6 py-3 text-lg font-medium text-white transition-colors hover:bg-blue-600"
               >
                 <span>Get Lifetime Access Now</span> <ArrowRightIcon className="w-5 h-5" />
@@ -109,9 +131,9 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <footer className="py-6 border-t border-gray-800">
+      <div className="py-6 border-t border-gray-800">
         <div className="flex justify-center items-center space-x-4">
-          <Link href="https://x.com/ali_ayub7">
+          <Link href="https://x.com/ali_ayub7" target="_blank" rel="noopener noreferrer">
             <Image
               style={imageStyle}
               src="/App-Logo-Twitter.jpg"
@@ -120,7 +142,7 @@ const LandingPage = () => {
               alt="X logo"
             />
           </Link>
-          <Link href="https://buymeacoffee.com/ayubali">
+          <Link href="https://buymeacoffee.com/ayubali" target="_blank" rel="noopener noreferrer">
             <Image
               style={imageStyle}
               src="/IXkRaK6Q.png"
@@ -130,7 +152,10 @@ const LandingPage = () => {
             />
           </Link>
         </div>
-      </footer>
+      </div>
+      <div className='flex justify-center text-gray-300'>
+        Copyright © 2024 SkillWave.
+      </div>
     </main >
   );
 };
