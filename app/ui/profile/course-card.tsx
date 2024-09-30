@@ -8,6 +8,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextu
 import { Spinner } from "@nextui-org/spinner";
 import { Bars3Icon, UserIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
+import Link from 'next/link';
 import { deleteCourse, publishCourse, draftCourse } from "@/app/lib/actions";
 import toast from 'react-hot-toast';
 
@@ -189,15 +190,13 @@ export default function CourseCard({ id, course, currUserId }: any) {
                             </div>
                             {onHomepage && (
                                 <p className="text-left">
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation(); // Prevent click from bubbling up
-                                            router.push(`/dashboard/profile/${course.author.id}`);
-                                        }}
+                                    <Link
+                                        href={`/dashboard/profile/${course.author.id}`}
                                         className="text-blue-500 hover:underline focus:outline-none"
+                                        onClick={(e) => e.stopPropagation()}
                                     >
                                         {`By ${course.author.name}`}
-                                    </button>
+                                    </Link>
                                 </p>
                             )}
                         </div>

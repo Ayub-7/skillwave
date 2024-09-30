@@ -5,6 +5,12 @@ import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 export default async function Page() {
   const courses = await getAllCourses()
+
+  // Sort courses by number of students (descending order)
+  const sortedCourses = courses.sort((a, b) => {
+    return b.students - a.students;
+  });
+
   return (
     <main>
       <div className="flex justify-center pt-8">
@@ -19,7 +25,7 @@ export default async function Page() {
       </div>
       <div className="flex justify-center mt-16 mb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {courses.map((course: any) => (
+          {sortedCourses.map((course: any) => (
             <CourseCard
               key={course.id}
               id={course.id}
