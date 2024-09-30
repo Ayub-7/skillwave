@@ -196,7 +196,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
                                         }}
                                         className="text-blue-500 hover:underline focus:outline-none"
                                     >
-                                        {`Created By: ${course.author.name}`}
+                                        {`By ${course.author.name}`}
                                     </button>
                                 </p>
                             )}
