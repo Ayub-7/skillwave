@@ -125,7 +125,7 @@ const LandingPage = () => {
               muted
               loop
             >
-              <source src="https://utfs.io/f/AxBstrLG0jqGzIS5D8uGlEKcfyFvHThAe51SVdYQMqXP3n4x" type="video/mp4" />
+              <source src="https://utfs.io/f/AxBstrLG0jqGAZYdVeG0jqGcl7zCs5Tu9PSXEdDmbKZrLJn6" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>

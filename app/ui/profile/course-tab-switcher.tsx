@@ -22,17 +22,17 @@ export default function CourseTabSwitcher({ myCourses, purchasedCourses, currUse
         <div className="flex w-full flex-col mt-2">
             <Tabs aria-label="Options">
                 <Tab key="All" title="All">
-                    <div className="h-[500px]  p-4">
+                    <div className="min-h-[500px] p-4 mb-px">
                         {renderCourses(allCourses)}
                     </div>
                 </Tab>
                 <Tab key="Created" title="Created">
-                    <div className="h-[500px] p-4">
+                    <div className="min-h-[500px] p-4 mb-px">
                         {renderCourses(myCourses)}
                     </div>
                 </Tab>
                 <Tab key="Purchased" title="Purchased">
-                    <div className="h-[500px] p-4">
+                    <div className="min-h-[500px] p-4 mb-px">
                         {renderCourses(purchasedCourses)}
                     </div>
                 </Tab>
