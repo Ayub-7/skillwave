@@ -5,6 +5,9 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { addEmail } from "@/app/lib/actions";
+import AppShowcase from '@/app/ui/dashboard/app-showcase';
+import ThemeImage from '@/app/ui/theme-logo';
+import { ThemeSwitcher } from "@/app/ui/theme-switcher";
 
 const LandingPage = () => {
   const [email, setEmail] = useState('');
@@ -38,15 +41,11 @@ const LandingPage = () => {
 
 
   return (
-    <main className="flex min-h-screen flex-col p-6 bg-white text-black">
+    <main className="flex min-h-screen flex-col p-6">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-between items-center mb-8">
-          <Image
-            src="/SW-light-sm.png"
-            width={70}
-            height={70}
-            alt="SkillWave logo"
-          />
+          <ThemeImage />
+          <ThemeSwitcher />
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start gap-12">
           <div className="md:w-1/2">
@@ -73,7 +72,7 @@ const LandingPage = () => {
                 🚀
               </motion.span>
             </motion.h1>
-            <p className="text-xl mb-8 text-black-300">
+            <p className="text-xl mb-8">
               The easiest way to create and sell online courses. Elevate your teaching and simplify your process with Skill Wave.
             </p>
 
@@ -96,7 +95,7 @@ const LandingPage = () => {
                 <input
                   type="email"
                   placeholder="Enter your email address"
-                  className="px-4 py-3 rounded-lg sm:rounded-l-lg sm:rounded-r-none bg-white-800 text-black w-full"
+                  className="px-4 py-3 rounded-lg sm:rounded-l-lg sm:rounded-r-none text-black w-full"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -131,7 +130,10 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      <div className="py-6 border-t border-black-800">
+
+      <AppShowcase />
+
+      <div className="py-6">
         <div className="flex justify-center items-center space-x-4">
           <Link href="https://x.com/ali_ayub7" target="_blank" rel="noopener noreferrer">
             <Image
