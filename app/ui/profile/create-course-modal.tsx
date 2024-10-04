@@ -4,8 +4,9 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/button";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import { CircularProgress } from "@nextui-org/react";
 import { Spinner } from "@nextui-org/spinner";
-import { Input, Textarea } from "@nextui-org/input";
+import { Input } from "@nextui-org/input";
 import { createCourse } from "@/app/lib/actions";
 import { Image } from "@nextui-org/image";
 import { UploadButton } from "@/app/lib/uploadthing";
@@ -17,6 +18,7 @@ interface CourseSection {
     description: string;
     videoUrl: string;
     isVideoUploading?: boolean;
+    uploadProgress?: number;
 }
 
 export default function CreateCourseForm({ user }: any) {
@@ -42,10 +44,11 @@ export default function CreateCourseForm({ user }: any) {
         setItems(newItems);
     };
 
-    const handleVideoUpload = (index: number, url: string, isUploading: boolean) => {
+    const handleVideoUpload = (index: number, url: string, isUploading: boolean, uploadProgress: number) => {
         const newItems = [...items];
         newItems[index].videoUrl = url;
         newItems[index].isVideoUploading = isUploading;
+        newItems[index].uploadProgress = uploadProgress;
         setItems(newItems);
     };
 
@@ -227,25 +230,36 @@ export default function CreateCourseForm({ user }: any) {
                                             height={200}
                                             controls
                                         />
-                                        <Button variant="flat" onPress={() => handleVideoUpload(index, '', false)}>
+                                        <Button variant="flat" onPress={() => handleVideoUpload(index, '', false, 0)}>
                                             Change Video
                                         </Button>
                                     </div>
                                 ) : (
                                     <div className="w-[200px] h-[200px] flex items-center justify-center">
                                         {item.isVideoUploading ? (
-                                            <Spinner color="white" />
+                                            <div className="flex flex-col items-center">
+                                                <CircularProgress
+                                                    aria-label="Loading..."
+                                                    size="lg"
+                                                    value={item.uploadProgress}
+                                                    color="success"
+                                                    showValueLabel={true}
+                                                />
+                                            </div>
                                         ) : (
                                             <UploadButton
                                                 endpoint="videoUploader"
                                                 onClientUploadComplete={(res) => {
-                                                    handleVideoUpload(index, res[0].url, false);
+                                                    handleVideoUpload(index, res[0].url, false, 0);
                                                 }}
                                                 onUploadBegin={() => {
-                                                    handleVideoUpload(index, '', true);
+                                                    handleVideoUpload(index, '', true, 0);
+                                                }}
+                                                onUploadProgress={(progress: number) => {
+                                                    handleVideoUpload(index, '', true, progress);
                                                 }}
                                                 onUploadError={(error: Error) => {
-                                                    handleVideoUpload(index, '', false);
+                                                    handleVideoUpload(index, '', false, 0);
                                                     alert(`ERROR! ${error.message}`);
                                                 }}
                                             />
