@@ -26,7 +26,7 @@ const AppShowcase = () => {
             imageSrc: `/profile-page-${currentTheme}.png`,
             alt: "User profile page",
             title: "Personalized Profile",
-            description: "Take control of your courses with our comprehensive management tools. Easily track your Published/Draft and update course content courses all in one place. Manage your instructor profile to build your teaching brand."
+            description: "Take control of your courses with our comprehensive management tools. Easily track and update course content all in one place. Manage your instructor profile to build your teaching brand."
         },
         {
             imageSrc: `/course-builder-${currentTheme}.png`,
