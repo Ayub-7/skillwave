@@ -120,10 +120,11 @@ const LandingPage = () => {
             <video
               className="rounded-lg w-full h-auto"
               controls
+              autoPlay
               muted
               loop
             >
-              <source src="https://utfs.io/f/AxBstrLG0jqG2qepG041q8WU9rOIAlB4TPsXLYx723nE0tVd" type="video/mp4" />
+              <source src="https://utfs.io/f/AxBstrLG0jqGjtD9GtxdXzbm72fSvTkQPtZMD8uUpA1rloBH" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
