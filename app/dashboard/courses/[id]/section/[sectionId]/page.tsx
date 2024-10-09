@@ -33,9 +33,9 @@ export default async function Page({ params }: { params: { sectionId: string } }
                                     <p className="text-gray-500">No video available</p>
                                 </div>
                             )}
-                            <h1 className="text-3xl font-bold mb-4">{section.name}</h1>
                         </CardBody>
                     </Card>
+                    <h1 className="text-3xl font-bold mb-4">{section.name}</h1>
                     <Tiptap canEdit={false} description={section.description || ''} />
                 </div>
             </div>
