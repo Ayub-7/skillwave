@@ -120,7 +120,6 @@ const LandingPage = () => {
             <video
               className="rounded-lg w-full h-auto"
               controls
-              autoPlay
               muted
               loop
             >
