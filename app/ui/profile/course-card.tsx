@@ -131,9 +131,9 @@ export default function CourseCard({ id, course, currUserId }: any) {
         <>
             <Card className="py-2 relative max-w-[250px]" isPressable>
                 {showDropdown && (
-                    <div className="absolute top-1 left-1 z-10">
+                    <div className="absolute top-2 left-1 z-10">
                         <div
-                            className={`w-3 h-3 rounded-full ${statusColor === "orange" ? "bg-orange-500" : "bg-green-500"}`}
+                            className={`w-2 h-2 rounded-full ${statusColor === "orange" ? "bg-orange-500" : "bg-green-500"}`}
                             title={course.status}
                         />
                     </div>
