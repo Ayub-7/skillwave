@@ -33,29 +33,35 @@ export default function EditCourseModal({ course }: any) {
     const [isLoading, setIsLoading] = React.useState(false);
     const [imageUrl, setImageUrl] = React.useState(course.imageUrl || '');
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-
+    const [sectionToDeleteIndex, setSectionToDeleteIndex] = React.useState<number | null>(null);
 
     const handleDescriptionChange = (index: number, newDescription: string) => {
-        const newItems = [...items];
-        newItems[index].description = newDescription;
-        setItems(newItems);
+        setItems(prevItems => {
+            const newItems = [...prevItems];
+            newItems[index].description = newDescription;
+            return newItems;
+        });
     };
 
     const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        const newItems = [...items];
         if (name === 'name') {
-            newItems[index][name] = value;
-            setItems(newItems);
+            setItems(prevItems => {
+                const newItems = [...prevItems];
+                newItems[index].name = value;
+                return newItems;
+            });
         }
     };
 
     const handleVideoUpload = (index: number, url: string, isUploading: boolean, uploadProgress: number) => {
-        const newItems = [...items];
-        newItems[index].videoUrl = url;
-        newItems[index].isVideoUploading = isUploading;
-        newItems[index].uploadProgress = uploadProgress;
-        setItems(newItems);
+        setItems(prevItems => {
+            const newItems = [...prevItems];
+            newItems[index].videoUrl = url;
+            newItems[index].isVideoUploading = isUploading;
+            newItems[index].uploadProgress = uploadProgress;
+            return newItems;
+        });
     };
 
     const isInvalidName = React.useMemo(() => name === "", [name]);
@@ -64,35 +70,33 @@ export default function EditCourseModal({ course }: any) {
     const isFormValid = React.useMemo(() => {
         return name !== '' &&
             price !== '' &&
-            items.every(item => item?.name !== '');
+            items.every(item => item?.name !== '' && !item.isVideoUploading);
     }, [name, price, items]);
 
     const formValidationMessage = React.useMemo(() => {
-        if (name === '') {
-            console.log('Course name is required')
-            return "Course name is required";
-        }
+        if (name === '') return "Course name is required";
         if (price === '') return "Price is required";
         if (items.some(item => item?.name === '')) return "All section names are required";
+        if (items.some(item => item.isVideoUploading)) return "Upload in progress";
         return "";
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems([...items, { name: '', description: '', videoUrl: '' }]);
+        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '' }]);
     };
 
     const handleRemoveItem = async (index: number) => {
         const itemToRemove = items[index];
-        const newItems = items.filter((_, i) => i !== index);
-        setItems(newItems);
+        setItems(prevItems => prevItems.filter((_, i) => i !== index));
         if (itemToRemove.id) {
             await deleteSection(itemToRemove.id);
         }
-        setDeleteDialogOpen(false)
+        setDeleteDialogOpen(false);
+        setSectionToDeleteIndex(null);
     };
 
-    const handleDeleteClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
+    const handleDeleteClick = (index: number) => {
+        setSectionToDeleteIndex(index);
         setDeleteDialogOpen(true);
     };
 
@@ -111,18 +115,13 @@ export default function EditCourseModal({ course }: any) {
             toast.success('Course updated successfully!', {
                 duration: 3000,
                 position: 'top-right',
-                style: {
-                    zIndex: 9999,
-                },
+                style: { zIndex: 9999 },
             });
-
         } catch (error) {
             toast.error('Error, try again!', {
                 duration: 3000,
                 position: 'top-right',
-                style: {
-                    zIndex: 9999,
-                },
+                style: { zIndex: 9999 },
             });
         } finally {
             setIsLoading(false);
@@ -212,6 +211,19 @@ export default function EditCourseModal({ course }: any) {
                 {items.map((item: Section, index: number) => (
                     <AccordionItem key={index} aria-label={`Section ${index + 1}`}
                         title={item?.name !== '' ? item?.name : `Section ${index + 1}`}
+                        startContent={
+                            item.isVideoUploading && (
+                                <div className="flex flex-col items-center">
+                                    <CircularProgress
+                                        aria-label="Loading..."
+                                        size="lg"
+                                        value={item.uploadProgress}
+                                        color="success"
+                                        showValueLabel={true}
+                                    />
+                                </div>
+                            )
+                        }
                     >
                         <div className="space-y-4 p-4">
                             <Input
@@ -284,7 +296,7 @@ export default function EditCourseModal({ course }: any) {
                                 color="danger"
                                 variant="light"
                                 isDisabled={isLoading}
-                                onClick={handleDeleteClick}
+                                onClick={() => handleDeleteClick(index)}
                             >
                                 Remove
                             </Button>
@@ -298,7 +310,7 @@ export default function EditCourseModal({ course }: any) {
                                         <Button color="default" variant="light" onPress={() => setDeleteDialogOpen(false)}>
                                             Cancel
                                         </Button>
-                                        <Button color="danger" onClick={() => handleRemoveItem(index)}>
+                                        <Button color="danger" onClick={() => sectionToDeleteIndex !== null && handleRemoveItem(sectionToDeleteIndex)}>
                                             {isLoading ? <Spinner color="white" /> : 'Delete'}
                                         </Button>
                                     </ModalFooter>
