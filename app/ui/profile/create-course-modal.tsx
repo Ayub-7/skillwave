@@ -254,7 +254,7 @@ export default function CreateCourseForm({ user }: any) {
                                         </Button>
                                     </div>
                                 ) : (
-                                    <div className="w-[200px] h-[200px] flex items-center justify-center">
+                                    <div className="flex items-center justify-center">
                                         {item.isVideoUploading ? (
                                             <div className="flex flex-col items-center">
                                                 <CircularProgress
