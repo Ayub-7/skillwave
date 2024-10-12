@@ -98,14 +98,13 @@ export default function EditProfileModal({ user }: any) {
                             <ModalHeader className="flex flex-col gap-1">Edit Profile</ModalHeader>
                             <ModalBody>
                                 <div className="flex flex-col items-center gap-4">
-                                    <h3 className="text-lg font-semibold">Profile Picture</h3>
                                     {imageUrl ? (
                                         <div className="flex flex-col items-center gap-4">
                                             <Image
                                                 src={imageUrl}
                                                 alt="Profile Picture"
-                                                width={200}
-                                                height={200}
+                                                width={150}
+                                                height={150}
                                             />
                                             <Button onPress={() => setImageUrl('')}>
                                                 Change Image

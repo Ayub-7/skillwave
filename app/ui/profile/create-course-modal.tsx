@@ -31,25 +31,31 @@ export default function CreateCourseForm({ user }: any) {
 
     const handleInputChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        const newItems = [...items];
-        if (name === 'name') {
-            newItems[index][name] = value;
-            setItems(newItems);
-        }
+        setItems(prevItems => {
+            const newItems = [...prevItems];
+            if (name === 'name') {
+                newItems[index][name] = value;
+            }
+            return newItems;
+        });
     };
 
     const handleDescriptionChange = (index: number, newDescription: string) => {
-        const newItems = [...items];
-        newItems[index].description = newDescription;
-        setItems(newItems);
+        setItems(prevItems => {
+            const newItems = [...prevItems];
+            newItems[index].description = newDescription;
+            return newItems;
+        });
     };
 
     const handleVideoUpload = (index: number, url: string, isUploading: boolean, uploadProgress: number) => {
-        const newItems = [...items];
-        newItems[index].videoUrl = url;
-        newItems[index].isVideoUploading = isUploading;
-        newItems[index].uploadProgress = uploadProgress;
-        setItems(newItems);
+        setItems(prevItems => {
+            const newItems = [...prevItems];
+            newItems[index].videoUrl = url;
+            newItems[index].isVideoUploading = isUploading;
+            newItems[index].uploadProgress = uploadProgress;
+            return newItems;
+        });
     };
 
     const isInvalidName = React.useMemo(() => name === "", [name]);
@@ -58,23 +64,23 @@ export default function CreateCourseForm({ user }: any) {
     const isFormValid = React.useMemo(() => {
         return name !== '' &&
             price !== '' &&
-            items.every(item => item.name !== '');
+            items.every(item => item.name !== '' && !item.isVideoUploading);
     }, [name, price, items]);
 
     const formValidationMessage = React.useMemo(() => {
         if (name === '') return "Course name is required";
         if (price === '') return "Price is required";
         if (items.some(item => item.name === '')) return "All section names are required";
+        if (items.some(item => item.isVideoUploading)) return "Upload in progress";
         return "";
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems([...items, { name: '', description: '', videoUrl: '' }]);
+        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '' }]);
     };
 
     const handleRemoveItem = (index: number) => {
-        const newItems = items.filter((_, i) => i !== index);
-        setItems(newItems);
+        setItems(prevItems => prevItems.filter((_, i) => i !== index));
     };
 
     const prepareItemsForSubmission = (items: CourseSection[]) => {
@@ -200,6 +206,19 @@ export default function CreateCourseForm({ user }: any) {
                 {items.map((item: CourseSection, index: number) => (
                     <AccordionItem key={index} aria-label={`Section ${index + 1}`}
                         title={item.name !== '' ? item.name : `Section ${index + 1}`}
+                        startContent={
+                            item.isVideoUploading && (
+                                <div className="flex flex-col items-center">
+                                    <CircularProgress
+                                        aria-label="Loading..."
+                                        size="lg"
+                                        value={item.uploadProgress}
+                                        color="success"
+                                        showValueLabel={true}
+                                    />
+                                </div>
+                            )
+                        }
                     >
                         <div key={index} className="space-y-4 p-4">
                             <Input
