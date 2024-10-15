@@ -21,7 +21,7 @@ model User {
   linkedin         String?
   twitter          String?
   courses          Course[] @relation("AuthorCourses")
-  purchasedCourses Int[]
+  purchasedCourses String[]
   imageUrl         String?
 }
 
