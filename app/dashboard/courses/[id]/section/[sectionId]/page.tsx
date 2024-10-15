@@ -35,7 +35,6 @@ export default async function Page({ params }: { params: { sectionId: string } }
                             )}
                         </CardBody>
                     </Card>
-                    <h1 className="text-3xl font-bold mb-4">{section.name}</h1>
                     <Tiptap canEdit={false} description={section.description || ''} />
                 </div>
             </div>

@@ -1,4 +1,10 @@
 // Loading animation
+
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Skeleton } from "@nextui-org/skeleton";
+import { Divider } from "@nextui-org/divider";
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
 
@@ -26,6 +32,83 @@ export function CardsSkeleton() {
       <CardSkeleton />
       <CardSkeleton />
     </>
+  );
+}
+
+
+const ProfileCardSkeleton = () => (
+  <Card className="max-w-sm w-full md:max-w-sm rounded-lg shadow-md relative">
+    <CardBody className="overflow-visible flex flex-col items-center py-4">
+      <Skeleton className="rounded-full w-24 h-24" />
+      <Skeleton className="mt-4 h-6 w-3/4 rounded-lg" />
+      <Skeleton className="mt-2 h-4 w-1/2 rounded-lg" />
+    </CardBody>
+  </Card>
+);
+
+const CourseCardSkeleton = () => (
+  <Card className="py-2 relative max-w-[250px]">
+    <CardHeader className="pb-0 pt-1 px-3 flex-col items-start">
+      <Skeleton className="h-6 w-3/4 rounded-lg" />
+    </CardHeader>
+    <CardBody className="overflow-visible py-1">
+      <Skeleton className="rounded-lg w-full h-44" />
+    </CardBody>
+    <CardBody>
+      <div className="flex justify-between w-full">
+        <Skeleton className="h-4 w-16 rounded-lg" />
+        <Skeleton className="h-4 w-16 rounded-lg" />
+      </div>
+      <Skeleton className="mt-2 h-4 w-3/4 rounded-lg" />
+    </CardBody>
+  </Card>
+);
+
+const CourseTabSwitcherSkeleton = () => (
+  <div className="w-full max-w-3xl">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {[...Array(6)].map((_, index) => (
+        <CourseCardSkeleton key={index} />
+      ))}
+    </div>
+  </div>
+);
+
+const CourseCardsHome = () => (
+  <div className="w-full max-w-3xl">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {[...Array(12)].map((_, index) => (
+        <CourseCardSkeleton key={index} />
+      ))}
+    </div>
+  </div>
+);
+
+export function ProfilePageSkeleton() {
+  return (
+    <div className="flex flex-col items-center w-full">
+      <div className="flex justify-center">
+        <ProfileCardSkeleton />
+      </div>
+      <Divider className="w-full mt-8" />
+      <div className="mt-8 w-full flex justify-center">
+        <CourseTabSwitcherSkeleton />
+      </div>
+    </div>
+  );
+}
+
+export function CourseListingPageSkeleton() {
+  return (
+    <div className="flex flex-col items-center">
+      <div className="flex justify-center relative w-64">
+        <Skeleton className="w-full h-10 rounded-full" />
+        <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" />
+      </div>
+      <div className="mt-8 w-full flex justify-center">
+        <CourseCardsHome />
+      </div>
+    </div>
   );
 }
 
@@ -82,25 +165,6 @@ export function LatestInvoicesSkeleton() {
   );
 }
 
-export default function DashboardSkeleton() {
-  return (
-    <>
-      <div
-        className={`${shimmer} relative mb-4 h-8 w-36 overflow-hidden rounded-md bg-gray-100`}
-      />
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
-      </div>
-      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
-        <RevenueChartSkeleton />
-        <LatestInvoicesSkeleton />
-      </div>
-    </>
-  );
-}
 
 export function TableRowSkeleton() {
   return (
