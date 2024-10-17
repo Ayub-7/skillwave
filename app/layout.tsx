@@ -3,6 +3,7 @@ import { karla } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import Providers from './providers';
 import { Toaster } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +29,10 @@ export default function RootLayout({
             zIndex: 9999,
           }}
         />
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Analytics />
+        </Providers>
       </body>
     </html>
   );
