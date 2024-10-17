@@ -135,22 +135,13 @@ const LandingPage = () => {
 
       <div className="py-6">
         <div className="flex justify-center items-center space-x-4">
-          <Link href="https://x.com/ali_ayub7" target="_blank" rel="noopener noreferrer">
+          <Link href="https://x.com/abu_ilyaas10" target="_blank" rel="noopener noreferrer">
             <Image
               style={imageStyle}
               src="/App-Logo-Twitter.jpg"
               width={50}
               height={50}
               alt="X logo"
-            />
-          </Link>
-          <Link href="https://buymeacoffee.com/ayubali" target="_blank" rel="noopener noreferrer">
-            <Image
-              style={imageStyle}
-              src="/IXkRaK6Q.png"
-              width={50}
-              height={50}
-              alt="Buy me a coffee logo"
             />
           </Link>
         </div>
