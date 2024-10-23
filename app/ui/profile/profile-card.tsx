@@ -103,11 +103,11 @@ export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
                     )}
                 </CardHeader>
                 <CardBody className="overflow-visible flex flex-col items-center py-4">
-                    {user?.imageUrl ? (
+                    {user?.image ? (
                         <Image
                             width={90}
                             alt="User Profile Image"
-                            src={user?.imageUrl}
+                            src={user?.image}
                         />
                     ) : (
                         <Image

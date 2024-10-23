@@ -12,7 +12,7 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
-import {prisma} from "@/app/lib/prisma"
+import prisma from "@/app/lib/prisma"
 
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
@@ -253,7 +253,7 @@ export async function getSession() {
   return await decrypt(session) || '';
 }
 
-export async function getUser(userId: string) {
+export async function getUser(userId: string | undefined) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: {
@@ -267,7 +267,7 @@ export async function getUser(userId: string) {
   return user
 }
 
-export async function getUserDetails(userId: string) {
+export async function getUserDetails(userId: string | undefined) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
   });

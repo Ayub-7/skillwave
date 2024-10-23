@@ -62,7 +62,7 @@ export default function EditProfileModal({ user }: any) {
                 facebook: facebook,
                 tiktok: tiktok,
                 youtube: youtube,
-                imageUrl: imageUrl,
+                image: imageUrl,
             });
             toast.success('Profile updated successfully!', {
                 duration: 3000,

@@ -1,131 +1,118 @@
-'use client';
+"use client"
 
-import { lusitana } from '@/app/ui/fonts';
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-} from '@heroicons/react/24/outline';
-import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from '@/app/ui/button';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { authenticate } from '@/app/lib/actions';
-import { useState } from 'react';
+import { signInAction } from "@/app/lib/actions"
+import { Button } from "@nextui-org/button"
+import { Input } from "@nextui-org/input"
+import { Card, CardBody, CardHeader } from "@nextui-org/card"
+import { Divider } from "@nextui-org/divider"
+import { Image } from "@nextui-org/image"
+import { FcGoogle } from "react-icons/fc"
+import { useState } from "react"
 
-type LoginFormData = {
-  email: string;
-  password: string;
-};
+export default function SignIn() {
+  const [email, setEmail] = useState("")
+  const [isLoading, setIsLoading] = useState({
+    google: false,
+    email: false
+  })
 
-export default function LoginForm() {
-  const FormSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
-  });
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(FormSchema),
-  });
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isPending, setIsPending] = useState(false);
-
-  const submitData = async (data: LoginFormData) => {
-    setIsPending(true);
-    setErrorMessage(null);
-
+  const handleGoogleSignIn = async () => {
+    setIsLoading(prev => ({ ...prev, google: true }))
     try {
-      await authenticate(data);
+      await signInAction('google')
     } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message);
-      } else {
-        setErrorMessage('An unknown error occurred');
-      }
+      console.error('Unexpected error during Google sign-in:', error)
     } finally {
-      setIsPending(false);
+      setIsLoading(prev => ({ ...prev, google: false }))
     }
-  };
+  }
+
+  const handleEmailSignIn = async () => {
+    setIsLoading(prev => ({ ...prev, email: true }))
+    try {
+      const formData = new FormData()
+      formData.append('email', email)
+      await signInAction('resend', formData)
+    } catch (error) {
+      console.error('Unexpected error during email sign-in:', error)
+    } finally {
+      setIsLoading(prev => ({ ...prev, email: false }))
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit(submitData)} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-          Please log in to continue.
-        </h1>
-        <div className="w-full">
-          <div>
-            <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <div className="relative">
-              <input
-                {...register('email')}
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Enter your email address"
-                required
-              />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
-            </div>
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="flex flex-col items-center gap-4 pb-8 pt-6">
+          <Image
+            src="/SW-dark-sm.png" // Replace with your logo path
+            alt="Logo"
+            width={150}
+            height={80}
+            className="object-contain"
+          />
+          <h1 className="text-2xl font-bold">Welcome Back</h1>
+          <p className="text-center text-sm text-default-500">
+            Sign in to access your account
+          </p>
+        </CardHeader>
+        <CardBody className="flex flex-col gap-6">
+          {/* Google Sign In */}
+          <Button
+            startContent={<FcGoogle className="h-5 w-5" />}
+            color="primary"
+            variant="flat"
+            onPress={handleGoogleSignIn}
+            isLoading={isLoading.google}
+            className="w-full"
+          >
+            Continue with Google
+          </Button>
+
+          <div className="flex items-center gap-2">
+            <Divider className="flex-1" />
+            <span className="text-sm text-default-400">OR</span>
+            <Divider className="flex-1" />
           </div>
-          <div className="mt-4">
-            <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-              htmlFor="password"
+
+          {/* Email Sign In */}
+          <div className="flex flex-col gap-4">
+            <Input
+              required
+              type="email"
+              label="Email"
+              value={email}
+              onValueChange={setEmail}
+              variant="bordered"
+              classNames={{
+                input: "bg-transparent border-none focus:ring-0 space-y-10",
+                innerWrapper: "bg-transparent",
+                inputWrapper: "bg-transparent shadow-none",
+              }}
+            />
+            <Button
+              color="primary"
+              onPress={handleEmailSignIn}
+              isLoading={isLoading.email}
+              className="w-full"
+              isDisabled={email === ""}
             >
-              Password
-            </label>
-            <div className="relative">
-              <input
-                {...register('password')}
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="password"
-                type="password"
-                name="password"
-                placeholder="Enter password"
-                required
-                minLength={6}
-              />
-              <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-              {errors.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
+              Continue with Email
+            </Button>
           </div>
-        </div>
-        <Button className="mt-4 w-full" disabled={isPending}>
-          Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-        </Button>
-        <div
-          className="flex h-8 items-end space-x-1"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          {errorMessage && (
-            <>
-              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{errorMessage}</p>
-            </>
-          )}
-        </div>
-      </div>
-    </form>
-  );
+
+          <p className="text-center text-sm text-default-400">
+            By continuing, you agree to our{" "}
+            <a href="/terms" className="text-primary">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="/privacy" className="text-primary">
+              Privacy Policy
+            </a>
+          </p>
+        </CardBody>
+      </Card>
+    </div>
+  )
 }

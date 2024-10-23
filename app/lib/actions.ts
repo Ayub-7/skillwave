@@ -5,7 +5,7 @@ import { AuthError } from 'next-auth';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import {prisma} from "@/app/lib/prisma"
+import prisma from "@/app/lib/prisma"
 import { z } from 'zod';
 
 type InvoiceFormData = {
@@ -28,7 +28,7 @@ interface UpdateUserInput {
   facebook?: string; // Optional field
   tiktok?: string; // Optional field
   youtube?: string; // Optional field
-  imageUrl?: string;
+  image?: string;
 }
 
 interface courseInput {
@@ -40,7 +40,7 @@ interface courseInput {
 }
 
 export async function updateUser(input: UpdateUserInput) {
-    const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, imageUrl } = input;
+    const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, image } = input;
 
   try {
     await prisma.user.update({
@@ -54,7 +54,7 @@ export async function updateUser(input: UpdateUserInput) {
         facebook,
         tiktok,
         youtube,
-        imageUrl,
+        image,
       },
     });
 
@@ -275,5 +275,38 @@ export async function authenticate(formData: LoginFormData) {
 }
 
 export async function signOutAction() {
-  await signOut();
+  await signOut({redirectTo: '/'});
 }
+
+export async function signInAction(
+  provider: 'google' | 'resend',
+  formData?: FormData,
+  redirectTo: string = '/dashboard'
+) {
+  // For email sign in
+  if (provider === 'resend' && formData) {
+    const email = formData.get('email')
+    if (!email || typeof email !== 'string') {
+      throw new Error('Invalid email')
+    }
+
+    await signIn('resend', {
+      email,
+      redirectTo,
+    })
+
+    return { success: true }
+  }
+
+  // For Google sign in
+  if (provider === 'google') {
+    await signIn('google', {
+      redirectTo,
+    })
+
+    return { success: true }
+  }
+}
+    
+  
+

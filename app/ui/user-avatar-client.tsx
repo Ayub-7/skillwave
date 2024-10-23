@@ -10,7 +10,7 @@ import {
 import { signOutAction } from '@/app/lib/actions';
 import { Avatar } from '@nextui-org/avatar';
 
-export default function UserAvatarClient({ user }: any) {
+export default function UserAvatarClient({ image, name, id }: any) {
   return (
     <Dropdown placement="bottom-start">
       <DropdownTrigger>
@@ -18,7 +18,7 @@ export default function UserAvatarClient({ user }: any) {
           isBordered
           as="button"
           className="transition-transform"
-          src={user.imageUrl !== '' ? user.imageUrl : `/default-profile-image.png`}
+          src={image !== '' ? image : `/default-profile-image.png`}
           size="md"
           color="primary"
         />
@@ -26,9 +26,9 @@ export default function UserAvatarClient({ user }: any) {
       <DropdownMenu aria-label="User Actions" variant="flat">
         <DropdownItem key="details" className="h-14 gap-2">
           <p className="font-bold">Signed in as</p>
-          <p className="font-bold">{user.name}</p>
+          <p className="font-bold">{name}</p>
         </DropdownItem>
-        <DropdownItem key="profile" href={`/dashboard/profile/${user.id}`}>My Profile</DropdownItem>
+        <DropdownItem key="profile" href={`/dashboard/profile/${id}`}>My Profile</DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"

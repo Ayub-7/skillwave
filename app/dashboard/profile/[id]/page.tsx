@@ -5,18 +5,20 @@ import CourseCard from "@/app/ui/profile/course-card";
 import CourseTabSwitcher from '@/app/ui/profile/course-tab-switcher'
 import { Divider } from "@nextui-org/divider";
 import { notFound } from 'next/navigation';
+import { auth } from "@/auth"
 
 export default async function Page({ params }: { params: { id: string } }) {
+  const session = await auth();
   const id = params.id;
   const userProfile = await getUser(id);
   if (!userProfile) {
     notFound();
   }
-  const session = await getSession() || '';
-  const JsonSession = JSON.parse(session);
-  const user = await getUserDetails(JsonSession.user.id)
 
-  const isOwnProfile = user?.id.toString() === id;
+  const userId = session?.user?.id
+  const user = await getUserDetails(userId)
+
+  const isOwnProfile = userId === id;
 
   let purchasedCourses;
   if (isOwnProfile) {
