@@ -12,11 +12,11 @@ export default function VerifyRequest() {
                 </CardHeader>
                 <CardBody className="flex flex-col items-center gap-4 text-center">
                     <p className="text-medium">
-                        We've sent you a magic link to your email address.
+                        We&apos;ve sent you a magic link to your email address.
                         Click the link to sign in to your account.
                     </p>
                     <p className="text-small text-default-400">
-                        If you don't see the email, check your spam folder.
+                        If you don&apos;t see the email, check your spam folder.
                     </p>
                 </CardBody>
             </Card>
