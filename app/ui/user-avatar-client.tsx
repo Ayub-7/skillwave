@@ -29,6 +29,7 @@ export default function UserAvatarClient({ image, name, id }: any) {
           <p className="font-bold">{name}</p>
         </DropdownItem>
         <DropdownItem key="profile" href={`/dashboard/profile/${id}`}>My Profile</DropdownItem>
+        <DropdownItem key="home" href={`/dashboard`}>Home</DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"

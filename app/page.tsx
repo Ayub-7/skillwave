@@ -1,39 +1,13 @@
-'use client'
-import React, { useState } from 'react';
 import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { addEmail } from "@/app/lib/actions";
 import AppShowcase from '@/app/ui/dashboard/app-showcase';
-import ThemeImage from '@/app/ui/theme-logo';
-import { ThemeSwitcher } from "@/app/ui/theme-switcher";
+import NavBar from '@/app/ui/dashboard/navbar';
+import EmailList from '@/app/ui/emailList';
+import { AnimatedHeading } from '@/app/ui/animatedHeading';
 
 const LandingPage = () => {
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setMessage('');
-
-    try {
-      const result = await addEmail(email);
-      if (result.success) {
-        setMessage('Thank you for joining our waitlist!');
-        setEmail('');
-      } else {
-        setMessage(result.message);
-      }
-    } catch (error) {
-      setMessage('An error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const imageStyle = {
     borderRadius: '50%',
     border: '1px solid #fff',
@@ -43,35 +17,13 @@ const LandingPage = () => {
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="max-w-7xl mx-auto w-full">
-        <div className="flex justify-between items-center mb-8">
-          <ThemeImage />
-          <ThemeSwitcher />
+        <div className="mb-8">
+          <NavBar />
+
         </div>
         <div className="flex flex-col md:flex-row justify-between items-start gap-12">
           <div className="md:w-1/2">
-            <motion.h1
-              className="text-4xl md:text-5xl font-bold mb-4"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              The modern platform for{" "}
-              <motion.span
-                className="text-blue-500"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-              >
-                course creators
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1, duration: 0.5 }}
-              >
-                🚀
-              </motion.span>
-            </motion.h1>
+            <AnimatedHeading />
             <p className="text-xl mb-8">
               The easiest way to create and sell online courses. Elevate your teaching and simplify your process with Skill Wave.
             </p>
@@ -90,29 +42,7 @@ const LandingPage = () => {
             </div>
 
             <div className="mb-6">
-              <p className="text-lg mb-2">Stay updated on our launch and future offers:</p>
-              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="px-4 py-3 rounded-lg sm:rounded-l-lg sm:rounded-r-none text-black w-full"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-6 py-3 rounded-lg sm:rounded-l-none sm:rounded-r-lg hover:bg-blue-600 transition-colors whitespace-nowrap disabled:opacity-50"
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Joining...' : 'Join Waitlist'}
-                </button>
-              </form>
-              {message && (
-                <p className={`mt-2 text-sm ${message.includes('Thank you') ? 'text-green-500' : 'text-red-500'}`}>
-                  {message}
-                </p>
-              )}
+              <EmailList />
             </div>
           </div>
           <div className="md:w-1/2">

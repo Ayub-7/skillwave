@@ -10,7 +10,7 @@ import UserAvatar from '@/app/ui/user-avatar-server';
 import { ThemeSwitcher } from "@/app/ui/theme-switcher";
 import ThemeLogo from '@/app/ui/theme-logo';
 
-export default function NavBar() {
+export default async function NavBar() {
     return (
         <div>
             <Navbar maxWidth="full">
