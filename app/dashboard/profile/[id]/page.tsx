@@ -1,5 +1,5 @@
 import React from "react";
-import { getSession, getUser, getPurchasedCourses, getUserDetails } from "@/app/lib/data";
+import { getUser, getPurchasedCourses, getUserDetails } from "@/app/lib/data";
 import ProfileCard from '@/app/ui/profile/profile-card'
 import CourseCard from "@/app/ui/profile/course-card";
 import CourseTabSwitcher from '@/app/ui/profile/course-tab-switcher'
@@ -15,10 +15,13 @@ export default async function Page({ params }: { params: { id: string } }) {
     notFound();
   }
 
-  const userId = session?.user?.id
-  const user = await getUserDetails(userId)
-
-  const isOwnProfile = userId === id;
+  let isOwnProfile = false
+  let user = null
+  if (session) {
+    const userId = session?.user?.id
+    user = await getUserDetails(userId)
+    isOwnProfile = userId === id;
+  }
 
   let purchasedCourses;
   if (isOwnProfile) {

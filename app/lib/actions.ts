@@ -5,8 +5,10 @@ import { AuthError } from 'next-auth';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { NextResponse } from 'next/server';
 import prisma from "@/app/lib/prisma"
 import { z } from 'zod';
+import { auth } from "@/auth"
 
 type InvoiceFormData = {
   customerId: string;
@@ -40,7 +42,11 @@ interface courseInput {
 }
 
 export async function updateUser(input: UpdateUserInput) {
-    const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, image } = input;
+  const session = await auth();
+  if (!session) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
+  const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, image } = input;
 
   try {
     await prisma.user.update({
@@ -67,6 +73,10 @@ export async function updateUser(input: UpdateUserInput) {
 }
 
 export async function createCourse(input: courseInput, sections: { name: string; description: string; videoUrl?: string; }[]) {
+  const session = await auth();
+  if (!session) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   const {name, description, authorId, price, imageUrl} = input
   await prisma.course.create({
     data: {
@@ -91,6 +101,10 @@ export async function createCourse(input: courseInput, sections: { name: string;
 }
 
 export async function updateCourse(id: string, input: courseInput, sections: { id?: string; name: string; description: string; videoUrl?: string; }[]) {
+  const session = await auth();
+  if (!session) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   const { name, description, authorId, price, imageUrl } = input;
 
   await prisma.course.update({
@@ -138,6 +152,10 @@ export async function updateCourse(id: string, input: courseInput, sections: { i
 }
 
 export async function deleteSection(id: string) {
+  const session = await auth();
+  if (!session) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   await prisma.section.delete({
     where: {
       id
@@ -147,6 +165,13 @@ export async function deleteSection(id: string) {
 }
 
 export async function deleteCourse(id: string) {
+  const session = await auth();
+  if (!session) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
+  // EVERYWHERE WE'RE DELETING OR EDITING
+  // COMPARE THE SESSION ID TO THE AUTHOR ID
+  console.log('protect ', session.user?.id)
   const deleteSections = prisma.section.deleteMany({
     where: {
       courseId: id
@@ -163,6 +188,10 @@ export async function deleteCourse(id: string) {
 }
 
 export async function publishCourse(id: string) {
+  const session = await auth();
+  if (!session) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   await prisma.course.update({
     where: {id},
     data: {
@@ -173,6 +202,10 @@ export async function publishCourse(id: string) {
 }
 
 export async function draftCourse(id: string) {
+  const session = await auth();
+  if (!session) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   await prisma.course.update({
     where: {id},
     data: {
@@ -204,73 +237,6 @@ export async function addEmail(email: string) {
       return { success: false, message: error.errors[0].message };
     }
     return { success: false, message: 'An error occurred while adding the email' };
-  }
-}
-
-export async function createInvoice(formData: InvoiceFormData) {
-  // Set values from FormData
-  const { customerId, amount, status } = formData;
-
-  const amountInCents = parseFloat(amount) * 100;
-  const date = new Date().toISOString().split('T')[0];
-
-  try {
-    await sql`
-      INSERT INTO invoices (customer_id, amount, status, date)
-      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-    `;
-  } catch (error) {
-    return {
-      message: 'Database Error: Failed to Create Invoice.',
-    };
-  }
-
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
-}
-
-export async function updateInvoice(id: string, formData: InvoiceFormData) {
-  // Set values from FormData
-  const { customerId, amount, status } = formData;
-  const amountInCents = parseFloat(amount) * 100;
-
-  try {
-    await sql`
-      UPDATE invoices
-      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-      WHERE id = ${id}
-    `;
-  } catch (error) {
-    return { message: 'Database Error: Failed to Update Invoice.' };
-  }
-
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
-}
-
-export async function deleteInvoice(id: string) {
-  try {
-    await sql`DELETE FROM invoices WHERE id = ${id}`;
-    revalidatePath('/dashboard/invoices');
-    return { message: 'Deleted Invoice.' };
-  } catch (error) {
-    return { message: 'Database Error: Failed to Delete Invoice.' };
-  }
-}
-
-export async function authenticate(formData: LoginFormData) {
-  try {
-    await signIn('credentials', formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
-    }
-    throw error;
   }
 }
 
