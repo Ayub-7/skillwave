@@ -20,7 +20,7 @@ export default function EditProfileModal({ user }: any) {
     const [isMobile, setIsMobile] = React.useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const [imageUrl, setImageUrl] = React.useState(user.imageUrl || '');
+    const [imageUrl, setImageUrl] = React.useState(user.image || '');
 
     // State for profile details
     const [name, setName] = React.useState(user.name);

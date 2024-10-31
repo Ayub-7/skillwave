@@ -50,7 +50,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const handleDelete = async () => {
         setIsLoading(true)
         try {
-            await deleteCourse(id);
+            await deleteCourse(id, course.authorId);
             setIsLoading(false)
             setDeleteDialogOpen(false);
             toast.success('Course deleted successfully!', {
@@ -75,7 +75,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const handlePublish = async () => {
         setIsLoading(true)
         try {
-            await publishCourse(id);
+            await publishCourse(id, course.authorId);
             setIsLoading(false)
             setPublishDialogOpen(false);
             toast.success('Course published successfully!', {
@@ -100,7 +100,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const handleDraft = async () => {
         setIsLoading(true)
         try {
-            await draftCourse(id);
+            await draftCourse(id, course.authorId);
             setIsLoading(false)
             setDraftDialogOpen(false);
             toast.success('Course is now drafted!', {

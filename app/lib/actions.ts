@@ -43,10 +43,10 @@ interface courseInput {
 
 export async function updateUser(input: UpdateUserInput) {
   const session = await auth();
-  if (!session) {
+  const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, image } = input;
+  if (!session || session.user?.id !== id) {
     return new NextResponse('Forbidden', { status: 403 });
   }
-  const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, image } = input;
 
   try {
     await prisma.user.update({
@@ -102,10 +102,10 @@ export async function createCourse(input: courseInput, sections: { name: string;
 
 export async function updateCourse(id: string, input: courseInput, sections: { id?: string; name: string; description: string; videoUrl?: string; }[]) {
   const session = await auth();
-  if (!session) {
+  const { name, description, authorId, price, imageUrl } = input;
+  if (!session || session.user?.id !== authorId) {
     return new NextResponse('Forbidden', { status: 403 });
   }
-  const { name, description, authorId, price, imageUrl } = input;
 
   await prisma.course.update({
     where: { id },
@@ -151,9 +151,9 @@ export async function updateCourse(id: string, input: courseInput, sections: { i
   redirect(`/dashboard/profile/${authorId}`);
 }
 
-export async function deleteSection(id: string) {
+export async function deleteSection(id: string, authorId: string) {
   const session = await auth();
-  if (!session) {
+  if (!session || session.user?.id !== authorId) {
     return new NextResponse('Forbidden', { status: 403 });
   }
   await prisma.section.delete({
@@ -164,14 +164,12 @@ export async function deleteSection(id: string) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function deleteCourse(id: string) {
+export async function deleteCourse(id: string, authorId: string) {
   const session = await auth();
-  if (!session) {
+  if (!session || authorId !== session.user?.id) {
     return new NextResponse('Forbidden', { status: 403 });
   }
-  // EVERYWHERE WE'RE DELETING OR EDITING
-  // COMPARE THE SESSION ID TO THE AUTHOR ID
-  console.log('protect ', session.user?.id)
+  
   const deleteSections = prisma.section.deleteMany({
     where: {
       courseId: id
@@ -187,9 +185,9 @@ export async function deleteCourse(id: string) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function publishCourse(id: string) {
+export async function publishCourse(id: string, authorId: string) {
   const session = await auth();
-  if (!session) {
+  if (!session || authorId !== session.user?.id) {
     return new NextResponse('Forbidden', { status: 403 });
   }
   await prisma.course.update({
@@ -201,9 +199,9 @@ export async function publishCourse(id: string) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function draftCourse(id: string) {
+export async function draftCourse(id: string, authorId: string) {
   const session = await auth();
-  if (!session) {
+  if (!session || authorId !== session.user?.id) {
     return new NextResponse('Forbidden', { status: 403 });
   }
   await prisma.course.update({

@@ -10,13 +10,13 @@ export default function SignIn() {
     <div className="flex min-h-screen items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col items-center gap-4 pb-8 pt-6">
-          <Image
+          {/* <Image
             src="/SW-dark-sm.png" // Replace with your logo path
             alt="Logo"
             width={150}
             height={80}
             className="object-contain"
-          />
+          /> */}
           <h1 className="text-2xl font-bold">Welcome to Skill Wave</h1>
           <p className="text-center text-sm text-default-500">
             Sign in to access your account
