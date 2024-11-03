@@ -1,14 +1,40 @@
-import { getSection } from '@/app/lib/data';
+import { getSection, getUser } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardBody } from "@nextui-org/card";
 import Tiptap from "@/app/components/tiptap";
-
+import { auth } from "@/auth"
+import Link from 'next/link';
+import { FaceFrownIcon } from '@heroicons/react/24/outline';
 
 export default async function Page({ params }: { params: { sectionId: string } }) {
+    const session = await auth();
     const id = params.sectionId;
+    let hasAccess = false;
     const section = await getSection(id)
     if (!section) {
         notFound();
+    }
+    if (session) {
+        const user = await getUser(session.user?.id)
+        if (user?.purchasedCourses.includes(section.courseId)) {
+            hasAccess = true;
+        }
+    }
+
+    if (!hasAccess) {
+        return (
+            <main className="flex h-full flex-col items-center justify-center gap-2">
+                <FaceFrownIcon className="w-10 text-gray-400" />
+                <h2 className="text-xl font-semibold">403 Forbidden</h2>
+                <p>Could not authorize the request.</p>
+                <Link
+                    href={`/dashboard/courses/${section.courseId}`}
+                    className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
+                >
+                    Go Back
+                </Link>
+            </main>
+        )
     }
 
     return (
