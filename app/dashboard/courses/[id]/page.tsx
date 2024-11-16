@@ -13,8 +13,13 @@ export default async function Page({ params }: { params: { id: string } }) {
     return (
         <main className="flex min-h-screen">
             <div className="flex-1 flex flex-col items-center p-6">
+                <div className="w-full max-w-4xl mx-auto ml-16 relative mb-4">
+                    <button className="absolute left-0 top-1/2 -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded">
+                        Buy for ${course.price}
+                    </button>
+                    <h1 className="text-3xl font-bold text-center">{course.name}</h1>
+                </div>
                 <div className="text-center max-w-4xl mx-auto ml-16">
-                    <h1 className="text-3xl font-bold mb-4">{course.name}</h1>
                     <Tiptap canEdit={false} description={course.description || ''} />
                 </div>
             </div>

@@ -34,7 +34,10 @@ export default function SectionsBar({ sections, courseId, hasAccess }: any) {
                             : 'hover:text-gray-400'
                             }`}
                     >
-                        <span className="ml-5">Preview</span>
+                        <span className="inline-flex items-center">
+                            <span className="h-1 w-1 rounded-full bg-current mr-4 ml-2" />
+                        </span>
+                        <span>Preview</span>
                     </li>
                     {sections.map((section: any) => (
                         <li
@@ -50,7 +53,7 @@ export default function SectionsBar({ sections, courseId, hasAccess }: any) {
                         >
                             <span className="inline-flex items-center">
                                 {!hasAccess ? (
-                                    <Lock className="h-4 w-4 mr-1" />
+                                    <Lock className="h-4 w-4 mr-4" />
                                 ) : (
                                     <span className="h-1 w-1 rounded-full bg-current mr-4 ml-2" />
                                 )}
