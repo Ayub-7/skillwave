@@ -23,8 +23,8 @@ export default function SectionsBar({ sections, courseId, hasAccess }: any) {
     const currentSectionId = pathname.split('/').pop();
 
     return (
-        <aside className="w-64 py-8 px-4">
-            <h2 className="text-2xl font-bold mb-4">Course Chapters</h2>
+        <aside className="w-26 py-8 px-4">
+            <h2 className="text-lg font-bold mb-4">Course Chapters</h2>
             <nav>
                 <ul className="space-y-4">
                     <li

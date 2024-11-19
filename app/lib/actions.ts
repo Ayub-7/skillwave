@@ -2,13 +2,14 @@
 
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
-import { sql } from '@vercel/postgres';
+import { stripe } from "@/app/lib/stripe";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { NextResponse } from 'next/server';
 import prisma from "@/app/lib/prisma"
 import { z } from 'zod';
 import { auth } from "@/auth"
+import Stripe from 'stripe';
 
 type InvoiceFormData = {
   customerId: string;
@@ -242,4 +243,60 @@ export async function signOutAction() {
   await signOut({redirectTo: '/'});
 } 
   
+export async function BuyCourse(formData: FormData) {
+  const id = formData.get("id") as string;
+  const data = await prisma.course.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      name: true,
+      price: true,
+      description: true,
+      imageUrl: true,
+      author: {
+        select: {
+          connectedAccountId: true,
+        },
+      },
+    },
+  });
 
+  const params: Stripe.Checkout.SessionCreateParams = {
+    mode: 'payment',
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          unit_amount: Math.round((data?.price as number) * 100),
+          product_data: {
+            name: data?.name as string,
+            images: data?.imageUrl ? [data.imageUrl] : [], // Convert single string to array
+          },
+        },
+        quantity: 1,
+      },
+    ],
+    // metadata: {
+    //   link: data?.productFile as string,
+    // },
+
+    // payment_intent_data: {
+    //   application_fee_amount: Math.round((data?.price as number) * 100) * 0.1,
+    //   transfer_data: {
+    //     destination: data?.author?.connectedAccountId as string,
+    //   },
+    // },
+    success_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/payment/success"
+        : "https://skillwave.io/dashboard/payment/success",
+    cancel_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/payment/cancel"
+        : "https://skillwave.io/dashboard/payment/cancel",
+  };
+
+  const session = await stripe.checkout.sessions.create(params);
+  return redirect(session.url as string);
+}
