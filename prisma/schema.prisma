@@ -27,10 +27,25 @@ model User {
   sessions         Session[]
   emailVerified    DateTime?
 
-  connectedAccountId    String? @unique
-  stripeConnectedLinked Boolean @default(false)
+  connectedAccountId    String?       @unique
+  stripeConnectedLinked Boolean       @default(false)
+  stripeCustomerId      String?       @unique
+  subscription          Subscription?
 
   createdAt DateTime @default(now())
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id])
+  stripeSubscriptionId String   @unique
+  status               String
+  priceId              String
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
 }
 
 model Account {

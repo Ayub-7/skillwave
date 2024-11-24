@@ -300,3 +300,178 @@ export async function BuyCourse(formData: FormData) {
   const session = await stripe.checkout.sessions.create(params);
   return redirect(session.url as string);
 }
+
+export async function createCheckoutSession(priceId: string) {
+  try {
+    const session = await auth();
+    
+    if (!session?.user?.email) {
+      throw new Error('Not authenticated');
+    }
+
+    // Get or create stripe customer
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    let customerId = user.stripeCustomerId;
+
+    if (!customerId) {
+      const customer = await stripe.customers.create({
+        email: session.user.email,
+      });
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { stripeCustomerId: customer.id },
+      });
+
+      customerId = customer.id;
+    }
+
+    const account = await stripe.accounts.create({
+       email: session.user.email,
+       controller: {
+         losses: {
+           payments: "application",
+         },
+         fees: {
+           payer: "application",
+         },
+         stripe_dashboard: {
+           type: "express",
+         },
+       },
+     });
+
+     await prisma.user.update({
+       where: {
+         id: user.id
+       },
+       data: {
+         connectedAccountId: account.id,
+       },
+     });
+
+    // Create checkout session
+    const checkoutSession = await stripe.checkout.sessions.create({
+      customer: customerId,
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      success_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/payment/success"
+        : "https://skillwave.io/dashboard/payment/success",
+    cancel_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/payment/cancel"
+        : "https://skillwave.io/dashboard/payment/cancel",
+      subscription_data: {
+        metadata: {
+          userId: user.id,
+          email: user.email
+        },
+      },
+    });
+
+    revalidatePath('/dashboard/billing');
+    return { sessionId: checkoutSession.id };
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function manageSubscription() {
+  try {
+    const session = await auth();
+    
+    if (!session?.user?.email) {
+      throw new Error('Not authenticated');
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: { subscription: true },
+    });
+
+    if (!user?.stripeCustomerId) {
+      throw new Error('No stripe customer found');
+    }
+
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: user.stripeCustomerId,
+      return_url: `http://localhost:3000/dashboard/billing`,
+    });
+
+    revalidatePath('/dashboard/billing');
+    return { url: portalSession.url };
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function CreateStripeAccoutnLink() {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error();
+  }
+
+  const data = await prisma.user.findUnique({
+    where: {
+      id: session.user?.id,
+    },
+    select: {
+      connectedAccountId: true,
+    },
+  });
+
+  const accountLink = await stripe.accountLinks.create({
+    account: data?.connectedAccountId as string,
+    refresh_url:
+      process.env.NODE_ENV === "development"
+        ? `http://localhost:3000/dashboard/billing`
+        : `https://skillwave.io/dashboard/billing`,
+    return_url:
+      process.env.NODE_ENV === "development"
+        ? `http://localhost:3000/dashboard/return/${data?.connectedAccountId}`
+        : `https://skillwave.io/dashboard/return/${data?.connectedAccountId}`,
+    type: "account_onboarding",
+  });
+  console.log('hi',accountLink.url)
+  return redirect(accountLink.url);
+}
+
+export async function GetStripeDashboardLink() {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error();
+  }
+
+  const data = await prisma.user.findUnique({
+    where: {
+      id: session.user?.id,
+    },
+    select: {
+      connectedAccountId: true,
+    },
+  });
+
+  const loginLink = await stripe.accounts.createLoginLink(
+    data?.connectedAccountId as string
+  );
+
+  return redirect(loginLink.url);
+}

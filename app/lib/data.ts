@@ -262,6 +262,7 @@ export async function getUser(userId: string | undefined) {
           Sections: true
         }
       },
+      subscription: true
     },
   });
   return user
