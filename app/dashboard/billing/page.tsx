@@ -90,10 +90,6 @@ export default async function BillingRoute() {
                             {user.subscription ? (
                                 <div>
                                     <p>Status: {user.subscription.status}</p>
-                                    <p>
-                                        Current period ends:{' '}
-                                        {user.subscription.currentPeriodEnd.toLocaleDateString()}
-                                    </p>
                                     <div className="mt-4">
                                         <ManageSubscriptionButton />
                                     </div>

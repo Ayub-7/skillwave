@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { Button } from "@nextui-org/button";
+import { Spinner } from "@nextui-org/spinner";
 import { createCheckoutSession } from '@/app/lib/actions';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -23,12 +25,17 @@ export function SubscribeButton({ priceId }: { priceId: string }) {
     };
 
     return (
-        <button
+        <Button
+            color='primary'
             onClick={handleSubscribe}
-            disabled={loading}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+            isDisabled={loading}
         >
-            {loading ? 'Loading...' : 'Subscribe'}
-        </button>
+            {loading ? (
+                <>
+                    <Spinner color="white" />
+                    Please Wait
+                </>
+            ) : 'Subscribe'}
+        </Button>
     );
 }

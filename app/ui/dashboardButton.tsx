@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { Button } from "@nextui-org/button";
+import { Spinner } from "@nextui-org/spinner";
 import { GetStripeDashboardLink } from '@/app/lib/actions';
 
 export function DashboardButton() {
@@ -19,12 +21,17 @@ export function DashboardButton() {
     };
 
     return (
-        <button
+        <Button
+            color='primary'
             onClick={handleManage}
-            disabled={loading}
-            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 disabled:opacity-50"
+            isDisabled={loading}
         >
-            {loading ? 'Loading...' : 'View Dashboard'}
-        </button>
+            {loading ? (
+                <>
+                    <Spinner color="white" />
+                    Please Wait
+                </>
+            ) : 'View Dashboard'}
+        </Button>
     );
 }
