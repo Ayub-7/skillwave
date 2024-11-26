@@ -6,13 +6,6 @@ import prisma from "@/app/lib/prisma"
 import { createStripeAccount } from "@/app/lib/actions"
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  callbacks: {
-    async signIn({ account, profile }) {
-      // Call the server action to create a Stripe account for the user
-      await createStripeAccount(account?.userId || "");
-      return true
-    },
-  },
   pages: {
     verifyRequest: '/auth/verify-request',
   },
