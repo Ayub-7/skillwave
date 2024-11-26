@@ -281,12 +281,13 @@ export async function BuyCourse(formData: FormData) {
     //   link: data?.productFile as string,
     // },
 
-    // payment_intent_data: {
-    //   application_fee_amount: Math.round((data?.price as number) * 100) * 0.1,
-    //   transfer_data: {
-    //     destination: data?.author?.connectedAccountId as string,
-    //   },
-    // },
+    payment_intent_data: {
+      application_fee_amount: Math.round((data?.price as number) * 100 * 0.037 + 30),
+      transfer_data: {
+        destination: data?.author?.connectedAccountId as string,
+      },
+      on_behalf_of: data?.author.connectedAccountId as string,
+    },
     success_url:
       process.env.NODE_ENV === "development"
         ? "http://localhost:3000/dashboard/payment/success"
@@ -332,30 +333,6 @@ export async function createCheckoutSession(priceId: string) {
 
       customerId = customer.id;
     }
-
-    const account = await stripe.accounts.create({
-       email: session.user.email,
-       controller: {
-         losses: {
-           payments: "application",
-         },
-         fees: {
-           payer: "application",
-         },
-         stripe_dashboard: {
-           type: "express",
-         },
-       },
-     });
-
-     await prisma.user.update({
-       where: {
-         id: user.id
-       },
-       data: {
-         connectedAccountId: account.id,
-       },
-     });
 
     // Create checkout session
     const checkoutSession = await stripe.checkout.sessions.create({
