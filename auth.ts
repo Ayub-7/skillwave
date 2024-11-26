@@ -17,4 +17,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           response_type: "code"
         }
       }}), Resend({from: "no-reply@skillwave.io"})],
+  callbacks: {
+    async signIn({ user, account }) {
+      // This is where you can trigger your server action
+      if (user && account) {
+        try {
+          await createStripeAccount(user.id as string)
+        } catch (error) {
+          console.error("Error processing login:", error)
+          return false // Prevent login if server action fails
+        }
+      }
+      return true
+    }
+  }
 })  
