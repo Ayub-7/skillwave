@@ -452,3 +452,58 @@ export async function GetStripeDashboardLink() {
 
   return redirect(loginLink.url);
 }
+
+export async function createStripeAccount(userId: string) {
+  try {
+    // Check if the user already has a connected Stripe account
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (existingUser?.connectedAccountId) {
+      return NextResponse.json(
+        { message: "User already has a connected Stripe account" },
+        { status: 200 }
+      );
+    }
+
+    // Create a new Stripe account for the user
+    const stripeAccount = await stripe.accounts.create({
+      email: existingUser?.email as string,
+      controller: {
+        losses: {
+          payments: "application",
+        },
+        fees: {
+          payer: "application",
+        },
+        stripe_dashboard: {
+          type: "express",
+        },
+      },
+    });
+
+    // Update the user's connected Stripe account ID in the database
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        connectedAccountId: stripeAccount.id,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Stripe account created successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error creating Stripe account:", error);
+    return NextResponse.json(
+      { message: "Error creating Stripe account" },
+      { status: 500 }
+    );
+  }
+}
