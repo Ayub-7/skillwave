@@ -334,6 +334,9 @@ export async function createCheckoutSession(priceId: string) {
       customerId = customer.id;
     }
 
+    // Handle stripe connect account creation
+    await createStripeAccount(user)
+
     // Create checkout session
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -453,15 +456,8 @@ export async function GetStripeDashboardLink() {
   return redirect(loginLink.url);
 }
 
-export async function createStripeAccount(userId: string) {
+export async function createStripeAccount(existingUser: any) {
   try {
-    // Check if the user already has a connected Stripe account
-    const existingUser = await prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
-
     if (existingUser?.connectedAccountId) {
       return NextResponse.json(
         { message: "User already has a connected Stripe account" },
@@ -488,7 +484,7 @@ export async function createStripeAccount(userId: string) {
     // Update the user's connected Stripe account ID in the database
     await prisma.user.update({
       where: {
-        id: userId,
+        id: existingUser.id,
       },
       data: {
         connectedAccountId: stripeAccount.id,
