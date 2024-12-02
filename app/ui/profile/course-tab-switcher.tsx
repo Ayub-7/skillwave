@@ -2,7 +2,7 @@
 import { Tabs, Tab } from "@nextui-org/tabs";
 import CourseCard from '@/app/ui/profile/course-card';
 
-export default function CourseTabSwitcher({ myCourses, purchasedCourses, currUserId }: any) {
+export default function CourseTabSwitcher({ myCourses, purchasedCourses, user, currUserId }: any) {
     const allCourses = [...myCourses, ...purchasedCourses];
 
     const renderCourses = (courses: any[]) => (
@@ -12,6 +12,7 @@ export default function CourseTabSwitcher({ myCourses, purchasedCourses, currUse
                     key={course.id}
                     id={course.id}
                     course={course}
+                    user={user}
                     currUserId={currUserId}
                 />
             ))}

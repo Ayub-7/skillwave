@@ -91,7 +91,7 @@ export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
                         <div className="flex gap-1">
                             <Tooltip color="primary" content="Create Course">
                                 <Button
-                                    onClick={() => router.push('/dashboard/courses/create')}
+                                    onClick={() => !user.subscription ? router.push('/dashboard/billing') : router.push('/dashboard/courses/create')}
                                     variant="shadow"
                                     isIconOnly
                                 >

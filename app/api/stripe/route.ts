@@ -46,6 +46,7 @@ export async function POST(req: Request) {
       break;
 
     case 'customer.subscription.deleted':
+      // TODO when a user cancels subscription, set all their courses to DRAFT
       await prisma.subscription.delete({
         where: {
           stripeSubscriptionId: subscription.id,

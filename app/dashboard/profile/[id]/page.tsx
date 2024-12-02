@@ -36,7 +36,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <Divider className="w-full mt-8" />
       <div>
         {isOwnProfile ? (
-          <CourseTabSwitcher myCourses={userProfile?.courses} purchasedCourses={purchasedCourses} currUserId={user?.id} />
+          <CourseTabSwitcher myCourses={userProfile?.courses} purchasedCourses={purchasedCourses} user={userProfile} currUserId={user?.id} />
         ) :
           <div className="flex justify-center mt-16 mb-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
