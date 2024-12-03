@@ -91,7 +91,7 @@ export function ProfilePageSkeleton() {
         <ProfileCardSkeleton />
       </div>
       <Divider className="w-full mt-8" />
-      <div className="mt-8 w-full flex justify-center px-8">
+      <div className="mt-8 flex items-center">
         <CourseTabSwitcherSkeleton />
       </div>
     </div>
@@ -101,11 +101,11 @@ export function ProfilePageSkeleton() {
 export function CourseListingPageSkeleton() {
   return (
     <div className="flex flex-col items-center">
-      <div className="flex justify-center relative w-64">
+      <div className="mt-8 flex justify-center relative w-64">
         <Skeleton className="w-full h-10 rounded-full" />
         <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" />
       </div>
-      <div className="mt-8 w-full flex justify-center px-8">
+      <div className="mt-8 flex items-center">
         <CourseCardsHome />
       </div>
     </div>
