@@ -10,5 +10,5 @@ export default function HomePage() {
     router.replace('/dashboard')
   }, [])
 
-  return <div></div>
+  return <CourseListingPageSkeleton />;
 }
