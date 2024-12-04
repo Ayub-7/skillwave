@@ -33,8 +33,8 @@ export function BuyButton({ price }: { price: number }) {
           Please Wait
         </Button>
       ) : (
-        <Button color='primary' type="submit">
-          Buy for ${price}
+        <Button color="primary" type="submit" className="px-6 py-3 rounded-md bg-blue-500 hover:bg-blue-600 text-white font-medium transition-colors duration-300">
+          Buy Now ${price}
         </Button>
       )}
     </>

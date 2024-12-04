@@ -9,6 +9,9 @@ export default async function Page() {
         redirect('/login')
     }
     const user = await getUser(session?.user?.id)
+    if (!user?.subscription) {
+        redirect('/dashboard/billing')
+    }
     return (<CreateCourseModal user={user} />
     );
 }

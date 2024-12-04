@@ -25,7 +25,7 @@ export default async function Layout({ children, params }: { children: React.Rea
     return (
         <div className="flex min-h-screen">
             {/* Sidebar with Course Sections */}
-            <SectionsBar sections={course.Sections} courseId={id} hasAccess={hasAccess} />
+            <SectionsBar price={course.price} sections={course.Sections} courseId={id} hasAccess={hasAccess} />
 
             {/* Main Content */}
             <div className="flex-1 flex flex-col">

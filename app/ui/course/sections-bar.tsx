@@ -1,8 +1,10 @@
 'use client';
 import { useRouter, usePathname } from 'next/navigation';
 import { Lock } from 'lucide-react';
+import { BuyCourse } from '@/app/lib/actions'; // adjust the import path
+import { BuyButton } from "@/app/ui/button";
 
-export default function SectionsBar({ sections, courseId, hasAccess }: any) {
+export default function SectionsBar({ price, sections, courseId, hasAccess }: any) {
     const router = useRouter();
     const pathname = usePathname();
 
@@ -62,6 +64,10 @@ export default function SectionsBar({ sections, courseId, hasAccess }: any) {
                         </li>
                     ))}
                 </ul>
+                <form className='mt-6' action={BuyCourse}>
+                    <input type="hidden" name="id" value={courseId} />
+                    <BuyButton price={price as number} />
+                </form>
             </nav>
         </aside>
     );

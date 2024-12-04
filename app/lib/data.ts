@@ -39,6 +39,7 @@ export async function getCourse(id: string) {
       id: id
     },
     include: {
+      author: true,
       Sections: true
     }
   })
