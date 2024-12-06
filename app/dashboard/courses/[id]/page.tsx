@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import Tiptap from "@/app/components/tiptap";
 import Link from 'next/link';
 import { Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/avatar";
+import { BuyCourse } from '@/app/lib/actions'; // adjust the import path
+import { BuyButton } from "@/app/ui/button";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id;
@@ -23,6 +25,13 @@ export default async function Page({ params }: { params: { id: string } }) {
                         <Link href={`/dashboard/profile/${course.author.id}`} className="text-blue-500 hover:underline focus:outline-none">
                             By {course.author.name}
                         </Link>
+                        &nbsp;({course.students.toLocaleString()} Students)
+                    </div>
+                    <div className="md:hidden flex items-center justify-center">
+                        <form className='mt-6' action={BuyCourse}>
+                            <input type="hidden" name="id" value={course.id} />
+                            <BuyButton price={course.price as number} />
+                        </form>
                     </div>
                 </div>
                 <div className="text-center">

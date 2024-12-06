@@ -16,7 +16,7 @@ export default async function Page({ params }: { params: { sectionId: string } }
     }
     if (session) {
         const user = await getUser(session.user?.id)
-        if (user?.purchasedCourses.includes(section.courseId)) {
+        if (user?.purchasedCourses.includes(section.courseId) || user?.id === section.course.authorId) {
             hasAccess = true;
         }
     }

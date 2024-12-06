@@ -1,6 +1,7 @@
 'use client'
 
 import { useEditor, EditorContent } from '@tiptap/react'
+import { useEffect } from 'react';
 import StarterKit from '@tiptap/starter-kit'
 import Toolbar from './toolbar'
 
@@ -31,6 +32,13 @@ export default function Tiptap({
             handleChange(editor.getHTML());
         }
     })
+
+    // // Dynamically update editor content when the `description` prop changes
+    // useEffect(() => {
+    //     if (editor && editor.getHTML() !== description) {
+    //         editor.commands.setContent(description);
+    //     }
+    // }, [description, editor]);
 
     return (
         <div className="w-full">

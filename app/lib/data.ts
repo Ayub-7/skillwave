@@ -50,6 +50,9 @@ export async function getSection(id: string) {
   const course = await prisma.section.findUnique({
     where: {
       id: id
+    },
+    include: {
+      course: true
     }
   })
   return course
