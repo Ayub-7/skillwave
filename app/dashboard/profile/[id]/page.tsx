@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="flex justify-center">
+      <div className="flex justify-center pt-6">
         <ProfileCard canEdit={isOwnProfile} user={userProfile} />
       </div>
       <Divider className="w-full mt-8" />

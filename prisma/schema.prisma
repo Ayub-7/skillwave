@@ -13,7 +13,7 @@ model User {
   id               String    @id @default(uuid())
   email            String    @unique
   name             String
-  bio              String?
+  bio              String?   @default("Enter your bio here..")
   instagram        String?
   facebook         String?
   tiktok           String?
