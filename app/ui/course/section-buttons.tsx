@@ -26,13 +26,12 @@ export default function SectionButtons({ price, sections, courseId, hasAccess }:
     const currentSectionId = pathname.split('/').pop();
 
     return (
-        <aside className="w-64">
-            <nav className="space-y-4">
+        <aside className="w-full">
+            <nav className="flex flex-wrap items-center justify-start mb-2">
                 <Button
                     onClick={backToPreview}
-                    //variant={!pathname.includes('/section/') ? 'solid' : 'light'}
                     color={!pathname.includes('/section/') ? 'primary' : 'default'}
-                    className="justify-start"
+                    className="flex justify-center items-center mb-4 mx-2 mt-2"
                 >
                     Preview
                 </Button>
@@ -41,22 +40,18 @@ export default function SectionButtons({ price, sections, courseId, hasAccess }:
                     <Button
                         key={section.id}
                         onClick={() => handleCardPress(section.id)}
-                        // variant={section.id.toString() === currentSectionId ? 'solid' : 'light'}
                         color={section.id.toString() === currentSectionId ? 'primary' : 'default'}
-                        className="justify-start"
+                        className="flex justify-center items-center mb-4 mx-2 mt-2"
                         isDisabled={!hasAccess}
                         startContent={
                             !hasAccess ? (
                                 <Lock className="h-4 w-4 mr-2" />
-                            ) : section.id.toString() === currentSectionId ? null : (
-                                <span className="h-2 w-2 rounded-full bg-current mr-2" />
-                            )
+                            ) : null
                         }
                     >
                         {section.name}
                     </Button>
                 ))}
-
             </nav>
         </aside>
     );

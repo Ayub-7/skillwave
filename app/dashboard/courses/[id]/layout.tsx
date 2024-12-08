@@ -36,11 +36,15 @@ export default async function Layout({ children, params }: { children: React.Rea
             </div>
 
             {/* Main Content with mobile bottom bar */}
-            <div className="flex-1 flex flex-col relative">
-                {children}
+            <div className="flex-1 flex flex-col">
+                {/* Children content */}
+                <div className="flex-1 overflow-auto">
+                    {children}
+                </div>
 
-                {/* Mobile Bottom Bar - Absolute positioned at bottom */}
-                <div className="md:hidden absolute bottom-0 left-0 w-full z-50 text-center flex justify-center items-center">
+                {/* Mobile Bottom Bar */}
+                <div className="md:hidden w-full px-4 flex flex-col items-center">
+                    <h3 className="font-bold mb-4">Course Chapters</h3>
                     <SectionButtons
                         price={course.price}
                         sections={course.Sections}
@@ -49,6 +53,6 @@ export default async function Layout({ children, params }: { children: React.Rea
                     />
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
