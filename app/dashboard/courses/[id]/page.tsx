@@ -2,11 +2,19 @@ import { getCourse } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import Tiptap from "@/app/components/tiptap";
 import Link from 'next/link';
-import { Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/avatar";
+import { Avatar } from "@nextui-org/avatar";
+import { getUser } from "@/app/lib/data";
 import { BuyCourse } from '@/app/lib/actions'; // adjust the import path
 import { BuyButton } from "@/app/ui/button";
+import { auth } from "@/auth"
 
 export default async function Page({ params }: { params: { id: string } }) {
+    const session = await auth();
+    let user = null
+    if (session) {
+        user = await getUser(session.user?.id);
+    }
+
     const id = params.id;
     const course = await getCourse(id);
     if (!course) {
@@ -27,12 +35,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </Link>
                         &nbsp;({course.students.toLocaleString()} Students)
                     </div>
-                    <div className="md:hidden flex items-center justify-center">
-                        <form className='mt-6' action={BuyCourse}>
-                            <input type="hidden" name="id" value={course.id} />
-                            <BuyButton price={course.price as number} />
-                        </form>
-                    </div>
+                    {!user?.purchasedCourses?.includes(id) && course.authorId !== user?.id && (
+                        <div className="flex items-center justify-center">
+                            <form className="mt-6" action={BuyCourse}>
+                                <input type="hidden" name="id" value={course.id} />
+                                <BuyButton price={course.price as number} />
+                            </form>
+                        </div>
+                    )}
                 </div>
                 <div className="text-center">
                     <Tiptap canEdit={false} description={course.description || ''} />

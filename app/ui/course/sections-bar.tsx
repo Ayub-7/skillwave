@@ -64,10 +64,6 @@ export default function SectionsBar({ price, sections, courseId, hasAccess }: an
                         </li>
                     ))}
                 </ul>
-                <form className='mt-6' action={BuyCourse}>
-                    <input type="hidden" name="id" value={courseId} />
-                    <BuyButton price={price as number} />
-                </form>
             </nav>
         </aside>
     );

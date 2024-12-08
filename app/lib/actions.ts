@@ -244,6 +244,10 @@ export async function signOutAction() {
 } 
   
 export async function BuyCourse(formData: FormData) {
+  const session = await auth();
+  if (!session) {
+    return redirect('/login')
+  }
   const id = formData.get("id") as string;
   const data = await prisma.course.findUnique({
     where: {
@@ -298,8 +302,8 @@ export async function BuyCourse(formData: FormData) {
         : "https://skillwave.io/dashboard/payment/cancel",
   };
 
-  const session = await stripe.checkout.sessions.create(params);
-  return redirect(session.url as string);
+  const checkoutSession = await stripe.checkout.sessions.create(params);
+  return redirect(checkoutSession.url as string);
 }
 
 export async function createCheckoutSession(priceId: string) {
