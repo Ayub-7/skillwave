@@ -18,12 +18,36 @@ export async function POST(req: Request) {
     return new Response("webhook error", { status: 400 });
   }
 
-  // Define subscription outside the switch statement
-  const subscription = event.data.object as Stripe.Subscription;
 
   switch (event.type) {
+    case 'checkout.session.completed':
+      const session = event.data.object;
+      if (!session.metadata || !session.metadata.userId || !session.metadata.courseId) {
+        console.error('Missing required metadata', session.metadata);
+        return; // Exit if metadata is incomplete
+      }
+
+      const user = await prisma.user.findUnique({
+        where: { id: session.metadata.userId },
+        select: { purchasedCourses: true },
+      });
+
+      // Append the new courseId if it's not already in the array
+      const updatedCourses = user?.purchasedCourses
+        ? [...new Set([...user.purchasedCourses, session.metadata.courseId])]
+        : [session.metadata.courseId];
+
+      // Add the course to the user's purchased courses in the database
+      await prisma.user.update({
+        where: { id: session.metadata.userId },
+        data: {
+          purchasedCourses: updatedCourses,
+        },
+      });
+      break;
     case 'customer.subscription.created':
     case 'customer.subscription.updated':
+      const subscription = event.data.object as Stripe.Subscription;
       await prisma.subscription.upsert({
         where: {
           stripeSubscriptionId: subscription.id,
@@ -47,9 +71,10 @@ export async function POST(req: Request) {
 
     case 'customer.subscription.deleted':
       // TODO when a user cancels subscription, set all their courses to DRAFT
+      const subscription1 = event.data.object as Stripe.Subscription;
       await prisma.subscription.delete({
         where: {
-          stripeSubscriptionId: subscription.id,
+          stripeSubscriptionId: subscription1.id,
         },
       });
       break;
