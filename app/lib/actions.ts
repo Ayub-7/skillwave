@@ -284,7 +284,7 @@ export async function BuyCourse(formData: FormData) {
     // metadata: {
     //   link: data?.productFile as string,
     // },
-
+    // TODO on success add the courseId to the users purchased courses
     payment_intent_data: {
       application_fee_amount: Math.round((data?.price as number) * 100 * 0.037 + 30),
       transfer_data: {
