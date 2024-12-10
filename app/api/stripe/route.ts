@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_CONNECT_WEBHOOK_SECRET as string
+      process.env.STRIPE_WEBHOOK_SECRET as string
     );
   } catch (error: unknown) {
     return new Response("webhook error", { status: 400 });
