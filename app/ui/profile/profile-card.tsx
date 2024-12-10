@@ -102,7 +102,7 @@ export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
                 )}
             </CardHeader>
             <CardBody className="overflow-visible flex flex-col items-center py-4">
-                {user?.image ? (
+                {user?.image !== '' || user?.image !== null ? (
                     <Image
                         width={90}
                         alt="User Profile Image"
