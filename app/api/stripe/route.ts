@@ -23,21 +23,19 @@ export async function POST(req: Request) {
     case 'checkout.session.completed':
       const session = event.data.object;
     
-      const user = await prisma.user.findUnique({
-        where: { id: session.metadata?.userId },
-        select: { purchasedCourses: true },
-      });
-
-      // Append the new courseId if it's not already in the array
-      const updatedCourses = user?.purchasedCourses
-        ? [...new Set([...user.purchasedCourses, session.metadata?.courseId])]
-        : [session.metadata?.courseId];
-
-      // Add the course to the user's purchased courses in the database
       await prisma.user.update({
         where: { id: session.metadata?.userId },
         data: {
-          purchasedCourses: updatedCourses as any,
+          purchasedCourses: {
+            push: session.metadata?.courseId
+          }
+        }
+      });
+
+       await prisma.course.update({
+        where: { id: session.metadata?.courseId },
+        data: {
+          students: { increment: 1 }
         },
       });
       break;
