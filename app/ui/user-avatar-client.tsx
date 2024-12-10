@@ -18,7 +18,7 @@ export default function UserAvatarClient({ image, name, id }: any) {
           isBordered
           as="button"
           className="transition-transform"
-          src={image !== '' && image !== null ? image : `/default-profile-image.png`}
+          src={image !== '' && image !== null ? image : "/default-profile-image.png"}
           size="md"
           color="primary"
         />
