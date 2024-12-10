@@ -1,6 +1,7 @@
 'use client'
 
 import { useEditor, EditorContent } from '@tiptap/react'
+import { useEffect } from 'react';
 import StarterKit from '@tiptap/starter-kit'
 import Toolbar from './toolbar'
 
@@ -32,10 +33,17 @@ export default function Tiptap({
         }
     })
 
+    // // Dynamically update editor content when the `description` prop changes
+    // useEffect(() => {
+    //     if (editor && editor.getHTML() !== description) {
+    //         editor.commands.setContent(description);
+    //     }
+    // }, [description, editor]);
+
     return (
         <div className="w-full">
             {canEdit && <Toolbar editor={editor} />}
-            <EditorContent editor={editor} className="prose prose-sm sm:prose lg:prose-lg xl:prose-2xl max-w-none" />
+            <EditorContent editor={editor} className="prose prose-xs sm:prose-sm lg:prose-base xl:prose-lg max-w-none" />
         </div>
     )
 }

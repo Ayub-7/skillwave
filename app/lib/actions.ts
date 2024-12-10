@@ -2,11 +2,14 @@
 
 import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
-import { sql } from '@vercel/postgres';
+import { stripe } from "@/app/lib/stripe";
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import {prisma} from "@/app/lib/prisma"
+import { NextResponse } from 'next/server';
+import prisma from "@/app/lib/prisma"
 import { z } from 'zod';
+import { auth } from "@/auth"
+import Stripe from 'stripe';
 
 type InvoiceFormData = {
   customerId: string;
@@ -28,7 +31,7 @@ interface UpdateUserInput {
   facebook?: string; // Optional field
   tiktok?: string; // Optional field
   youtube?: string; // Optional field
-  imageUrl?: string;
+  image?: string;
 }
 
 interface courseInput {
@@ -40,7 +43,11 @@ interface courseInput {
 }
 
 export async function updateUser(input: UpdateUserInput) {
-    const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, imageUrl } = input;
+  const session = await auth();
+  const { id, name, bio, twitter, instagram, linkedin, facebook, tiktok, youtube, image } = input;
+  if (!session || session.user?.id !== id) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
 
   try {
     await prisma.user.update({
@@ -54,7 +61,7 @@ export async function updateUser(input: UpdateUserInput) {
         facebook,
         tiktok,
         youtube,
-        imageUrl,
+        image,
       },
     });
 
@@ -67,6 +74,10 @@ export async function updateUser(input: UpdateUserInput) {
 }
 
 export async function createCourse(input: courseInput, sections: { name: string; description: string; videoUrl?: string; }[]) {
+  const session = await auth();
+  if (!session) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   const {name, description, authorId, price, imageUrl} = input
   await prisma.course.create({
     data: {
@@ -91,7 +102,11 @@ export async function createCourse(input: courseInput, sections: { name: string;
 }
 
 export async function updateCourse(id: string, input: courseInput, sections: { id?: string; name: string; description: string; videoUrl?: string; }[]) {
+  const session = await auth();
   const { name, description, authorId, price, imageUrl } = input;
+  if (!session || session.user?.id !== authorId) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
 
   await prisma.course.update({
     where: { id },
@@ -137,7 +152,11 @@ export async function updateCourse(id: string, input: courseInput, sections: { i
   redirect(`/dashboard/profile/${authorId}`);
 }
 
-export async function deleteSection(id: string) {
+export async function deleteSection(id: string, authorId: string) {
+  const session = await auth();
+  if (!session || session.user?.id !== authorId) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   await prisma.section.delete({
     where: {
       id
@@ -146,7 +165,12 @@ export async function deleteSection(id: string) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function deleteCourse(id: string) {
+export async function deleteCourse(id: string, authorId: string) {
+  const session = await auth();
+  if (!session || authorId !== session.user?.id) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
+  
   const deleteSections = prisma.section.deleteMany({
     where: {
       courseId: id
@@ -162,7 +186,11 @@ export async function deleteCourse(id: string) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function publishCourse(id: string) {
+export async function publishCourse(id: string, authorId: string) {
+  const session = await auth();
+  if (!session || authorId !== session.user?.id) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   await prisma.course.update({
     where: {id},
     data: {
@@ -172,7 +200,11 @@ export async function publishCourse(id: string) {
   revalidatePath('/dashboard/profile');
 }
 
-export async function draftCourse(id: string) {
+export async function draftCourse(id: string, authorId: string) {
+  const session = await auth();
+  if (!session || authorId !== session.user?.id) {
+    return new NextResponse('Forbidden', { status: 403 });
+  }
   await prisma.course.update({
     where: {id},
     data: {
@@ -207,73 +239,273 @@ export async function addEmail(email: string) {
   }
 }
 
-export async function createInvoice(formData: InvoiceFormData) {
-  // Set values from FormData
-  const { customerId, amount, status } = formData;
-
-  const amountInCents = parseFloat(amount) * 100;
-  const date = new Date().toISOString().split('T')[0];
-
-  try {
-    await sql`
-      INSERT INTO invoices (customer_id, amount, status, date)
-      VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-    `;
-  } catch (error) {
-    return {
-      message: 'Database Error: Failed to Create Invoice.',
-    };
+export async function signOutAction() {
+  await signOut({redirectTo: '/'});
+} 
+  
+export async function BuyCourse(formData: FormData) {
+  const session = await auth();
+  if (!session) {
+    return redirect('/login')
   }
+  const id = formData.get("id") as string;
+  const data = await prisma.course.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      name: true,
+      price: true,
+      description: true,
+      imageUrl: true,
+      author: {
+        select: {
+          connectedAccountId: true,
+        },
+      },
+    },
+  });
 
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
+  const params: Stripe.Checkout.SessionCreateParams = {
+    mode: 'payment',
+    line_items: [
+      {
+        price_data: {
+          currency: "usd",
+          unit_amount: Math.round((data?.price as number) * 100),
+          product_data: {
+            name: data?.name as string,
+            images: data?.imageUrl ? [data.imageUrl] : [], // Convert single string to array
+          },
+        },
+        quantity: 1,
+      },
+    ],
+
+    metadata: {
+      userId: session.user?.id as string,
+      courseId: id,
+    },
+
+    payment_intent_data: {
+      application_fee_amount: Math.round((data?.price as number) * 100 * 0.037 + 30),
+      transfer_data: {
+        destination: data?.author?.connectedAccountId as string,
+      },
+      on_behalf_of: data?.author.connectedAccountId as string,
+    },
+    success_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/payment/success"
+        : "https://skillwave.io/dashboard/payment/success",
+    cancel_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/payment/cancel"
+        : "https://skillwave.io/dashboard/payment/cancel",
+  };
+
+  const checkoutSession = await stripe.checkout.sessions.create(params);
+  return redirect(checkoutSession.url as string);
 }
 
-export async function updateInvoice(id: string, formData: InvoiceFormData) {
-  // Set values from FormData
-  const { customerId, amount, status } = formData;
-  const amountInCents = parseFloat(amount) * 100;
-
+export async function createCheckoutSession(priceId: string) {
   try {
-    await sql`
-      UPDATE invoices
-      SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-      WHERE id = ${id}
-    `;
-  } catch (error) {
-    return { message: 'Database Error: Failed to Update Invoice.' };
-  }
-
-  revalidatePath('/dashboard/invoices');
-  redirect('/dashboard/invoices');
-}
-
-export async function deleteInvoice(id: string) {
-  try {
-    await sql`DELETE FROM invoices WHERE id = ${id}`;
-    revalidatePath('/dashboard/invoices');
-    return { message: 'Deleted Invoice.' };
-  } catch (error) {
-    return { message: 'Database Error: Failed to Delete Invoice.' };
-  }
-}
-
-export async function authenticate(formData: LoginFormData) {
-  try {
-    await signIn('credentials', formData);
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return 'Invalid credentials.';
-        default:
-          return 'Something went wrong.';
-      }
+    const session = await auth();
+    
+    if (!session?.user?.email) {
+      throw new Error('Not authenticated');
     }
+
+    // Get or create stripe customer
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    let customerId = user.stripeCustomerId;
+
+    if (!customerId) {
+      const customer = await stripe.customers.create({
+        email: session.user.email,
+      });
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { stripeCustomerId: customer.id },
+      });
+
+      customerId = customer.id;
+    }
+
+    // Handle stripe connect account creation
+    await createStripeAccount(user)
+
+    // Create checkout session
+    const checkoutSession = await stripe.checkout.sessions.create({
+      customer: customerId,
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      success_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/payment/success"
+        : "https://skillwave.io/dashboard/payment/success",
+    cancel_url:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/payment/cancel"
+        : "https://skillwave.io/dashboard/payment/cancel",
+      subscription_data: {
+        metadata: {
+          userId: user.id,
+          email: user.email
+        },
+      },
+    });
+
+    revalidatePath('/dashboard/billing');
+    return { sessionId: checkoutSession.id };
+  } catch (error) {
+    console.error('Error:', error);
     throw error;
   }
 }
 
-export async function signOutAction() {
-  await signOut();
+export async function manageSubscription() {
+  try {
+    const session = await auth();
+    
+    if (!session?.user?.email) {
+      throw new Error('Not authenticated');
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: { subscription: true },
+    });
+
+    if (!user?.stripeCustomerId) {
+      throw new Error('No stripe customer found');
+    }
+
+    const portalSession = await stripe.billingPortal.sessions.create({
+      customer: user.stripeCustomerId,
+      return_url: `http://localhost:3000/dashboard/billing`,
+    });
+
+    revalidatePath('/dashboard/billing');
+    return { url: portalSession.url };
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
+export async function CreateStripeAccoutnLink() {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error();
+  }
+
+  const data = await prisma.user.findUnique({
+    where: {
+      id: session.user?.id,
+    },
+    select: {
+      connectedAccountId: true,
+    },
+  });
+
+  const accountLink = await stripe.accountLinks.create({
+    account: data?.connectedAccountId as string,
+    refresh_url:
+      process.env.NODE_ENV === "development"
+        ? `http://localhost:3000/dashboard/billing`
+        : `https://skillwave.io/dashboard/billing`,
+    return_url:
+      process.env.NODE_ENV === "development"
+        ? `http://localhost:3000/dashboard/return/${data?.connectedAccountId}`
+        : `https://skillwave.io/dashboard/return/${data?.connectedAccountId}`,
+    type: "account_onboarding",
+  });
+  console.log('hi',accountLink.url)
+  return redirect(accountLink.url);
+}
+
+export async function GetStripeDashboardLink() {
+  const session = await auth();
+
+  if (!session) {
+    throw new Error();
+  }
+
+  const data = await prisma.user.findUnique({
+    where: {
+      id: session.user?.id,
+    },
+    select: {
+      connectedAccountId: true,
+    },
+  });
+
+  const loginLink = await stripe.accounts.createLoginLink(
+    data?.connectedAccountId as string
+  );
+
+  return redirect(loginLink.url);
+}
+
+export async function createStripeAccount(existingUser: any) {
+  try {
+    if (existingUser?.connectedAccountId) {
+      return NextResponse.json(
+        { message: "User already has a connected Stripe account" },
+        { status: 200 }
+      );
+    }
+
+    // Create a new Stripe account for the user
+    const stripeAccount = await stripe.accounts.create({
+      email: existingUser?.email as string,
+      controller: {
+        losses: {
+          payments: "application",
+        },
+        fees: {
+          payer: "application",
+        },
+        stripe_dashboard: {
+          type: "express",
+        },
+      },
+    });
+
+    // Update the user's connected Stripe account ID in the database
+    await prisma.user.update({
+      where: {
+        id: existingUser.id,
+      },
+      data: {
+        connectedAccountId: stripeAccount.id,
+      },
+    });
+
+    return NextResponse.json(
+      { message: "Stripe account created successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error creating Stripe account:", error);
+    return NextResponse.json(
+      { message: "Error creating Stripe account" },
+      { status: 500 }
+    );
+  }
 }

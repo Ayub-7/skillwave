@@ -1,26 +1,15 @@
 import React from 'react';
-import { jwtVerify } from 'jose';
-import { cookies } from 'next/headers';
-import { getUser } from '@/app/lib/data';
+import { Link } from "@nextui-org/link";
 import UserAvatarClient from '@/app/ui/user-avatar-client';
+import { Button } from "@nextui-org/button"
+import { auth } from "@/auth"
 
 export default async function UserAvatarServer() {
-  const secretKey = process.env.SESSION_KEY;
-  const key = new TextEncoder().encode(secretKey);
-
-  async function decrypt(input: string): Promise<any> {
-    const { payload } = await jwtVerify(input, key, {
-      algorithms: ['HS256'],
-    });
-    return JSON.stringify(payload);
-  }
-
-  async function getSession() {
-    const session = cookies().get('session')?.value;
-    if (!session) return null;
-    return await decrypt(session) || '';
-  }
-  const session = await getSession() || '';
-  const user = await getUser(JSON.parse(session).user.id)
-  return <UserAvatarClient user={user} />;
+  const session = await auth()
+  if (!session) return <Link href="/login">
+    <Button color="primary" variant="solid">
+      Login
+    </Button>
+  </Link>
+  return <UserAvatarClient image={session?.user?.image} name={session?.user?.name} id={session?.user?.id} />;
 }

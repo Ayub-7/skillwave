@@ -1,17 +1,19 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from "@prisma/client";
+import { Pool } from "@neondatabase/serverless";
+import {PrismaNeon} from "@prisma/adapter-neon";
 
-// PrismaClient is attached to the `global` object in development to prevent
-// exhausting your database connection limit.
-//
-// Learn more:
-// https://pris.ly/d/help/next-js-best-practices
+const prismaClientSingleton = () => {
+  const neon = new Pool({connectionString: process.env.POSTGRES_PRISMA_URL});
+  const adapter = new PrismaNeon(neon);
+  return new PrismaClient({adapter});
+};
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient }
+declare global {
+  var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>;
+}
 
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
-    log: ['query']
-  })
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+export default prisma;
+
+if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = prisma;

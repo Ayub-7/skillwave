@@ -89,7 +89,7 @@ export default function EditCourseModal({ course }: any) {
         const itemToRemove = items[index];
         setItems(prevItems => prevItems.filter((_, i) => i !== index));
         if (itemToRemove.id) {
-            await deleteSection(itemToRemove.id);
+            await deleteSection(itemToRemove.id, course.authorId);
         }
         setDeleteDialogOpen(false);
         setSectionToDeleteIndex(null);

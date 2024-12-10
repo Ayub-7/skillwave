@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { deleteCourse, publishCourse, draftCourse } from "@/app/lib/actions";
 import toast from 'react-hot-toast';
 
-export default function CourseCard({ id, course, currUserId }: any) {
+export default function CourseCard({ id, course, user, currUserId }: any) {
     const { theme } = useTheme();
     const router = useRouter();
     const pathname = usePathname();
@@ -39,7 +39,11 @@ export default function CourseCard({ id, course, currUserId }: any) {
 
     const handlePublishClick = (e: React.MouseEvent) => {
         e.stopPropagation();
-        setPublishDialogOpen(true);
+        if (!user.stripeConnectedLinked) {
+            router.push('/dashboard/billing');
+        } else {
+            setPublishDialogOpen(true);
+        }
     };
 
     const handleDraftClick = (e: React.MouseEvent) => {
@@ -50,7 +54,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const handleDelete = async () => {
         setIsLoading(true)
         try {
-            await deleteCourse(id);
+            await deleteCourse(id, course.authorId);
             setIsLoading(false)
             setDeleteDialogOpen(false);
             toast.success('Course deleted successfully!', {
@@ -75,7 +79,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const handlePublish = async () => {
         setIsLoading(true)
         try {
-            await publishCourse(id);
+            await publishCourse(id, course.authorId);
             setIsLoading(false)
             setPublishDialogOpen(false);
             toast.success('Course published successfully!', {
@@ -100,7 +104,7 @@ export default function CourseCard({ id, course, currUserId }: any) {
     const handleDraft = async () => {
         setIsLoading(true)
         try {
-            await draftCourse(id);
+            await draftCourse(id, course.authorId);
             setIsLoading(false)
             setDraftDialogOpen(false);
             toast.success('Course is now drafted!', {

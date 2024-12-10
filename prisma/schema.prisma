@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -9,20 +10,81 @@ datasource db {
 }
 
 model User {
-  id               String   @id @default(uuid())
-  email            String   @unique
-  password         String
+  id               String    @id @default(uuid())
+  email            String    @unique
   name             String
-  bio              String?
+  bio              String?   @default("Enter your bio here..")
   instagram        String?
   facebook         String?
   tiktok           String?
   youtube          String?
   linkedin         String?
   twitter          String?
-  courses          Course[] @relation("AuthorCourses")
+  courses          Course[]  @relation("AuthorCourses")
   purchasedCourses String[]
-  imageUrl         String?
+  image            String?
+  accounts         Account[]
+  sessions         Session[]
+  emailVerified    DateTime?
+
+  connectedAccountId    String?       @unique
+  stripeConnectedLinked Boolean       @default(false)
+  stripeCustomerId      String?       @unique
+  subscription          Subscription?
+
+  createdAt DateTime @default(now())
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String   @unique
+  user                 User     @relation(fields: [userId], references: [id])
+  stripeSubscriptionId String   @unique
+  status               String
+  priceId              String
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
 }
 
 model Course {

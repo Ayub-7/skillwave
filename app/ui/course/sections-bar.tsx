@@ -1,12 +1,17 @@
 'use client';
 import { useRouter, usePathname } from 'next/navigation';
+import { Lock } from 'lucide-react';
+import { BuyCourse } from '@/app/lib/actions'; // adjust the import path
+import { BuyButton } from "@/app/ui/button";
 
-export default function SectionsBar({ sections, courseId }: any) {
+export default function SectionsBar({ price, sections, courseId, hasAccess }: any) {
     const router = useRouter();
     const pathname = usePathname();
 
     const handleCardPress = (sectionId: any) => {
-        router.push(`/dashboard/courses/${courseId}/section/${sectionId}`);
+        if (hasAccess) {
+            router.push(`/dashboard/courses/${courseId}/section/${sectionId}`);
+        }
     };
 
     const backToPreview = () => {
@@ -20,25 +25,42 @@ export default function SectionsBar({ sections, courseId }: any) {
     const currentSectionId = pathname.split('/').pop();
 
     return (
-        <aside className="w-64 py-8 px-4">
-            <h2 className="text-2xl font-bold mb-4">Course Chapters</h2>
+        <aside className="w-26 py-8 px-4">
+            <h2 className="text-lg font-bold mb-4">Course Chapters</h2>
             <nav>
-                <ul className="list-disc pl-5 space-y-4">
+                <ul className="space-y-4">
                     <li
                         onClick={backToPreview}
-                        className={`text-lg transition-colors cursor-pointer ${!pathname.includes('/section/') ? 'font-bold text-blue-500' : 'hover:text-gray-400'
+                        className={`flex items-center text-lg transition-colors cursor-pointer ${!pathname.includes('/section/')
+                            ? 'font-bold text-blue-500'
+                            : 'hover:text-gray-400'
                             }`}
                     >
-                        Preview
+                        <span className="inline-flex items-center">
+                            <span className="h-1 w-1 rounded-full bg-current mr-4 ml-2" />
+                        </span>
+                        <span>Preview</span>
                     </li>
                     {sections.map((section: any) => (
                         <li
                             onClick={() => handleCardPress(section.id)}
                             key={section.id}
-                            className={`text-lg transition-colors cursor-pointer ${section.id.toString() === currentSectionId ? 'font-bold text-blue-500' : 'hover:text-gray-400'
+                            className={`flex items-center text-lg transition-colors ${hasAccess
+                                ? 'cursor-pointer'
+                                : 'cursor-not-allowed opacity-70'
+                                } ${section.id.toString() === currentSectionId
+                                    ? 'font-bold text-blue-500'
+                                    : hasAccess ? 'hover:text-gray-400' : ''
                                 }`}
                         >
-                            {section.name}
+                            <span className="inline-flex items-center">
+                                {!hasAccess ? (
+                                    <Lock className="h-4 w-4 mr-4" />
+                                ) : (
+                                    <span className="h-1 w-1 rounded-full bg-current mr-4 ml-2" />
+                                )}
+                            </span>
+                            <span>{section.name}</span>
                         </li>
                     ))}
                 </ul>

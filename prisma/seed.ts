@@ -9,7 +9,6 @@ async function main() {
     create: {
       email: 'ayub@next.com',
       name: 'Ayub Test',
-      password: `$2b$10$vgdZAlGj2m53Cb3JF/KWdOwQ/EeiXMjfaYTCmn5u5c7yQnw69.6ui`,
       bio: 'Welcome to the best place to learn about everything.'
     }
   })

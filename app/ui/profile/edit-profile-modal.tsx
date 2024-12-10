@@ -1,7 +1,6 @@
 'use client'
 import React from "react";
 import { updateUser } from "@/app/lib/actions";
-import { PencilIcon } from '@heroicons/react/24/outline';
 import { XIcon } from "@/app/ui/custom-icons/x-icon";
 import { TiktokIcon } from "@/app/ui/custom-icons/tiktok-icon";
 import { FacebookIcon } from "@/app/ui/custom-icons/facebook-icon";
@@ -15,12 +14,13 @@ import { Input, Textarea } from "@nextui-org/input";
 import { Tooltip } from "@nextui-org/tooltip";
 import { UploadButton } from "@/app/lib/uploadthing";
 import toast, { Toaster } from 'react-hot-toast';
+import { Pencil } from "lucide-react";
 
 export default function EditProfileModal({ user }: any) {
     const [isMobile, setIsMobile] = React.useState(false);
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-    const [imageUrl, setImageUrl] = React.useState(user.imageUrl || '');
+    const [imageUrl, setImageUrl] = React.useState(user.image || '');
 
     // State for profile details
     const [name, setName] = React.useState(user.name);
@@ -35,6 +35,8 @@ export default function EditProfileModal({ user }: any) {
     const [youtube, setYoutube] = React.useState(user.youtube || '');
 
     const isInvalid = React.useMemo(() => name === "", [name]);
+
+    const isInvalidBio = React.useMemo(() => bio.length > 130, [bio]);
 
     React.useEffect(() => {
         const handleResize = () => {
@@ -62,7 +64,7 @@ export default function EditProfileModal({ user }: any) {
                 facebook: facebook,
                 tiktok: tiktok,
                 youtube: youtube,
-                imageUrl: imageUrl,
+                image: imageUrl,
             });
             toast.success('Profile updated successfully!', {
                 duration: 3000,
@@ -88,7 +90,7 @@ export default function EditProfileModal({ user }: any) {
         <>
             <Tooltip color="primary" content="Edit Profile">
                 <Button onPress={onOpen} variant="shadow" isIconOnly>
-                    <PencilIcon className="w-6 h-6" />
+                    <Pencil className="w-6 h-6" />
                 </Button>
             </Tooltip>
             <Modal disableAnimation scrollBehavior="inside" isDismissable={!isMobile} placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -140,8 +142,11 @@ export default function EditProfileModal({ user }: any) {
                                 <Textarea
                                     value={bio}
                                     variant="bordered"
+                                    isInvalid={isInvalidBio}
+                                    color={isInvalidBio ? "danger" : "default"}
+                                    errorMessage="Bio must be less than 130 characters"
                                     onChange={(e) => setBio(e.target.value)}
-                                    placeholder="Enter your description"
+                                    placeholder="Enter your bio"
                                     type="string"
                                     label="Bio"
                                     classNames={{
@@ -229,7 +234,7 @@ export default function EditProfileModal({ user }: any) {
                                 </Button>
                                 <Button
                                     color="primary"
-                                    isDisabled={isInvalid}
+                                    isDisabled={isInvalid || isInvalidBio}
                                     onPress={() => handleAction(onClose)}
                                 >
                                     Save
