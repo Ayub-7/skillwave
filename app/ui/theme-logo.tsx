@@ -16,7 +16,7 @@ export default function ThemeImage() {
     if (!currentTheme) return null;
 
     return (
-        <img
+        <Image
             src={`/SW-${currentTheme}-sm.png`}
             width={70}
             height={70}
