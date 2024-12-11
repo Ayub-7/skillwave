@@ -431,8 +431,8 @@ export async function CreateStripeAccoutnLink() {
         : `https://skillwave.io/dashboard/billing`,
     return_url:
       process.env.NODE_ENV === "development"
-        ? `http://localhost:3000/dashboard/return/${data?.connectedAccountId}`
-        : `https://skillwave.io/dashboard/return/${data?.connectedAccountId}`,
+        ? `http://localhost:3000/dashboard`
+        : `https://skillwave.io/dashboard`,
     type: "account_onboarding",
   });
   console.log('hi',accountLink.url)
