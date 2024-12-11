@@ -98,7 +98,7 @@ export default async function BillingRoute() {
                                 <div>
                                     <p>No active subscription</p>
                                     <div className="mt-4">
-                                        <SubscribeButton priceId="price_1QNwWaKSorwSxJrUTM5MMb4r" />
+                                        <SubscribeButton priceId={process.env.NODE_ENV === "production" ? process.env.PRICE_ID_PROD : process.env.PRICE_ID_DEV as any} />
                                     </div>
                                 </div>
                             )}
