@@ -32,7 +32,7 @@ export default async function BillingRoute() {
             {session && (
                 <div>
                     <h2 className="text-xl font-bold">Billing</h2>
-                    <p className="text-small text-default-500">
+                    <p className="text-small text-default-500 mb-2">
                         Manage your subscription and view stripe dashboard.{" "}
                         {user?.subscription && <b>(Stripe account must be linked before publishing course)</b>}
                     </p>
