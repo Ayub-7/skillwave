@@ -22,6 +22,7 @@ export async function POST(req: Request) {
 
   switch (event.type) {
     case "account.updated": {
+      // TODO when a users account is no longer linked, set all their courses to DRAFT
       const account = event.data.object;
 
       const data = await prisma.user.update({
