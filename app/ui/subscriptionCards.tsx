@@ -62,21 +62,24 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                 </ul>
                             </div>
 
-                            {user.subscription ? (
-                                <div>
-                                    <p>Status: {user.subscription.status}</p>
-                                    <div className="mt-4">
-                                        <ManageSubscriptionButton />
+                            {user && (
+                                user.subscription ? (
+                                    <div>
+                                        <p>Status: {user.subscription.status}</p>
+                                        <div className="mt-4">
+                                            <ManageSubscriptionButton />
+                                        </div>
                                     </div>
-                                </div>
-                            ) : (
-                                <div>
-                                    <p>No active subscription</p>
-                                    <div className="mt-4">
-                                        <SubscribeButton priceId={currentPricing.priceId as any} />
+                                ) : (
+                                    <div>
+                                        <p>No active subscription</p>
+                                        <div className="mt-4">
+                                            <SubscribeButton priceId={currentPricing.priceId as any} />
+                                        </div>
                                     </div>
-                                </div>
+                                )
                             )}
+
                         </div>
                     </CardBody>
                 </Card>

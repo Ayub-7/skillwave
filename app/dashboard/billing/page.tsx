@@ -22,39 +22,37 @@ export default async function BillingRoute() {
     };
 
     const session = await auth()
-    if (!session) {
-        redirect('/login')
-    }
-
-    const user = await getUser(session.user?.id)
-    if (!user) {
-        redirect('/login')
+    let user = null
+    if (session) {
+        user = await getUser(session.user?.id)
     }
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-8">
-            <div>
-                <h2 className="text-xl font-bold">Billing</h2>
-                <p className="text-small text-default-500">
-                    Manage your subscription and view stripe dashboard. {user.subscription && <b>(Stripe account must be linked before publishing course)</b>}
-                </p>
-            </div>
+            {session && (
+                <div>
+                    <h2 className="text-xl font-bold">Billing</h2>
+                    <p className="text-small text-default-500">
+                        Manage your subscription and view stripe dashboard.{" "}
+                        {user?.subscription && <b>(Stripe account must be linked before publishing course)</b>}
+                    </p>
 
+                    {!user?.stripeConnectedLinked && user?.subscription && (
+                        <form action={CreateStripeAccoutnLink}>
+                            <LinkAccountButton />
+                        </form>
+                    )}
 
-            {!user.stripeConnectedLinked && user.subscription && (
-                <form action={CreateStripeAccoutnLink}>
-                    <LinkAccountButton />
-                </form>
-            )}
-
-            {user.stripeConnectedLinked && (
-                <form action={GetStripeDashboardLink}>
-                    <DashboardButton />
-                </form>
+                    {user?.stripeConnectedLinked && (
+                        <form action={GetStripeDashboardLink}>
+                            <DashboardButton />
+                        </form>
+                    )}
+                </div>
             )}
 
             <SubscriptionCards user={user} pricingOptions={pricingOptions} />
-
         </div>
+
     )
 }
