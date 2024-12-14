@@ -39,7 +39,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
 
     const handlePublishClick = (e: React.MouseEvent) => {
         e.stopPropagation();
-        if (!user.stripeConnectedLinked) {
+        if (!user.stripeConnectedLinked || !user.subscription) {
             router.push('/dashboard/billing');
         } else {
             setPublishDialogOpen(true);
