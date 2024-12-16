@@ -1,20 +1,14 @@
 import React from 'react';
-import { Link } from "@nextui-org/link";
 import UserAvatarClient from '@/app/ui/user-avatar-client';
-import { Button } from "@nextui-org/button"
 import { auth } from "@/auth"
-import { LogInIcon } from 'lucide-react';
+import SigninDropDown from "@/app/ui/signinDropdown"
 
 export default async function UserAvatarServer() {
   const session = await auth()
 
   if (!session || !session.user) {
     return (
-      <Link href="/login">
-        <Button radius='sm' color="primary" variant="solid">
-          Sign in<LogInIcon />
-        </Button>
-      </Link>
+      <SigninDropDown />
     );
   }
 
