@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import { Spinner } from "@nextui-org/spinner";
-import { Bars3Icon, UserIcon } from "@heroicons/react/24/outline";
+import { LucideMenu, UserRound } from "lucide-react";
 import { Button } from "@nextui-org/button";
 import Link from 'next/link';
 import { deleteCourse, publishCourse, draftCourse } from "@/app/lib/actions";
@@ -147,7 +147,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                         <Dropdown>
                             <DropdownTrigger>
                                 <Button isIconOnly size="sm" variant="light">
-                                    <Bars3Icon className="h-5 w-5" />
+                                    <LucideMenu className="h-5 w-5" />
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Course actions">
@@ -184,11 +184,11 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                     <CardFooter className="text-small">
                         <div className="flex flex-col w-full">
                             <div className="flex justify-between w-full">
-                                <div>${course.price}</div>
+                                <div><b>${course.price}</b></div>
                                 {course.students > 0 && (
                                     <div className="flex">
-                                        <UserIcon className="h-4 w-4" />
-                                        {course.students.toLocaleString()}
+                                        <UserRound className="h-4 w-4" />
+                                        <b>{course.students.toLocaleString()}</b>
                                     </div>
                                 )}
                             </div>
