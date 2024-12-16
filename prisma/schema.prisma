@@ -12,7 +12,7 @@ datasource db {
 model User {
   id               String    @id @default(uuid())
   email            String    @unique
-  name             String
+  name             String?   @default("Enter your name here..")
   bio              String?   @default("Enter your bio here..")
   instagram        String?
   facebook         String?
