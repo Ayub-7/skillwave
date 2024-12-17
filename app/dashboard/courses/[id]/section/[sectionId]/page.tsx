@@ -4,6 +4,7 @@ import { Card, CardBody } from "@nextui-org/card";
 import Tiptap from "@/app/components/tiptap";
 import { auth } from "@/auth"
 import Link from 'next/link';
+import PDFDisplay from '@/app/ui/pdfDisplay';
 import { FaceFrownIcon } from '@heroicons/react/24/outline';
 
 export default async function Page({ params }: { params: { sectionId: string } }) {
@@ -63,6 +64,12 @@ export default async function Page({ params }: { params: { sectionId: string } }
                 <div className="text-center w-full">
                     <Tiptap canEdit={false} description={section.description || ''} />
                 </div>
+                {section.pdfUrl && (
+                    <PDFDisplay
+                        pdfUrl={section.pdfUrl}
+                        sectionTitle={section.name}
+                    />
+                )}
             </div>
         </main>
     );

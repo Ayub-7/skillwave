@@ -107,6 +107,7 @@ model Section {
   course      Course  @relation(fields: [courseId], references: [id])
   courseId    String
   videoUrl    String?
+  pdfUrl      String?
 }
 
 model EmailList {
