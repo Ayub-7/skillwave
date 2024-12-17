@@ -13,6 +13,7 @@ import { deleteSection, updateCourse } from "@/app/lib/actions";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
 import Tiptap from "@/app/components/tiptap";
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 interface Section {
     id?: string;
@@ -21,6 +22,9 @@ interface Section {
     videoUrl?: string;
     isVideoUploading?: boolean;
     uploadProgress?: number;
+    pdfUrl: string;
+    isPdfUploading?: boolean;
+    pdfUploadProgress?: number;
 }
 
 export default function EditCourseModal({ course }: any) {
@@ -28,7 +32,7 @@ export default function EditCourseModal({ course }: any) {
     const [description, setDescription] = React.useState(course.description);
     const [price, setPrice] = React.useState(course.price);
     const [items, setItems] = React.useState<Section[]>(
-        course.Sections.map((section: Section) => ({ ...section, isVideoUploading: false }))
+        course.Sections.map((section: Section) => ({ ...section, isVideoUploading: false, isPdfUploading: false }))
     );
     const [isLoading, setIsLoading] = React.useState(false);
     const [imageUrl, setImageUrl] = React.useState(course.imageUrl || '');
@@ -64,25 +68,35 @@ export default function EditCourseModal({ course }: any) {
         });
     };
 
+    const handlePdfUpload = (index: number, url: string, isUploading: boolean, uploadProgress: number) => {
+        setItems(prevItems => {
+            const newItems = [...prevItems];
+            newItems[index].pdfUrl = url;
+            newItems[index].isPdfUploading = isUploading;
+            newItems[index].pdfUploadProgress = uploadProgress;
+            return newItems;
+        });
+    };
+
     const isInvalidName = React.useMemo(() => name === "", [name]);
     const isInvalidPrice = React.useMemo(() => price === "", [price]);
 
     const isFormValid = React.useMemo(() => {
         return name !== '' &&
             price !== '' &&
-            items.every(item => item?.name !== '' && !item.isVideoUploading);
+            items.every(item => item?.name !== '' && !item.isVideoUploading && !item.isPdfUploading);
     }, [name, price, items]);
 
     const formValidationMessage = React.useMemo(() => {
         if (name === '') return "Course name is required";
         if (price === '') return "Price is required";
         if (items.some(item => item?.name === '')) return "All section names are required";
-        if (items.some(item => item.isVideoUploading)) return "Upload in progress";
+        if (items.some(item => item.isVideoUploading || item.isPdfUploading)) return "Upload in progress";
         return "";
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '' }]);
+        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '' }]);
     };
 
     const handleRemoveItem = async (index: number) => {
@@ -285,6 +299,55 @@ export default function EditCourseModal({ course }: any) {
                                                 }}
                                                 onUploadError={(error: Error) => {
                                                     handleVideoUpload(index, '', false, 0);
+                                                    alert(`ERROR! ${error.message}`);
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex flex-col items-center gap-4 p-4 rounded-lg">
+                                <h4 className="text-md font-semibold">Section PDF</h4>
+                                {item.pdfUrl ? (
+                                    <div className="flex flex-col items-center gap-4">
+                                        <Link
+                                            href={item.pdfUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-500 transition-colors"
+                                        >
+                                            View PDF
+                                        </Link>
+                                        <Button variant="flat" onPress={() => handlePdfUpload(index, '', false, 0)}>
+                                            Change PDF
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <div className="flex items-center justify-center">
+                                        {item.isPdfUploading ? (
+                                            <div className="flex flex-col items-center">
+                                                <CircularProgress
+                                                    aria-label="Loading..."
+                                                    size="lg"
+                                                    value={item.pdfUploadProgress}
+                                                    color="success"
+                                                    showValueLabel={true}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <UploadButton
+                                                endpoint="pdfUploader"
+                                                onClientUploadComplete={(res) => {
+                                                    handlePdfUpload(index, res[0].url, false, 0);
+                                                }}
+                                                onUploadBegin={() => {
+                                                    handlePdfUpload(index, '', true, 0);
+                                                }}
+                                                onUploadProgress={(progress: number) => {
+                                                    handlePdfUpload(index, '', true, progress);
+                                                }}
+                                                onUploadError={(error: Error) => {
+                                                    handlePdfUpload(index, '', false, 0);
                                                     alert(`ERROR! ${error.message}`);
                                                 }}
                                             />

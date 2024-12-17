@@ -73,7 +73,7 @@ export async function updateUser(input: UpdateUserInput) {
   }
 }
 
-export async function createCourse(input: courseInput, sections: { name: string; description: string; videoUrl?: string; }[]) {
+export async function createCourse(input: courseInput, sections: { name: string; description: string; videoUrl?: string;  pdfUrl?: string; }[]) {
   const session = await auth();
   if (!session) {
     return new NextResponse('Forbidden', { status: 403 });
@@ -101,7 +101,7 @@ export async function createCourse(input: courseInput, sections: { name: string;
   redirect(`/dashboard/profile/${authorId}`)
 }
 
-export async function updateCourse(id: string, input: courseInput, sections: { id?: string; name: string; description: string; videoUrl?: string; }[]) {
+export async function updateCourse(id: string, input: courseInput, sections: { id?: string; name: string; description: string; videoUrl?: string; pdfUrl?: string; }[]) {
   const session = await auth();
   const { name, description, authorId, price, imageUrl } = input;
   if (!session || session.user?.id !== authorId) {
@@ -128,6 +128,7 @@ export async function updateCourse(id: string, input: courseInput, sections: { i
             name: section.name,
             description: section.description,
             videoUrl: section.videoUrl,
+            pdfUrl: section.pdfUrl,
           },
         });
       } else {
@@ -137,6 +138,7 @@ export async function updateCourse(id: string, input: courseInput, sections: { i
             name: section.name,
             description: section.description,
             videoUrl: section.videoUrl,
+            pdfUrl: section.pdfUrl,
             course: {
               connect: {
                 id,
