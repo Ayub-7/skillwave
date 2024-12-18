@@ -23,21 +23,23 @@ export async function POST(req: Request) {
     case 'checkout.session.completed':
       const session = event.data.object;
     
-      await prisma.user.update({
-        where: { id: session.metadata?.userId },
-        data: {
-          purchasedCourses: {
-            push: session.metadata?.courseId
+      if (session.metadata?.courseId) {
+        await prisma.user.update({
+          where: { id: session.metadata?.userId },
+          data: {
+            purchasedCourses: {
+              push: session.metadata.courseId
+            }
           }
-        }
-      });
+        });
 
-       await prisma.course.update({
-        where: { id: session.metadata?.courseId },
-        data: {
-          students: { increment: 1 }
-        },
-      });
+        await prisma.course.update({
+          where: { id: session.metadata.courseId },
+          data: {
+            students: { increment: 1 }
+          },
+        });
+      }
       break;
     case 'customer.subscription.created':
     case 'customer.subscription.updated':
