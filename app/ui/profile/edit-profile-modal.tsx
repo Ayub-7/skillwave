@@ -38,6 +38,11 @@ export default function EditProfileModal({ user }: any) {
 
     const isInvalidBio = React.useMemo(() => bio.length > 130, [bio]);
 
+    const getDisplayName = () => {
+        if (user?.name) return user.name;
+        return user.email.split('@')[0];
+    };
+
     React.useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -126,7 +131,7 @@ export default function EditProfileModal({ user }: any) {
                                     )}
                                 </div>
                                 <Input
-                                    value={name}
+                                    value={getDisplayName()}
                                     isRequired
                                     isInvalid={isInvalid}
                                     color={isInvalid ? "danger" : "default"}
