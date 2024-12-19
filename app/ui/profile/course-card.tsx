@@ -25,6 +25,11 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
         router.push(`/dashboard/courses/${id}`);
     };
 
+    const getDisplayName = () => {
+        if (course.author.name) return course.author.name;
+        return course.author.email.split('@')[0];
+    };
+
     const courseImage = () => {
         if (!course.imageUrl) {
             return `/SW-${theme}-sm.png`;
@@ -199,7 +204,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                                         className="text-blue-500 hover:underline focus:outline-none"
                                         onClick={(e) => e.stopPropagation()}
                                     >
-                                        {`By ${course.author.name}`}
+                                        {`By ${getDisplayName()}`}
                                     </Link>
                                 </p>
                             )}
