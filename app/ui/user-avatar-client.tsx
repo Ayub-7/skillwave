@@ -10,7 +10,13 @@ import {
 import { signOutAction } from '@/app/lib/actions';
 import { Avatar } from '@nextui-org/avatar';
 
-export default function UserAvatarClient({ image, name, id }: any) {
+export default function UserAvatarClient({ image, name, email, id }: any) {
+
+  const getDisplayName = () => {
+    if (name) return name;
+    return email.split('@')[0];
+  };
+
   return (
     <Dropdown placement="bottom-start">
       <DropdownTrigger>
@@ -26,7 +32,7 @@ export default function UserAvatarClient({ image, name, id }: any) {
       <DropdownMenu aria-label="User Actions" variant="flat">
         <DropdownItem key="details" className="h-14 gap-2">
           <p className="font-bold">Signed in as</p>
-          <p className="font-bold">{name}</p>
+          <p className="font-bold">{getDisplayName()}</p>
         </DropdownItem>
         <DropdownItem key="profile" href={`/dashboard/profile/${id}`}>My Profile</DropdownItem>
         <DropdownItem color="success" key="billing" href={`/dashboard/billing`}>Billing</DropdownItem>

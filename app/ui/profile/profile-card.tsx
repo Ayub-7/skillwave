@@ -21,6 +21,11 @@ type ProfileCardProps = {
 export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
     const router = useRouter();
 
+    const getDisplayName = () => {
+        if (user?.name) return user.name;
+        return user.email.split('@')[0];
+    };
+
     return (
         <Card className="w-80 rounded-lg shadow-md relative">
             <CardHeader className="flex justify-between items-center">
@@ -115,9 +120,9 @@ export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
                         src="/default-profile-image.png"
                     />
                 )}
-                <h2 className="mt-4 text-xl font-semibold text-center">{user?.name}</h2>
+                <h2 className="mt-4 text-xl font-semibold text-center">{getDisplayName()}</h2>
                 <p className="mt-2 text-sm text-center  max-w-xs px-6">
-                    {user?.bio}
+                    {user?.bio || "This user hasn't added a bio yet."}
                 </p>
             </CardBody>
         </Card>
