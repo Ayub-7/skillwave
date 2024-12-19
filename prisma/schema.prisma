@@ -12,8 +12,8 @@ datasource db {
 model User {
   id               String    @id @default(uuid())
   email            String    @unique
-  name             String?   @default("Enter your name here..")
-  bio              String?   @default("Enter your bio here..")
+  name             String?
+  bio              String?
   instagram        String?
   facebook         String?
   tiktok           String?
