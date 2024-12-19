@@ -23,7 +23,11 @@ export default function EditProfileModal({ user }: any) {
     const [imageUrl, setImageUrl] = React.useState(user.image || '');
 
     // State for profile details
-    const [name, setName] = React.useState(user.name);
+    const getDisplayName = () => {
+        if (user?.name) return user.name;
+        return user.email.split('@')[0];
+    };
+    const [name, setName] = React.useState(getDisplayName());
     const [bio, setBio] = React.useState(user.bio || '');
 
     // State for social media links
@@ -37,11 +41,6 @@ export default function EditProfileModal({ user }: any) {
     const isInvalid = React.useMemo(() => name === "", [name]);
 
     const isInvalidBio = React.useMemo(() => bio.length > 130, [bio]);
-
-    const getDisplayName = () => {
-        if (user?.name) return user.name;
-        return user.email.split('@')[0];
-    };
 
     React.useEffect(() => {
         const handleResize = () => {
@@ -131,7 +130,7 @@ export default function EditProfileModal({ user }: any) {
                                     )}
                                 </div>
                                 <Input
-                                    value={getDisplayName()}
+                                    value={name}
                                     isRequired
                                     isInvalid={isInvalid}
                                     color={isInvalid ? "danger" : "default"}
