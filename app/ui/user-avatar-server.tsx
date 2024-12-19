@@ -16,6 +16,7 @@ export default async function UserAvatarServer() {
     <UserAvatarClient
       image={session.user.image}
       name={session.user.name}
+      email={session.user.email}
       id={session.user.id}
     />
   );
