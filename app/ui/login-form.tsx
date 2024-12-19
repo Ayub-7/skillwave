@@ -54,12 +54,12 @@ export default function SignIn() {
               placeholder="Enter your email address"
               className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-            <button
+            <Button
               type="submit"
               className="w-full px-4 py-3 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
             >
               Continue with Email
-            </button>
+            </Button>
           </form>
 
           <p className="text-center text-sm text-default-400">
