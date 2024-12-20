@@ -1,7 +1,7 @@
 import { getAllCourses } from "@/app/lib/data";
 import CourseCard from "@/app/ui/profile/course-card";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import TinyLaunchBadge from "@/public/tinylaunch_badge_2"; // Import your SVG
+import ThemeBadge from "@/app/ui/themeBadge";
 
 export default async function Page() {
   const courses = await getAllCourses()
@@ -13,16 +13,8 @@ export default async function Page() {
 
   return (
     <main>
-      {/* Dofollow Backlink */}
       <div className="flex justify-center mt-4">
-        <a
-          href="tinylaun.ch"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:scale-105 transition-transform"
-        >
-          <TinyLaunchBadge className="h-12 w-auto" /> {/* Add your SVG */}
-        </a>
+        <ThemeBadge />
       </div>
 
       {/* Search and Courses Section */}
