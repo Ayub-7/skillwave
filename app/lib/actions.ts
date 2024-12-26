@@ -310,7 +310,7 @@ export async function BuyCourse(formData: FormData) {
   return redirect(checkoutSession.url as string);
 }
 
-export async function createCheckoutSession(priceId: string) {
+export async function createCheckoutSession(priceId: string, promoteKitReferral: any) {
   try {
     const session = await auth();
     
@@ -366,7 +366,8 @@ export async function createCheckoutSession(priceId: string) {
       subscription_data: {
         metadata: {
           userId: user.id,
-          email: user.email
+          email: user.email,
+          promotekit_referral: promoteKitReferral
         },
       },
     });
