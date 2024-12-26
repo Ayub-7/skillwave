@@ -399,7 +399,9 @@ export async function manageSubscription() {
 
     const portalSession = await stripe.billingPortal.sessions.create({
       customer: user.stripeCustomerId,
-      return_url: `http://localhost:3000/dashboard/billing`,
+      return_url: process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/dashboard/billing"
+        : "https://skillwave.io/dashboard/billing",
     });
 
     revalidatePath('/dashboard/billing');
