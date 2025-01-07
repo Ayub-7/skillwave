@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { LogInIcon, LucideMenu, Wallet } from 'lucide-react';
+import { LogInIcon, LucideMenu, Wallet, Eye } from 'lucide-react';
 import { FaSquareXTwitter } from "react-icons/fa6";
 import {
   Dropdown,
@@ -32,11 +32,10 @@ export default function SigninDropdown() {
         </DropdownItem>
         <DropdownItem
           key="contact"
-          href="https://x.com/skillwaveio"
-          target="_blank"
-          endContent={<FaSquareXTwitter size={22} />}
+          href="/dashboard"
+          endContent={<Eye />}
         >
-          Contact
+          Browse Courses
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

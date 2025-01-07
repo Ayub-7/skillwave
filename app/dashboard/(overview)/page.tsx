@@ -1,7 +1,6 @@
 import { getAllCourses } from "@/app/lib/data";
 import CourseCard from "@/app/ui/profile/course-card";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
-import ThemeBadge from "@/app/ui/themeBadge";
 
 export default async function Page() {
   const courses = await getAllCourses()
@@ -13,10 +12,6 @@ export default async function Page() {
 
   return (
     <main>
-      <div className="flex justify-center mt-4">
-        <ThemeBadge />
-      </div>
-
       {/* Search and Courses Section */}
       <div className="flex justify-center pt-8">
         <div className="relative">
