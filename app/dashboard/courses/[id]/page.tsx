@@ -22,7 +22,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     }
 
     return (
-        <main className="flex min-h-screen justify-center items-center">
+        <main className="flex min-h-screen justify-center items-start">
             <div className="flex-1 flex flex-col items-center p-6 max-w-4xl">
                 <div className="w-full relative mb-4">
                     <h1 className="text-3xl font-bold text-center">{course.name}</h1>

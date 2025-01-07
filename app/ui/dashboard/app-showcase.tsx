@@ -53,7 +53,7 @@ const AppShowcase = () => {
                             initial={{ opacity: 0, y: 20 }} // Initial state
                             animate={{ opacity: 1, y: 0 }} // Animation when mounted
                             transition={{ duration: 0.5, delay: index * 0.2 }} // Delayed animation for each item
-                            className="rounded-lg shadow-md overflow-hidden"
+                            className="rounded-lg shadow-md dark:bg-neutral-900 dark:shadow-gray-700/30 overflow-hidden"
                         >
                             <Image
                                 src={item.imageSrc}

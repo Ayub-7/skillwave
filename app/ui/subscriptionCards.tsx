@@ -1,13 +1,19 @@
 'use client'
 import React, { useState } from 'react';
-import { Card, CardBody, Tabs, Tab } from "@nextui-org/react"
+import { useRouter } from 'next/navigation';
+import { Card, CardBody, Tabs, Tab, Button } from "@nextui-org/react"
 import { SubscribeButton } from '@/app/ui/subscribeButton';
 import { ManageSubscriptionButton } from '@/app/ui/manageSubscriptionButton';
-import { CircleCheck } from 'lucide-react';
+import { CircleCheck, ArrowRight } from 'lucide-react';
 
 export default function SubscriptionCards({ user, pricingOptions }: any) {
+    const router = useRouter();
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
     const currentPricing = pricingOptions[billingCycle];
+
+    const login = () => {
+        router.push(`/login`);
+    };
 
     return (
         <>
@@ -62,7 +68,7 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                 </ul>
                             </div>
 
-                            {user && (
+                            {user ? (
                                 user.subscription ? (
                                     <div>
                                         <p>Status: {user.subscription.status}</p>
@@ -78,6 +84,14 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                         </div>
                                     </div>
                                 )
+                            ) : (
+                                <Button
+                                    color='primary'
+                                    endContent={<ArrowRight />}
+                                    onClick={login}
+                                >
+                                    Start Now
+                                </Button>
                             )}
 
                         </div>
