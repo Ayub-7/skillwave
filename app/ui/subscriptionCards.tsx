@@ -63,6 +63,10 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                     </li>
                                     <li className="flex items-center gap-2">
                                         <CircleCheck color='green' />
+                                        <span className="text-small">Affiliate Program</span>
+                                    </li>
+                                    <li className="flex items-center gap-2">
+                                        <CircleCheck color='green' />
                                         <span className="text-small">3.7% Transaction Fee</span>
                                     </li>
                                 </ul>

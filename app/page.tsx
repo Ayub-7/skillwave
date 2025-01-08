@@ -15,12 +15,12 @@ const LandingPage = () => {
   }
   const pricingOptions = {
     monthly: {
-      price: 35,
+      price: 25,
       priceId: process.env.NODE_ENV === "production" ? process.env.PRICE_ID_PROD : process.env.PRICE_ID_DEV,
       description: "per month"
     },
     yearly: {
-      price: 320,
+      price: 200,
       priceId: process.env.NODE_ENV === "production" ? process.env.PRICE_ID_YEARLY_PROD : process.env.PRICE_ID_YEARLY_DEV,
       description: "per year"
     }
@@ -48,7 +48,7 @@ const LandingPage = () => {
         <section className="mb-20">
           <div className="max-w-7xl mx-auto px-6">
             <h2 className="text-3xl font-bold text-center mb-8">Why Choose Skill Wave?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
                 <h3 className="font-bold text-xl mb-4">Easy Course Creation</h3>
                 <p>Create professional courses effortlessly with our intuitive tools.</p>
@@ -60,6 +60,10 @@ const LandingPage = () => {
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
                 <h3 className="font-bold text-xl mb-4">Analytics</h3>
                 <p>Gain insights into your sales and student engagement.</p>
+              </div>
+              <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
+                <h3 className="font-bold text-xl mb-4">Affiliate Program</h3>
+                <p>Refer creators to skillwave.io and earn a 40% commission for life.</p>
               </div>
             </div>
           </div>
@@ -94,7 +98,7 @@ const LandingPage = () => {
               </Link>
             </div>
             <p className="text-sm">
-              Copyright © 2025 Skill Wave. All rights reserved.
+              Copyright © 2025 skillwave.io All rights reserved.
             </p>
             {/* <div className="mt-4">
               <Link href="/terms" className="text-gray-400 hover:text-white mx-2">
