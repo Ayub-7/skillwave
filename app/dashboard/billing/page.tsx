@@ -10,12 +10,12 @@ export default async function BillingRoute() {
 
     const pricingOptions = {
         monthly: {
-            price: 35,
+            price: 25,
             priceId: process.env.NODE_ENV === "production" ? process.env.PRICE_ID_PROD : process.env.PRICE_ID_DEV,
             description: "per month"
         },
         yearly: {
-            price: 320,
+            price: 200,
             priceId: process.env.NODE_ENV === "production" ? process.env.PRICE_ID_YEARLY_PROD : process.env.PRICE_ID_YEARLY_DEV,
             description: "per year"
         }
