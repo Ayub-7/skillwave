@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from "@nextui-org/react";
+import { BsStripe } from "react-icons/bs";
 import AppShowcase from '@/app/ui/dashboard/app-showcase';
 import NavBar from '@/app/ui/dashboard/navbar';
 import { AnimatedHeading } from '@/app/ui/animatedHeading';
@@ -50,19 +50,21 @@ const LandingPage = () => {
             <h2 className="text-3xl font-bold text-center mb-8">Why Choose Skill Wave?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
-                <h3 className="font-bold text-xl mb-4">Easy Course Creation</h3>
+                <h3 className="font-bold text-xl mb-4">Easy Course Creation⚡</h3>
                 <p>Create professional courses effortlessly with our intuitive tools.</p>
               </div>
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
-                <h3 className="font-bold text-xl mb-4">Integrated Payments</h3>
-                <p>Start earning immediately with seamless payment integrations.</p>
+                <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
+                  Stripe Integration <BsStripe className="text-[#635BFF] h-6 w-6" />
+                </h3>
+                <p>Start earning instantly with our seamless Stripe payment integration.</p>
               </div>
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
-                <h3 className="font-bold text-xl mb-4">Analytics</h3>
+                <h3 className="font-bold text-xl mb-4">Analytics 📈</h3>
                 <p>Gain insights into your sales and student engagement.</p>
               </div>
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
-                <h3 className="font-bold text-xl mb-4">Affiliate Program</h3>
+                <h3 className="font-bold text-xl mb-4">Affiliate Program 💰</h3>
                 <p>Refer creators to skillwave.io and earn a 40% commission for life.</p>
               </div>
             </div>
