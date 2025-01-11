@@ -57,7 +57,7 @@ const LandingPage = () => {
                 <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
                   Stripe Integration <BsStripe className="text-[#635BFF] h-6 w-6" />
                 </h3>
-                <p>Start earning immediately with seamless Stripe payment integration.</p>
+                <p>Start earning instantly with our seamless Stripe payment integration.</p>
               </div>
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
                 <h3 className="font-bold text-xl mb-4">Analytics 📈</h3>
