@@ -1,5 +1,5 @@
 import '@/app/ui/global.css';
-import { karla } from '@/app/ui/fonts';
+import { inter } from '@/app/ui/fonts';
 import { Metadata } from 'next';
 import Providers from './providers';
 import { Toaster } from 'react-hot-toast';
@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${karla.className} antialiased`}>
+      <body className={`${inter.className} antialiased`}>
         <Toaster
           containerStyle={{
             top: 65,
