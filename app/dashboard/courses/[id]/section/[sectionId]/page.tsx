@@ -39,28 +39,31 @@ export default async function Page({ params }: { params: { sectionId: string } }
     }
 
     return (
-        <main className="flex min-h-screen items-center justify-center">
-            <div className="flex-1 flex flex-col items-center p-6 max-w-4xl w-full">
-                <Card className="w-full mb-8">
-                    <CardBody>
-                        {section.videoUrl ? (
-                            <div className="aspect-video w-full mb-4">
-                                <video
-                                    className="w-full h-full rounded-lg"
-                                    controls
-                                    preload="metadata"
-                                >
-                                    <source src={section.videoUrl} type="video/mp4" />
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                        ) : (
-                            <div className="aspect-video w-full mb-4 bg-gray-200 flex items-center justify-center rounded-lg">
-                                <p className="text-gray-500">No video available</p>
-                            </div>
-                        )}
-                    </CardBody>
-                </Card>
+        <main className="flex min-h-screen justify-center items-start">
+            <div className="flex-1 flex flex-col items-center p-6 max-w-4xl">
+                <div className="w-full relative mb-4">
+                    <h1 className="text-3xl font-bold text-center">{section.name}</h1>
+                    <Card className="w-full mb-8 mt-6">
+                        <CardBody>
+                            {section.videoUrl ? (
+                                <div className="aspect-video w-full mb-4">
+                                    <video
+                                        className="w-full h-full rounded-lg"
+                                        controls
+                                        preload="metadata"
+                                    >
+                                        <source src={section.videoUrl} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            ) : (
+                                <div className="aspect-video w-full mb-4 bg-gray-200 flex items-center justify-center rounded-lg">
+                                    <p className="text-gray-500">No video available</p>
+                                </div>
+                            )}
+                        </CardBody>
+                    </Card>
+                </div>
                 <div className="text-center w-full">
                     <Tiptap canEdit={false} description={section.description || ''} />
                 </div>
