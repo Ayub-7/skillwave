@@ -6,7 +6,7 @@ import { Button } from "@nextui-org/button";
 import { Spinner } from "@nextui-org/spinner";
 import { joinCourse } from '@/app/lib/actions';
 
-export function JoinCourseButton({ courseId }: { courseId: string }) {
+export function JoinCourseButton({ courseId, session }: { courseId: string, session: any }) {
     const [loading, setLoading] = useState(false);
 
     const handleManage = async () => {
@@ -17,11 +17,13 @@ export function JoinCourseButton({ courseId }: { courseId: string }) {
             console.error('Error:', error);
         } finally {
             setLoading(false);
-            toast.success('Successfully joined course!', {
-                duration: 3000,
-                position: 'top-right',
-                style: { zIndex: 9999 },
-            });
+            if (session) {
+                toast.success('Successfully joined course!', {
+                    duration: 3000,
+                    position: 'top-right',
+                    style: { zIndex: 9999 },
+                });
+            }
         }
     };
 

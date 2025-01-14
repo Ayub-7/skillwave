@@ -32,7 +32,7 @@ export default function CourseTabSwitcher({ myCourses, purchasedCourses, user, c
                         {renderCourses(myCourses)}
                     </div>
                 </Tab>
-                <Tab key="Purchased" title="Purchased">
+                <Tab key="Joined" title="Joined">
                     <div className="min-h-[500px] p-4 mb-px">
                         {renderCourses(purchasedCourses)}
                     </div>
