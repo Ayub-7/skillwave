@@ -189,7 +189,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                     <CardFooter className="text-small">
                         <div className="flex flex-col w-full">
                             <div className="flex justify-between w-full">
-                                <div><b>${course.price}</b></div>
+                                <div><b>{course.price === 0 ? 'Free' : `$${course.price}`}</b></div>
                                 {course.students > 0 && (
                                     <div className="flex">
                                         <UserRound className="h-4 w-4" />

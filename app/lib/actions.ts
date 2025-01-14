@@ -245,6 +245,30 @@ export async function signOutAction() {
   await signOut({redirectTo: '/'});
 } 
   
+export async function joinCourse(courseId: string) {
+  const session = await auth();
+  if (!session) {
+    return redirect('/login')
+  }
+
+  await prisma.user.update({
+    where: { id: session.user?.id },
+    data: {
+      purchasedCourses: {
+        push: courseId
+      }
+    }
+  });
+
+  await prisma.course.update({
+    where: { id: courseId },
+    data: {
+      students: { increment: 1 }
+    },
+  });
+  revalidatePath(`/dashboard/courses/${courseId}`);
+}
+
 export async function BuyCourse(formData: FormData) {
   const session = await auth();
   if (!session) {

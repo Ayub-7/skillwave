@@ -6,6 +6,7 @@ import { Avatar } from "@nextui-org/avatar";
 import { getUser } from "@/app/lib/data";
 import { BuyCourse } from '@/app/lib/actions'; // adjust the import path
 import { BuyButton } from "@/app/ui/button";
+import { JoinCourseButton } from "@/app/ui/joinCourseButton";
 import { auth } from "@/auth"
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -35,12 +36,17 @@ export default async function Page({ params }: { params: { id: string } }) {
                         </Link>
                         &nbsp;({course.students.toLocaleString()} Students)
                     </div>
-                    {!user?.purchasedCourses?.includes(id) && course.authorId !== user?.id && (
+                    {!user?.purchasedCourses?.includes(id) && course.authorId !== user?.id && course.price > 0 && (
                         <div className="flex items-center justify-center">
                             <form className="mt-6" action={BuyCourse}>
                                 <input type="hidden" name="id" value={course.id} />
                                 <BuyButton price={course.price as number} />
                             </form>
+                        </div>
+                    )}
+                    {!user?.purchasedCourses?.includes(id) && course.authorId !== user?.id && course.price === 0 && (
+                        <div className="flex items-center justify-center">
+                            <JoinCourseButton courseId={id as string} />
                         </div>
                     )}
                 </div>

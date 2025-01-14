@@ -73,17 +73,19 @@ export default function CreateCourseForm({ user }: any) {
     };
 
     const isInvalidName = React.useMemo(() => name === "", [name]);
-    const isInvalidPrice = React.useMemo(() => price === "", [price]);
+    const isInvalidPrice = React.useMemo(() => price === "" || parseFloat(price) < 0, [price]);
 
     const isFormValid = React.useMemo(() => {
         return name !== '' &&
             price !== '' &&
+            parseFloat(price) >= 0 &&
             items.every(item => item.name !== '' && !item.isVideoUploading && !item.isPdfUploading);
     }, [name, price, items]);
 
     const formValidationMessage = React.useMemo(() => {
         if (name === '') return "Course name is required";
         if (price === '') return "Price is required";
+        if (parseFloat(price) < 0) return "Price can't be less than zero";
         if (items.some(item => item.name === '')) return "All section names are required";
         if (items.some(item => item.isVideoUploading || item.isPdfUploading)) return "Upload in progress";
         return "";

@@ -26,7 +26,7 @@ export default async function Layout({ children, params }: { children: React.Rea
     return (
         <div className="flex min-h-screen">
             {/* Sidebar for larger screens */}
-            <div className="hidden md:block">
+            <div className="hidden md:block ml-2">
                 <SectionsBar
                     price={course.price}
                     sections={course.Sections}
