@@ -50,7 +50,7 @@ const LandingPage = () => {
             <h2 className="text-3xl font-bold text-center mb-8">Why Choose Skill Wave?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
-                <h3 className="font-bold text-xl mb-4">Easy Course Creation⚡</h3>
+                <h3 className="font-bold text-xl mb-4">Easy Course Creation ⚡</h3>
                 <p>Create professional courses effortlessly with our intuitive tools.</p>
               </div>
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
