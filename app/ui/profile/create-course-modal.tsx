@@ -135,6 +135,7 @@ export default function CreateCourseForm({ user }: any) {
         };
     };
 
+    // reset the form
     const resetForm = () => {
         setName('');
         setDescription('');
