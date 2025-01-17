@@ -108,6 +108,7 @@ model Section {
   courseId    String
   videoUrl    String?
   pdfUrl      String?
+  order       Int     @default(0)
 }
 
 model EmailList {

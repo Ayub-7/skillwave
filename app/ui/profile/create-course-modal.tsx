@@ -23,13 +23,14 @@ interface CourseSection {
     pdfUrl: string;
     isPdfUploading?: boolean;
     pdfUploadProgress?: number;
+    order?: number;
 }
 
 export default function CreateCourseForm({ user }: any) {
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [price, setPrice] = React.useState('');
-    const [items, setItems] = React.useState<CourseSection[]>([{ name: '', description: '', videoUrl: '', pdfUrl: '' }]);
+    const [items, setItems] = React.useState<CourseSection[]>([{ name: '', description: '', videoUrl: '', pdfUrl: '', order: 0 }]);
     const [isLoading, setIsLoading] = React.useState(false);
     const [imageUrl, setImageUrl] = React.useState('');
 
@@ -92,15 +93,22 @@ export default function CreateCourseForm({ user }: any) {
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '' }]);
+        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '', order: prevItems.length }]);
     };
 
     const handleRemoveItem = (index: number) => {
-        setItems(prevItems => prevItems.filter((_, i) => i !== index));
+        setItems(prevItems => {
+            const filteredItems = prevItems.filter((_, i) => i !== index);
+            // Reorder the remaining items
+            return filteredItems.map((item, idx) => ({
+                ...item,
+                order: idx
+            }));
+        });
     };
 
     const prepareItemsForSubmission = (items: CourseSection[]) => {
-        return items.map(({ name, description, videoUrl, pdfUrl }) => ({ name, description, videoUrl, pdfUrl }));
+        return items.map(({ name, description, videoUrl, pdfUrl, order }) => ({ name, description, videoUrl, pdfUrl, order }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -135,6 +143,7 @@ export default function CreateCourseForm({ user }: any) {
         };
     };
 
+    // reset the form
     const resetForm = () => {
         setName('');
         setDescription('');
@@ -219,7 +228,7 @@ export default function CreateCourseForm({ user }: any) {
             </div>
 
             <Accordion key={items.length} variant="splitted" selectionMode="multiple">
-                {items.map((item: CourseSection, index: number) => (
+                {items.sort((a: any, b: any) => a.order - b.order).map((item: CourseSection, index: number) => (
                     <AccordionItem key={index} aria-label={`Section ${index + 1}`}
                         title={item.name !== '' ? item.name : `Section ${index + 1}`}
                         startContent={

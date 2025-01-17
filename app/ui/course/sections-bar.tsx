@@ -41,7 +41,7 @@ export default function SectionsBar({ price, sections, courseId, hasAccess }: an
                         </span>
                         <span>Preview</span>
                     </li>
-                    {sections.map((section: any) => (
+                    {sections.sort((a: any, b: any) => a.order - b.order).map((section: any) => (
                         <li
                             onClick={() => handleCardPress(section.id)}
                             key={section.id}

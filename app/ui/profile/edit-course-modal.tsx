@@ -25,6 +25,7 @@ interface Section {
     pdfUrl: string;
     isPdfUploading?: boolean;
     pdfUploadProgress?: number;
+    order?: number;
 }
 
 export default function EditCourseModal({ course }: any) {
@@ -98,12 +99,20 @@ export default function EditCourseModal({ course }: any) {
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '' }]);
+        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '', order: prevItems.length }]);
     };
 
     const handleRemoveItem = async (index: number) => {
         const itemToRemove = items[index];
-        setItems(prevItems => prevItems.filter((_, i) => i !== index));
+        setItems(prevItems => {
+            const filteredItems = prevItems.filter((_, i) => i !== index);
+            // Reorder the remaining items
+            return filteredItems.map((item, idx) => ({
+                ...item,
+                order: idx
+            }));
+        });
+
         if (itemToRemove.id) {
             await deleteSection(itemToRemove.id, course.authorId);
         }
@@ -224,7 +233,7 @@ export default function EditCourseModal({ course }: any) {
             </div>
 
             <Accordion key={items.length} variant="splitted" selectionMode="multiple">
-                {items.map((item: Section, index: number) => (
+                {items.sort((a: any, b: any) => a.order - b.order).map((item: Section, index: number) => (
                     <AccordionItem key={index} aria-label={`Section ${index + 1}`}
                         title={item?.name !== '' ? item?.name : `Section ${index + 1}`}
                         startContent={
