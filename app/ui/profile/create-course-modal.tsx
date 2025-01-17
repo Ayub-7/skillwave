@@ -23,13 +23,14 @@ interface CourseSection {
     pdfUrl: string;
     isPdfUploading?: boolean;
     pdfUploadProgress?: number;
+    order?: number;
 }
 
 export default function CreateCourseForm({ user }: any) {
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
     const [price, setPrice] = React.useState('');
-    const [items, setItems] = React.useState<CourseSection[]>([{ name: '', description: '', videoUrl: '', pdfUrl: '' }]);
+    const [items, setItems] = React.useState<CourseSection[]>([{ name: '', description: '', videoUrl: '', pdfUrl: '', order: 0 }]);
     const [isLoading, setIsLoading] = React.useState(false);
     const [imageUrl, setImageUrl] = React.useState('');
 
@@ -92,7 +93,7 @@ export default function CreateCourseForm({ user }: any) {
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '' }]);
+        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '', order: items.length++ }]);
     };
 
     const handleRemoveItem = (index: number) => {
@@ -100,7 +101,7 @@ export default function CreateCourseForm({ user }: any) {
     };
 
     const prepareItemsForSubmission = (items: CourseSection[]) => {
-        return items.map(({ name, description, videoUrl, pdfUrl }) => ({ name, description, videoUrl, pdfUrl }));
+        return items.map(({ name, description, videoUrl, pdfUrl, order }) => ({ name, description, videoUrl, pdfUrl, order }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {

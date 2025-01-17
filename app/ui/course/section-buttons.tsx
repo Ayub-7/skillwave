@@ -36,7 +36,7 @@ export default function SectionButtons({ price, sections, courseId, hasAccess }:
                     Preview
                 </Button>
 
-                {sections.map((section: any) => (
+                {sections.sort((a: any, b: any) => a.order - b.order).map((section: any) => (
                     <Button
                         key={section.id}
                         onClick={() => handleCardPress(section.id)}

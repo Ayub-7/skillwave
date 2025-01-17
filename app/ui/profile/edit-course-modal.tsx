@@ -25,6 +25,7 @@ interface Section {
     pdfUrl: string;
     isPdfUploading?: boolean;
     pdfUploadProgress?: number;
+    order?: number;
 }
 
 export default function EditCourseModal({ course }: any) {
@@ -98,7 +99,7 @@ export default function EditCourseModal({ course }: any) {
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '' }]);
+        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '', order: items.length++ }]);
     };
 
     const handleRemoveItem = async (index: number) => {
