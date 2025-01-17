@@ -93,11 +93,18 @@ export default function CreateCourseForm({ user }: any) {
     }, [name, price, items]);
 
     const handleAddItem = () => {
-        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '', order: items.length++ }]);
+        setItems(prevItems => [...prevItems, { name: '', description: '', videoUrl: '', pdfUrl: '', order: prevItems.length }]);
     };
 
     const handleRemoveItem = (index: number) => {
-        setItems(prevItems => prevItems.filter((_, i) => i !== index));
+        setItems(prevItems => {
+            const filteredItems = prevItems.filter((_, i) => i !== index);
+            // Reorder the remaining items
+            return filteredItems.map((item, idx) => ({
+                ...item,
+                order: idx
+            }));
+        });
     };
 
     const prepareItemsForSubmission = (items: CourseSection[]) => {
@@ -221,7 +228,7 @@ export default function CreateCourseForm({ user }: any) {
             </div>
 
             <Accordion key={items.length} variant="splitted" selectionMode="multiple">
-                {items.map((item: CourseSection, index: number) => (
+                {items.sort((a: any, b: any) => a.order - b.order).map((item: CourseSection, index: number) => (
                     <AccordionItem key={index} aria-label={`Section ${index + 1}`}
                         title={item.name !== '' ? item.name : `Section ${index + 1}`}
                         startContent={
