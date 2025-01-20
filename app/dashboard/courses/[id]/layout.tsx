@@ -28,7 +28,6 @@ export default async function Layout({ children, params }: { children: React.Rea
             {/* Sidebar for larger screens */}
             <div className="hidden md:block ml-2">
                 <SectionsBar
-                    price={course.price}
                     sections={course.Sections}
                     courseId={id}
                     hasAccess={hasAccess}
@@ -44,9 +43,8 @@ export default async function Layout({ children, params }: { children: React.Rea
 
                 {/* Mobile Bottom Bar */}
                 <div className="md:hidden w-full px-4 flex flex-col items-center">
-                    <h3 className="font-bold mb-4">Course Chapters</h3>
+                    <h3 className="font-bold mb-4">Course Content</h3>
                     <SectionButtons
-                        price={course.price}
                         sections={course.Sections}
                         courseId={id}
                         hasAccess={hasAccess}

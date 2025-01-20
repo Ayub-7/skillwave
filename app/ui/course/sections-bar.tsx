@@ -1,12 +1,12 @@
 'use client';
 import { useRouter, usePathname } from 'next/navigation';
-import { Lock } from 'lucide-react';
-import { BuyCourse } from '@/app/lib/actions'; // adjust the import path
-import { BuyButton } from "@/app/ui/button";
+import { Lock, PlayCircle } from 'lucide-react';
+import { cn } from '@/app/lib/utils';
 
-export default function SectionsBar({ price, sections, courseId, hasAccess }: any) {
+export default function SectionsBar({ sections, courseId, hasAccess }: any) {
     const router = useRouter();
     const pathname = usePathname();
+    const currentSectionId = pathname.split('/').pop();
 
     const handleCardPress = (sectionId: any) => {
         if (hasAccess) {
@@ -22,49 +22,68 @@ export default function SectionsBar({ price, sections, courseId, hasAccess }: an
         return null;
     }
 
-    const currentSectionId = pathname.split('/').pop();
-
     return (
-        <aside className="w-26 py-8 mt-4 px-4 shadow-lg border border-transparent rounded-lg bg-white dark:bg-neutral-900 dark:shadow-gray-700/30 transition-shadow duration-300 ease-in-out">
-            <h2 className="text-lg font-bold mb-4">Course Chapters</h2>
+        <aside className="w-72 py-6 mt-4 px-6 shadow-lg border border-transparent rounded-xl bg-white dark:bg-neutral-900 dark:shadow-gray-700/30 transition-all duration-300 ease-in-out hover:shadow-xl">
+            <h2 className="text-xl font-bold mb-6 text-gray-800 dark:text-gray-200">Course Content</h2>
             <nav>
-                <ul className="space-y-4">
+                <ul className="space-y-3">
                     <li
                         onClick={backToPreview}
-                        className={`flex items-center text-lg transition-colors cursor-pointer ${!pathname.includes('/section/')
-                            ? 'font-bold text-blue-500'
-                            : 'hover:text-gray-400'
-                            }`}
+                        className={cn(
+                            "flex items-center p-3 rounded-lg transition-all duration-200",
+                            "hover:bg-gray-50 dark:hover:bg-neutral-800",
+                            !pathname.includes('/section/') && "bg-blue-50 dark:bg-blue-900/20"
+                        )}
                     >
-                        <span className="inline-flex items-center">
-                            <span className="h-1 w-1 rounded-full bg-current mr-4 ml-2" />
+                        <PlayCircle className={cn(
+                            "h-5 w-5 mr-3",
+                            !pathname.includes('/section/') ? "text-blue-500" : "text-gray-400"
+                        )} />
+                        <span className={cn(
+                            "text-gray-700 dark:text-gray-300",
+                            !pathname.includes('/section/') && "font-semibold text-blue-600 dark:text-blue-400"
+                        )}>
+                            Course Preview
                         </span>
-                        <span>Preview</span>
                     </li>
-                    {sections.sort((a: any, b: any) => a.order - b.order).map((section: any) => (
+
+                    {sections.sort((a: any, b: any) => a.order - b.order).map((section: any, index: number) => (
                         <li
                             onClick={() => handleCardPress(section.id)}
                             key={section.id}
-                            className={`flex items-center text-lg transition-colors ${hasAccess
-                                ? 'cursor-pointer'
-                                : 'cursor-not-allowed opacity-70'
-                                } ${section.id.toString() === currentSectionId
-                                    ? 'font-bold text-blue-500'
-                                    : hasAccess ? 'hover:text-gray-400' : ''
-                                }`}
+                            className={cn(
+                                "flex items-center p-3 rounded-lg transition-all duration-200",
+                                hasAccess ? "cursor-pointer hover:bg-gray-50 dark:hover:bg-neutral-800" : "cursor-not-allowed",
+                                section.id.toString() === currentSectionId && "bg-blue-50 dark:bg-blue-900/20",
+                                !hasAccess && "opacity-80"
+                            )}
                         >
-                            <span className="inline-flex items-center">
+                            <div className="flex items-center">
                                 {!hasAccess ? (
-                                    <Lock className="h-4 w-4 mr-4" />
+                                    <Lock className="h-5 w-5 mr-3 text-gray-400" />
                                 ) : (
-                                    <span className="h-1 w-1 rounded-full bg-current mr-4 ml-2" />
+                                    <div className="flex items-center justify-center w-6 h-6 mr-3 rounded-full bg-gray-100 dark:bg-neutral-800">
+                                        <span className="text-sm text-gray-600 dark:text-gray-400">{index + 1}</span>
+                                    </div>
                                 )}
+                            </div>
+                            <span className={cn(
+                                "text-gray-700 dark:text-gray-300",
+                                section.id.toString() === currentSectionId && "font-semibold text-blue-600 dark:text-blue-400"
+                            )}>
+                                {section.name}
                             </span>
-                            <span>{section.name}</span>
                         </li>
                     ))}
                 </ul>
             </nav>
+            {!hasAccess && (
+                <div className="mt-6 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+                    <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                        Purchase this course to access all chapters
+                    </p>
+                </div>
+            )}
         </aside>
     );
 }
