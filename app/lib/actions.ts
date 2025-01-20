@@ -52,7 +52,7 @@ export async function updateUser(input: UpdateUserInput) {
   try {
     await prisma.user.update({
       where: { id }, // Specify the unique identifier
-     data: {
+      data: {
         name,
         bio,
         twitter,
@@ -73,12 +73,12 @@ export async function updateUser(input: UpdateUserInput) {
   }
 }
 
-export async function createCourse(input: courseInput, sections: { name: string; description: string; videoUrl?: string;  pdfUrl?: string; order?: number; }[]) {
+export async function createCourse(input: courseInput, sections: { name: string; description: string; videoUrl?: string; pdfUrl?: string; order?: number; }[]) {
   const session = await auth();
   if (!session) {
     return new NextResponse('Forbidden', { status: 403 });
   }
-  const {name, description, authorId, price, imageUrl} = input
+  const { name, description, authorId, price, imageUrl } = input
   await prisma.course.create({
     data: {
       name,
@@ -174,13 +174,13 @@ export async function deleteCourse(id: string, authorId: string) {
   if (!session || authorId !== session.user?.id) {
     return new NextResponse('Forbidden', { status: 403 });
   }
-  
+
   const deleteSections = prisma.section.deleteMany({
     where: {
       courseId: id
     }
   })
-  
+
   const deleteCourse = prisma.course.delete({
     where: {
       id
@@ -196,7 +196,7 @@ export async function publishCourse(id: string, authorId: string) {
     return new NextResponse('Forbidden', { status: 403 });
   }
   await prisma.course.update({
-    where: {id},
+    where: { id },
     data: {
       status: "PUBLISHED"
     },
@@ -210,7 +210,7 @@ export async function draftCourse(id: string, authorId: string) {
     return new NextResponse('Forbidden', { status: 403 });
   }
   await prisma.course.update({
-    where: {id},
+    where: { id },
     data: {
       status: "DRAFT"
     },
@@ -244,9 +244,9 @@ export async function addEmail(email: string) {
 }
 
 export async function signOutAction() {
-  await signOut({redirectTo: '/'});
-} 
-  
+  await signOut({ redirectTo: '/' });
+}
+
 export async function joinCourse(courseId: string) {
   const session = await auth();
   if (!session) {
@@ -339,7 +339,7 @@ export async function BuyCourse(formData: FormData) {
 export async function createCheckoutSession(priceId: string, promoteKitReferral: any) {
   try {
     const session = await auth();
-    
+
     if (!session?.user?.email) {
       throw new Error('Not authenticated');
     }
@@ -382,13 +382,13 @@ export async function createCheckoutSession(priceId: string, promoteKitReferral:
       ],
       mode: 'subscription',
       success_url:
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/dashboard/payment/success"
-        : "https://skillwave.io/dashboard/payment/success",
-    cancel_url:
-      process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/dashboard/payment/cancel"
-        : "https://skillwave.io/dashboard/payment/cancel",
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000/dashboard/payment/success"
+          : "https://skillwave.io/dashboard/payment/success",
+      cancel_url:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000/dashboard/payment/cancel"
+          : "https://skillwave.io/dashboard/payment/cancel",
       subscription_data: {
         metadata: {
           userId: user.id,
@@ -409,7 +409,7 @@ export async function createCheckoutSession(priceId: string, promoteKitReferral:
 export async function manageSubscription() {
   try {
     const session = await auth();
-    
+
     if (!session?.user?.email) {
       throw new Error('Not authenticated');
     }
@@ -466,7 +466,6 @@ export async function CreateStripeAccoutnLink() {
         : `https://skillwave.io/dashboard`,
     type: "account_onboarding",
   });
-  console.log('hi',accountLink.url)
   return redirect(accountLink.url);
 }
 
