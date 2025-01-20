@@ -1,6 +1,7 @@
 'use client'
 import React from "react";
-import { Card, CardHeader, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { Image } from "@nextui-org/image";
+import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from "next-themes";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
