@@ -1,5 +1,5 @@
-import { Card, CardBody, CardHeader } from "@nextui-org/card"
-import { Button } from "@nextui-org/button"
+import { Card, CardBody, CardHeader } from "@heroui/card"
+import { Button } from "@heroui/button"
 import { CheckCircle } from "lucide-react"
 
 export default function VerifyRequest() {

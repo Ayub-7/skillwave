@@ -1,6 +1,6 @@
 import { getSection, getUser } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
-import { Card, CardBody } from "@nextui-org/card";
+import { Card, CardBody } from "@heroui/card";
 import Tiptap from "@/app/components/tiptap";
 import { auth } from "@/auth"
 import Link from 'next/link';

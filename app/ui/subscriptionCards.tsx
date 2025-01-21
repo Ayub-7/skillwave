@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Card, CardBody, Tabs, Tab, Button } from "@nextui-org/react"
+import { Card, CardBody, Tabs, Tab, Button } from "@heroui/react"
 import { SubscribeButton } from '@/app/ui/subscribeButton';
 import { ManageSubscriptionButton } from '@/app/ui/manageSubscriptionButton';
 import { CircleCheck, ArrowRight } from 'lucide-react';

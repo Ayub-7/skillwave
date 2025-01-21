@@ -6,9 +6,9 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from '@nextui-org/dropdown';
+} from "@heroui/dropdown";
 import { signOutAction } from '@/app/lib/actions';
-import { Avatar } from '@nextui-org/avatar';
+import { Avatar } from "@heroui/avatar";
 
 export default function UserAvatarClient({ image, name, email, id }: any) {
 

@@ -1,14 +1,14 @@
 'use client'
 import React from "react";
-import { Image } from "@nextui-org/image";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+import { Image } from "@heroui/image";
+import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from "next-themes";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
-import { Spinner } from "@nextui-org/spinner";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
+import { Spinner } from "@heroui/spinner";
 import { LucideMenu, UserRound } from "lucide-react";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import Link from 'next/link';
 import { deleteCourse, publishCourse, draftCourse } from "@/app/lib/actions";
 import toast from 'react-hot-toast';

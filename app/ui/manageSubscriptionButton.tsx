@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from "@nextui-org/button";
-import { Spinner } from "@nextui-org/spinner";
+import { Button } from "@heroui/button";
+import { Spinner } from "@heroui/spinner";
 import { manageSubscription } from '@/app/lib/actions';
 
 export function ManageSubscriptionButton() {

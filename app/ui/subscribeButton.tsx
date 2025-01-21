@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { Button } from "@nextui-org/button";
-import { Spinner } from "@nextui-org/spinner";
+import { Button } from "@heroui/button";
+import { Spinner } from "@heroui/spinner";
 import { createCheckoutSession } from '@/app/lib/actions';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);

@@ -1,8 +1,8 @@
 // Loading animation
 
-import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import { Skeleton } from "@nextui-org/skeleton";
-import { Divider } from "@nextui-org/divider";
+import { Card, CardBody, CardHeader } from "@heroui/react";
+import { Skeleton } from "@heroui/skeleton";
+import { Divider } from "@heroui/divider";
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 const shimmer =

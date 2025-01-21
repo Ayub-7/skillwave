@@ -1,5 +1,5 @@
 'use client'
-import { Tabs, Tab } from "@nextui-org/tabs";
+import { Tabs, Tab } from "@heroui/tabs";
 import CourseCard from '@/app/ui/profile/course-card';
 
 export default function CourseTabSwitcher({ myCourses, purchasedCourses, user, currUserId }: any) {

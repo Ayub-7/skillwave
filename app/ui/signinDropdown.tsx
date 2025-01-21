@@ -7,7 +7,7 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from '@nextui-org/dropdown';
+} from "@heroui/dropdown";
 
 export default function SigninDropdown() {
   return (
