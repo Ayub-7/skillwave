@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { Button } from "@nextui-org/button";
-import { Spinner } from "@nextui-org/spinner";
+import { Button } from "@heroui/button";
+import { Spinner } from "@heroui/spinner";
 import { joinCourse } from '@/app/lib/actions';
 
 export function JoinCourseButton({ courseId, session }: { courseId: string, session: any }) {

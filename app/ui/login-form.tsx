@@ -1,6 +1,6 @@
-import { Button } from "@nextui-org/button"
-import { Card, CardBody, CardHeader } from "@nextui-org/card"
-import { Divider } from "@nextui-org/divider"
+import { Button } from "@heroui/button"
+import { Card, CardBody, CardHeader } from "@heroui/card"
+import { Divider } from "@heroui/divider"
 import { FcGoogle } from "react-icons/fc"
 import { signIn } from '@/auth';
 

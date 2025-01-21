@@ -1,14 +1,14 @@
 'use client'
 import React from "react";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { Button } from "@nextui-org/button";
-import { Tooltip } from "@nextui-org/tooltip";
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
-import { CircularProgress } from "@nextui-org/react";
-import { Spinner } from "@nextui-org/spinner";
-import { Input } from "@nextui-org/input";
+import { Button } from "@heroui/button";
+import { Tooltip } from "@heroui/tooltip";
+import { Accordion, AccordionItem } from "@heroui/accordion";
+import { CircularProgress } from "@heroui/react";
+import { Spinner } from "@heroui/spinner";
+import { Input } from "@heroui/input";
 import { createCourse } from "@/app/lib/actions";
-import { Image } from "@nextui-org/image";
+import { Image } from "@heroui/image";
 import { UploadButton } from "@/app/lib/uploadthing";
 import Tiptap from "@/app/components/tiptap";
 import toast from 'react-hot-toast';

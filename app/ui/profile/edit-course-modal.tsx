@@ -1,16 +1,16 @@
 'use client'
 import React, { useEffect } from "react";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { Button } from "@nextui-org/button";
-import { Tooltip } from "@nextui-org/tooltip";
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
-import { CircularProgress } from "@nextui-org/react";
-import { Spinner } from "@nextui-org/spinner";
-import { Input } from "@nextui-org/input";
-import { Image } from "@nextui-org/image";
+import { Button } from "@heroui/button";
+import { Tooltip } from "@heroui/tooltip";
+import { Accordion, AccordionItem } from "@heroui/accordion";
+import { CircularProgress } from "@heroui/react";
+import { Spinner } from "@heroui/spinner";
+import { Input } from "@heroui/input";
+import { Image } from "@heroui/image";
 import { UploadButton } from "@/app/lib/uploadthing";
 import { deleteSection, updateCourse } from "@/app/lib/actions";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/modal";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@heroui/modal";
 import Tiptap from "@/app/components/tiptap";
 import toast from 'react-hot-toast';
 import Link from 'next/link';

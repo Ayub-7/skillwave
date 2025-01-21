@@ -1,15 +1,15 @@
 'use client'
-import { Image } from "@nextui-org/image";
-import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { Image } from "@heroui/image";
+import { Card, CardHeader, CardBody } from "@heroui/card";
 import { XIcon } from "@/app/ui/custom-icons/x-icon";
 import { TiktokIcon } from "@/app/ui/custom-icons/tiktok-icon";
 import { FacebookIcon } from "@/app/ui/custom-icons/facebook-icon";
 import { InstagramIcon } from "@/app/ui/custom-icons/instagram-icon";
 import { LinkedinIcon } from "@/app/ui/custom-icons/linkedin-icon";
 import { YoutubeIcon } from "@/app/ui/custom-icons/youtube-icon";
-import { Button } from "@nextui-org/button";
+import { Button } from "@heroui/button";
 import EditProfileModal from "@/app/ui/profile/edit-profile-modal";
-import { Tooltip } from "@nextui-org/tooltip";
+import { Tooltip } from "@heroui/tooltip";
 import { useRouter } from 'next/navigation';
 import { PlusCircle } from "lucide-react";
 

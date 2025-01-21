@@ -2,7 +2,7 @@
 import { useRouter, usePathname } from 'next/navigation';
 import { Lock, PlayCircle } from 'lucide-react';
 import { cn } from '@/app/lib/utils';
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 
 export default function SectionButtons({ sections, courseId, hasAccess }: any) {
     const router = useRouter();

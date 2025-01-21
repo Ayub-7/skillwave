@@ -3,7 +3,7 @@ import { getUser, getPurchasedCourses, getUserDetails } from "@/app/lib/data";
 import ProfileCard from '@/app/ui/profile/profile-card'
 import CourseCard from "@/app/ui/profile/course-card";
 import CourseTabSwitcher from '@/app/ui/profile/course-tab-switcher'
-import { Divider } from "@nextui-org/divider";
+import { Divider } from "@heroui/divider";
 import { notFound } from 'next/navigation';
 import { auth } from "@/auth"
 

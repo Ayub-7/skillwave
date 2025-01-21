@@ -1,7 +1,7 @@
 'use client'
 import clsx from 'clsx';
-import { Spinner } from "@nextui-org/spinner";
-import { Button } from "@nextui-org/button";
+import { Spinner } from "@heroui/spinner";
+import { Button } from "@heroui/button";
 import { useFormStatus } from "react-dom";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

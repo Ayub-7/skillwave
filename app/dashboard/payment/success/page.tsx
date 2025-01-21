@@ -1,5 +1,5 @@
-import { Card } from "@nextui-org/card"
-import { Button } from "@nextui-org/button"
+import { Card } from "@heroui/card"
+import { Button } from "@heroui/button"
 import { Check } from "lucide-react";
 import Link from "next/link";
 

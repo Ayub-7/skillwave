@@ -2,7 +2,7 @@ import { getCourse } from '@/app/lib/data';
 import { notFound } from 'next/navigation';
 import Tiptap from "@/app/components/tiptap";
 import Link from 'next/link';
-import { Avatar } from "@nextui-org/avatar";
+import { Avatar } from "@heroui/avatar";
 import { getUser } from "@/app/lib/data";
 import { BuyCourse } from '@/app/lib/actions'; // adjust the import path
 import { BuyButton } from "@/app/ui/button";

@@ -3,8 +3,8 @@ import {
     NavbarBrand,
     NavbarContent,
     NavbarItem
-} from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
+} from "@heroui/navbar";
+import { Link } from "@heroui/link";
 import React from "react";
 import UserAvatar from '@/app/ui/user-avatar-server';
 import { ThemeSwitcher } from "@/app/ui/theme-switcher";
