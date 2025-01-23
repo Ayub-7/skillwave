@@ -39,7 +39,7 @@ export default function UserAvatarClient({ image, name, email, id }: any) {
         <DropdownItem
           key="logout"
           color="danger"
-          onClick={async () => {
+          onPress={async () => {
             await signOutAction();
           }}
         >

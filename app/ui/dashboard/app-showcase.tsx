@@ -60,8 +60,8 @@ const AppShowcase = () => {
                                 alt={item.alt}
                                 width={600}
                                 height={400}
-                                layout="responsive"
                                 className="object-cover"
+                                priority
                             />
                             <div className="p-6">
                                 <h3 className="text-xl font-semibold mb-2">{item.title}</h3>

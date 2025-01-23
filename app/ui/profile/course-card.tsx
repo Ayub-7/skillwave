@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 import { Image } from "@heroui/image";
 import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { useRouter, usePathname } from 'next/navigation';
@@ -12,6 +12,7 @@ import { Button } from "@heroui/button";
 import Link from 'next/link';
 import { deleteCourse, publishCourse, draftCourse } from "@/app/lib/actions";
 import toast from 'react-hot-toast';
+import { cn } from "@/app/lib/utils";
 
 export default function CourseCard({ id, course, user, currUserId }: any) {
     const { theme } = useTheme();
@@ -21,8 +22,10 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
     const [publishDialogOpen, setPublishDialogOpen] = React.useState(false);
     const [draftDialogOpen, setDraftDialogOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [isClicked, setIsClicked] = useState(false);
 
     const handleCardPress = () => {
+        setIsClicked(true);
         router.push(`/dashboard/courses/${id}`);
     };
 
@@ -38,13 +41,11 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
         return course.imageUrl;
     };
 
-    const handleDeleteClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
+    const handleDeleteClick = () => {
         setDeleteDialogOpen(true);
     };
 
-    const handlePublishClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
+    const handlePublishClick = () => {
         if (!user.stripeConnectedLinked || !user.subscription) {
             router.push('/dashboard/billing');
         } else {
@@ -52,8 +53,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
         }
     };
 
-    const handleDraftClick = (e: React.MouseEvent) => {
-        e.stopPropagation();
+    const handleDraftClick = () => {
         setDraftDialogOpen(true);
     };
 
@@ -139,7 +139,19 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
 
     return (
         <>
-            <Card className="py-2 relative max-w-[250px]" isPressable>
+            <Card
+                className={cn(
+                    "py-2 relative max-w-[250px] transition-all duration-200",
+                    isClicked && "opacity-70"
+                )}
+                onPress={handleCardPress}
+                isPressable
+            >
+                {isClicked && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/5 dark:bg-white/5 z-50 rounded-lg">
+                        <Spinner size="lg" />
+                    </div>
+                )}
                 {showDropdown && (
                     <div className="absolute top-2 left-1 z-10">
                         <div
@@ -158,23 +170,23 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Course actions">
                                 {course.status === "DRAFT" ? (
-                                    <DropdownItem key="publish" className="text-success" color="success" onClick={handlePublishClick}>
+                                    <DropdownItem key="publish" className="text-success" color="success" onPress={handlePublishClick}>
                                         Publish
                                     </DropdownItem>
                                 ) : (
-                                    <DropdownItem key="draft" className="text-warning" color="warning" onClick={handleDraftClick}>
+                                    <DropdownItem key="draft" className="text-warning" color="warning" onPress={handleDraftClick}>
                                         Set As Draft
                                     </DropdownItem>
                                 )}
-                                <DropdownItem key="edit" onClick={() => router.push(`/dashboard/courses/${course.id}/edit`)}>Edit</DropdownItem>
-                                <DropdownItem key="delete" className="text-danger" color="danger" onClick={handleDeleteClick}>
+                                <DropdownItem key="edit" onPress={() => router.push(`/dashboard/courses/${course.id}/edit`)}>Edit</DropdownItem>
+                                <DropdownItem key="delete" className="text-danger" color="danger" onPress={handleDeleteClick}>
                                     Delete
                                 </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     )}
                 </div>
-                <div onClick={handleCardPress}>
+                <div>
                     <CardHeader className="pb-0 pt-1 px-3 flex-col items-start">
                         <h4 className="font-bold text-md">{course.name}</h4>
                     </CardHeader>
@@ -200,13 +212,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                             </div>
                             {onHomepage && (
                                 <p className="text-left">
-                                    <Link
-                                        href={`/dashboard/profile/${course.author.id}`}
-                                        className="text-blue-500 hover:underline focus:outline-none"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        {`By ${getDisplayName()}`}
-                                    </Link>
+                                    {`By ${getDisplayName()}`}
                                 </p>
                             )}
                         </div>
