@@ -23,7 +23,7 @@ export function ManageSubscriptionButton() {
     return (
         <Button
             color='primary'
-            onClick={handleManage}
+            onPress={handleManage}
             isDisabled={loading}
         >
             {loading ? (

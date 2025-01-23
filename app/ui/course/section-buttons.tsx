@@ -27,7 +27,7 @@ export default function SectionButtons({ sections, courseId, hasAccess }: any) {
         <aside className="w-full px-4 py-6">
             <nav className="flex flex-col space-y-3">
                 <Button
-                    onClick={backToPreview}
+                    onPress={backToPreview}
                     className={cn(
                         "w-full h-12 text-left justify-start px-4",
                         "bg-white dark:bg-neutral-900 hover:bg-gray-50 dark:hover:bg-neutral-800",
@@ -52,7 +52,7 @@ export default function SectionButtons({ sections, courseId, hasAccess }: any) {
                 {sections.sort((a: any, b: any) => a.order - b.order).map((section: any, index: number) => (
                     <Button
                         key={section.id}
-                        onClick={() => handleCardPress(section.id)}
+                        onPress={() => handleCardPress(section.id)}
                         className={cn(
                             "w-full h-12 text-left justify-start px-4",
                             "bg-gray-50 dark:bg-neutral-900",

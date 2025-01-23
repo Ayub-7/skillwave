@@ -370,7 +370,7 @@ export default function EditCourseModal({ course }: any) {
                                 color="danger"
                                 variant="light"
                                 isDisabled={isLoading}
-                                onClick={() => handleDeleteClick(index)}
+                                onPress={() => handleDeleteClick(index)}
                             >
                                 Remove
                             </Button>
@@ -384,7 +384,7 @@ export default function EditCourseModal({ course }: any) {
                                         <Button color="default" variant="light" onPress={() => setDeleteDialogOpen(false)}>
                                             Cancel
                                         </Button>
-                                        <Button color="danger" onClick={() => sectionToDeleteIndex !== null && handleRemoveItem(sectionToDeleteIndex)}>
+                                        <Button color="danger" onPress={() => sectionToDeleteIndex !== null && handleRemoveItem(sectionToDeleteIndex)}>
                                             {isLoading ? <Spinner color="white" /> : 'Delete'}
                                         </Button>
                                     </ModalFooter>
@@ -397,7 +397,7 @@ export default function EditCourseModal({ course }: any) {
 
             <div className="flex justify-center">
                 <Tooltip content="Add Section">
-                    <Button isDisabled={isLoading} onClick={() => handleAddItem()} variant="faded" isIconOnly>
+                    <Button isDisabled={isLoading} onPress={() => handleAddItem()} variant="faded" isIconOnly>
                         <PlusIcon className="w-6 h-6" />
                     </Button>
                 </Tooltip>

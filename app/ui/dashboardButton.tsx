@@ -23,7 +23,7 @@ export function DashboardButton() {
     return (
         <Button
             color='primary'
-            onClick={handleManage}
+            onPress={handleManage}
             isDisabled={loading}
         >
             {loading ? (

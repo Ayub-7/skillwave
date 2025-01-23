@@ -92,7 +92,7 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                 <Button
                                     color='primary'
                                     endContent={<ArrowRight />}
-                                    onClick={login}
+                                    onPress={login}
                                 >
                                     Start Now
                                 </Button>

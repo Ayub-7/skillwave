@@ -364,7 +364,7 @@ export default function CreateCourseForm({ user }: any) {
                                 color="danger"
                                 variant="light"
                                 isDisabled={isLoading}
-                                onClick={() => handleRemoveItem(index)}
+                                onPress={() => handleRemoveItem(index)}
                             >
                                 Remove
                             </Button>
@@ -374,13 +374,13 @@ export default function CreateCourseForm({ user }: any) {
             </Accordion>
             <div className="flex justify-center">
                 <Tooltip content="Add Section">
-                    <Button isDisabled={isLoading} onClick={handleAddItem} variant="faded" isIconOnly>
+                    <Button isDisabled={isLoading} onPress={handleAddItem} variant="faded" isIconOnly>
                         <PlusIcon className="w-6 h-6" />
                     </Button>
                 </Tooltip>
             </div>
             <div className="flex justify-end gap-4">
-                <Button isDisabled={isLoading} color="danger" variant="light" onClick={resetForm}>
+                <Button isDisabled={isLoading} color="danger" variant="light" onPress={resetForm}>
                     Reset
                 </Button>
                 <Tooltip

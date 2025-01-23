@@ -30,7 +30,7 @@ export function JoinCourseButton({ courseId, session }: { courseId: string, sess
     return (
         <Button
             color='primary'
-            onClick={handleManage}
+            onPress={handleManage}
             isDisabled={loading}
             className='mt-6'
         >
