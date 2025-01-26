@@ -135,6 +135,15 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
     const showDropdown = pathname === `/dashboard/profile/${currUserId}` && course.authorId === currUserId;
     const onHomepage = !pathname.includes('profile');
     const statusColor = course.status === "DRAFT" ? "orange" : "green";
+    const computeStripeStatus = () => {
+        if (!pathname.includes('profile')) return { notConnected: false, noSubscription: false };
+        return {
+            notConnected: !user.stripeConnectedLinked,
+            noSubscription: !user.subscription
+        };
+    };
+
+    const { notConnected, noSubscription } = computeStripeStatus();
 
 
     return (
@@ -170,9 +179,25 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                             </DropdownTrigger>
                             <DropdownMenu aria-label="Course actions">
                                 {course.status === "DRAFT" ? (
-                                    <DropdownItem key="publish" className="text-success" color="success" onPress={handlePublishClick}>
-                                        Publish
-                                    </DropdownItem>
+                                    <>
+                                        {noSubscription ? (
+                                            <DropdownItem key="publish" className="text-success" color="success"
+                                                description="You need a subscription to publish courses"
+                                                isDisabled>
+                                                Publish
+                                            </DropdownItem>
+                                        ) : notConnected ? (
+                                            <DropdownItem key="publish" className="text-success" color="success"
+                                                description="You need to connect your Stripe account to publish courses"
+                                                isDisabled>
+                                                Publish
+                                            </DropdownItem>
+                                        ) : (
+                                            <DropdownItem key="publish" className="text-success" color="success" onPress={handlePublishClick}>
+                                                Publish
+                                            </DropdownItem>
+                                        )}
+                                    </>
                                 ) : (
                                     <DropdownItem key="draft" className="text-warning" color="warning" onPress={handleDraftClick}>
                                         Set As Draft

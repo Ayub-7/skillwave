@@ -213,7 +213,12 @@ export default function EditCourseModal({ course }: any) {
                             </div>
                         ) : (
                             <UploadButton
-
+                                content={{
+                                    button({ ready }) {
+                                        if (ready) return <div>Upload Image</div>;
+                                        return "Getting ready...";
+                                    }
+                                }}
                                 endpoint="imageUploader"
                                 onClientUploadComplete={(res) => {
                                     setImageUrl(res[0].url)
@@ -270,7 +275,6 @@ export default function EditCourseModal({ course }: any) {
                                 />
                             </div>
                             <div className="flex flex-col items-center gap-4 p-4 rounded-lg">
-                                <h4 className="text-md font-semibold">Section Video</h4>
                                 {item.videoUrl ? (
                                     <div className="flex flex-col items-center gap-4">
                                         <video
@@ -299,6 +303,12 @@ export default function EditCourseModal({ course }: any) {
                                         ) : (
                                             <UploadButton
                                                 endpoint="videoUploader"
+                                                content={{
+                                                    button({ ready }) {
+                                                        if (ready) return <div>Upload Video</div>;
+                                                        return "Getting ready...";
+                                                    }
+                                                }}
                                                 onClientUploadComplete={(res) => {
                                                     handleVideoUpload(index, res[0].url, false, 0);
                                                 }}
@@ -318,7 +328,6 @@ export default function EditCourseModal({ course }: any) {
                                 )}
                             </div>
                             <div className="flex flex-col items-center gap-4 p-4 rounded-lg">
-                                <h4 className="text-md font-semibold">Section PDF</h4>
                                 {item.pdfUrl ? (
                                     <div className="flex flex-col items-center gap-4">
                                         <Link
@@ -348,6 +357,12 @@ export default function EditCourseModal({ course }: any) {
                                         ) : (
                                             <UploadButton
                                                 endpoint="pdfUploader"
+                                                content={{
+                                                    button({ ready }) {
+                                                        if (ready) return <div>Upload PDF</div>;
+                                                        return "Getting ready...";
+                                                    }
+                                                }}
                                                 onClientUploadComplete={(res) => {
                                                     handlePdfUpload(index, res[0].url, false, 0);
                                                 }}
