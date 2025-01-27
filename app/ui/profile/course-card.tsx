@@ -136,7 +136,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
     const onHomepage = !pathname.includes('profile');
     const statusColor = course.status === "DRAFT" ? "orange" : "green";
     const computeStripeStatus = () => {
-        if (!pathname.includes('profile')) return { notConnected: false, noSubscription: false };
+        if (!pathname.includes('profile') || course.authorId !== currUserId) return { notConnected: false, noSubscription: false };
         return {
             notConnected: !user.stripeConnectedLinked,
             noSubscription: !user.subscription
