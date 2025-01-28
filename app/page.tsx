@@ -6,6 +6,7 @@ import NavBar from '@/app/ui/dashboard/navbar';
 import { AnimatedHeading } from '@/app/ui/animatedHeading';
 import SubscriptionCards from "@/app/ui/subscriptionCards";
 import ThemeBadge from "@/app/ui/themeBadge";
+import AvatarCTA from '@/app/ui/avatarCTA';
 
 const LandingPage = () => {
 
@@ -34,7 +35,7 @@ const LandingPage = () => {
       </div>
       <main className="min-h-screen flex flex-col">
         {/* Hero Section */}
-        <section className="mb-20 mt-10">
+        <section className="mb-12 mt-10">
           <div className="max-w-7xl mx-auto text-center px-6">
             <AnimatedHeading />
             <p className="text-lg sm:text-xl mt-4">
@@ -47,6 +48,9 @@ const LandingPage = () => {
         {/* Features Section */}
         <section className="mb-20">
           <div className="max-w-7xl mx-auto px-6">
+            <div className='flex justify-center mb-12'>
+              <AvatarCTA />
+            </div>
             <h2 className="text-3xl font-bold text-center mb-8">Why Choose Skill Wave?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
