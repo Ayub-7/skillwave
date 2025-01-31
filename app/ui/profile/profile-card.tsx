@@ -122,7 +122,7 @@ export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
                 )}
                 <h2 className="mt-4 text-xl font-semibold text-center">{getDisplayName()}</h2>
                 <p className="mt-2 text-sm text-center  max-w-xs px-6">
-                    {user?.bio || "This user hasn't added a bio yet."}
+                    {user?.bio}
                 </p>
             </CardBody>
         </Card>
