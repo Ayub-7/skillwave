@@ -54,7 +54,7 @@ const LandingPage = () => {
 
             {/* Testimonial Section */}
             <div className="mb-20">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-lg font-bold">
@@ -68,12 +68,33 @@ const LandingPage = () => {
                     </div>
                     <div>
                       <h3 className="font-bold text-lg">Marvin Reid</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Photoshop Course Creator</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Graphic Design Teacher</p>
                     </div>
                   </div>
                   <blockquote className="text-sm italic">
-                    &quot;Skillwave.io has transformed how I deliver my Photoshop courses. The platform is incredibly easy to use,
-                    and the low transaction fees mean I keep more of what I earn.&quot;
+                    &quot;Skillwave.io made selling my Photoshop courses a breeze. Love how simple everything is, and I get to <b>keep more of what I earn</b>!&quot;
+                  </blockquote>
+                </div>
+
+                <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-white text-lg font-bold">
+                      <Image
+                        src={'https://utfs.io/f/AxBstrLG0jqGfgeRyqYApzBaj7YsVFWEH3QqdZU5v9I2y8f0'}
+                        width={48}
+                        height={48}
+                        alt="Ayub Abdi"
+                        className="rounded-full w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg">Ayub Abdi</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Coding Course Creator</p>
+                    </div>
+                  </div>
+
+                  <blockquote className="text-sm italic">
+                    &quot;Finally, a platform that <b>doesn't take a huge cut!</b> Setting up my coding courses was <b>super quick</b>, and my students love it.&quot;
                   </blockquote>
                 </div>
 
@@ -94,8 +115,7 @@ const LandingPage = () => {
                     </div>
                   </div>
                   <blockquote className="text-sm italic">
-                    &quot;As a public speaking coach, I needed a platform that would let me focus on teaching rather than technical details.
-                    Skillwave.io delivered exactly that. The course creation process is seamless.&quot;
+                    &quot;Perfect for my public speaking courses. <b>No tech headaches</b>, just smooth sailing. My students can focus on learning, and so can I.&quot;
                   </blockquote>
                 </div>
               </div>
