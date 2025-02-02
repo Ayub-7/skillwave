@@ -39,9 +39,16 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                 </p>
                             </div>
 
-                            <div className="flex items-baseline gap-1 justify-center">
-                                <span className="text-3xl font-bold">${currentPricing.price}</span>
-                                <span className="text-small text-default-500">{currentPricing.description}</span>
+                            <div className="flex flex-col items-center gap-1">
+                                <div className="flex items-baseline gap-1 justify-center">
+                                    <span className="text-3xl font-bold">${currentPricing.price}</span>
+                                    <span className="text-small text-default-500">{currentPricing.description}</span>
+                                </div>
+                                {!user?.subscription && (
+                                    <span className="text-sm font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full">
+                                        ⭐ 30-day free trial
+                                    </span>
+                                )}
                             </div>
 
                             {billingCycle === 'yearly' && (
@@ -89,13 +96,19 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                     </div>
                                 )
                             ) : (
-                                <Button
-                                    color='primary'
-                                    endContent={<ArrowRight />}
-                                    onPress={login}
-                                >
-                                    Start Now
-                                </Button>
+                                <div className="space-y-2 w-full">
+                                    <Button
+                                        color='primary'
+                                        endContent={<ArrowRight />}
+                                        onPress={login}
+                                        className="w-full"
+                                    >
+                                        Get Started for Free
+                                    </Button>
+                                    <p className="text-sm text-default-500 text-center">
+                                        Cancel anytime during your trial.
+                                    </p>
+                                </div>
                             )}
 
                         </div>
