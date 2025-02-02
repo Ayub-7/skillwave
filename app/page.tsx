@@ -72,8 +72,8 @@ const LandingPage = () => {
                     </div>
                   </div>
                   <blockquote className="text-sm italic">
-                    "Skill Wave has transformed how I deliver my Photoshop courses. The platform is incredibly easy to use,
-                    and the low transaction fees mean I keep more of what I earn."
+                    &quot;Skillwave.io has transformed how I deliver my Photoshop courses. The platform is incredibly easy to use,
+                    and the low transaction fees mean I keep more of what I earn.&quot;
                   </blockquote>
                 </div>
 
@@ -94,8 +94,8 @@ const LandingPage = () => {
                     </div>
                   </div>
                   <blockquote className="text-sm italic">
-                    "As a public speaking coach, I needed a platform that would let me focus on teaching rather than technical details.
-                    Skill Wave delivered exactly that. The course creation process is seamless."
+                    &quot;As a public speaking coach, I needed a platform that would let me focus on teaching rather than technical details.
+                    Skillwave.io delivered exactly that. The course creation process is seamless.&quot;
                   </blockquote>
                 </div>
               </div>
