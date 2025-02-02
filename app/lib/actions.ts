@@ -395,6 +395,7 @@ export async function createCheckoutSession(priceId: string, promoteKitReferral:
           email: user.email,
           promotekit_referral: promoteKitReferral
         },
+        trial_period_days: 30
       },
     });
 

@@ -51,6 +51,56 @@ const LandingPage = () => {
             <div className='flex justify-center mb-12'>
               <AvatarCTA />
             </div>
+
+            {/* Testimonial Section */}
+            <div className="mb-20">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-lg font-bold">
+                      <Image
+                        src={'https://i.pravatar.cc/150?u=a04258114e29026708c'}
+                        width={48}
+                        height={48}
+                        alt="Marvin Reid"
+                        className="rounded-full w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg">Marvin Reid</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Photoshop Course Creator</p>
+                    </div>
+                  </div>
+                  <blockquote className="text-sm italic">
+                    "Skill Wave has transformed how I deliver my Photoshop courses. The platform is incredibly easy to use,
+                    and the low transaction fees mean I keep more of what I earn."
+                  </blockquote>
+                </div>
+
+                <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-white text-lg font-bold">
+                      <Image
+                        src={'https://i.pravatar.cc/150?u=a04258a2462d826712d'}
+                        width={48}
+                        height={48}
+                        alt="Tom Ellis"
+                        className="rounded-full w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-lg">Tom Ellis</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Public Speaking Coach</p>
+                    </div>
+                  </div>
+                  <blockquote className="text-sm italic">
+                    "As a public speaking coach, I needed a platform that would let me focus on teaching rather than technical details.
+                    Skill Wave delivered exactly that. The course creation process is seamless."
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+
             <h2 className="text-3xl font-bold text-center mb-8">Why Choose Skill Wave?</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">

@@ -39,9 +39,14 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                 </p>
                             </div>
 
-                            <div className="flex items-baseline gap-1 justify-center">
-                                <span className="text-3xl font-bold">${currentPricing.price}</span>
-                                <span className="text-small text-default-500">{currentPricing.description}</span>
+                            <div className="flex flex-col items-center gap-1">
+                                <div className="flex items-baseline gap-1 justify-center">
+                                    <span className="text-3xl font-bold">${currentPricing.price}</span>
+                                    <span className="text-small text-default-500">{currentPricing.description}</span>
+                                </div>
+                                {!user?.subscription && (
+                                    <span className="text-sm font-medium text-primary">30-day free trial</span>
+                                )}
                             </div>
 
                             {billingCycle === 'yearly' && (
@@ -94,7 +99,7 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                     endContent={<ArrowRight />}
                                     onPress={login}
                                 >
-                                    Start Now
+                                    Get Started for Free
                                 </Button>
                             )}
 
