@@ -94,7 +94,7 @@ const LandingPage = () => {
                   </div>
 
                   <blockquote className="text-sm italic">
-                    &quot;Finally, a platform that <b>doesn't take a huge cut!</b> Setting up my coding courses was <b>super quick</b>, and my students love it.&quot;
+                    &quot;Finally, a platform that <b>doesn&apos;t take a huge cut!</b> Setting up my coding courses was <b>super quick</b>, and my students love it.&quot;
                   </blockquote>
                 </div>
 
