@@ -9,7 +9,7 @@ export default function AvatarCTA() {
             max={5}
             renderCount={(count) => (
                 <div className="text-foreground font-medium ms-2 flex flex-col">
-                    <p>Join over <b>{count}</b> people</p>
+                    <p>Join other <b>creators</b></p>
                     <p>who use <b>skillwave.io</b> to earn cash 💰</p>
                 </div>
             )}
