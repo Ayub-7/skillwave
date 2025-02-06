@@ -59,7 +59,7 @@ const LandingPage = () => {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-lg font-bold">
                       <Image
-                        src={'https://i.pravatar.cc/150?u=a04258114e29026708c'}
+                        src={'https://9xm64gpr09.ufs.sh/f/AxBstrLG0jqGmQOKLPo5Ld0cbjIDAWBvNfZ9THuUkxaEKO1M'}
                         width={48}
                         height={48}
                         alt="Marvin Reid"
@@ -102,7 +102,7 @@ const LandingPage = () => {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-white text-lg font-bold">
                       <Image
-                        src={'https://i.pravatar.cc/150?u=a04258a2462d826712d'}
+                        src={'https://9xm64gpr09.ufs.sh/f/AxBstrLG0jqGu66ZkzXbiX0qBQUEIP6OZ7McYLAyTFwlf1RS'}
                         width={48}
                         height={48}
                         alt="Tom Ellis"
