@@ -57,65 +57,61 @@ const LandingPage = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-lg font-bold">
+                    <div className="w-12 h-12 rounded-full relative">
                       <Image
                         src={'https://9xm64gpr09.ufs.sh/f/AxBstrLG0jqGmQOKLPo5Ld0cbjIDAWBvNfZ9THuUkxaEKO1M'}
                         width={48}
                         height={48}
-                        alt="Marvin Reid"
-                        className="rounded-full w-full h-full object-cover"
+                        alt="Graphic Design Teacher"
+                        className="rounded-full w-full h-full object-cover ring-2 ring-blue-500/50"
                       />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg">Marvin Reid</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Graphic Design Teacher</p>
+                      <p className="text-base font-medium">Graphic Design Teacher</p>
                     </div>
                   </div>
                   <blockquote className="text-sm italic">
-                    &quot;Skillwave.io made selling my Photoshop courses a breeze. Love how simple everything is, and I get to <b>keep more of what I earn</b>!&quot;
+                    &quot;Skillwave.io made selling my Photoshop courses a breeze. Love how simple everything is, and I get to <span className="font-semibold text-blue-500 dark:text-blue-400">keep more of what I earn</span>!&quot;
                   </blockquote>
                 </div>
 
                 <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-white text-lg font-bold">
+                    <div className="w-12 h-12 rounded-full relative">
                       <Image
                         src={'https://utfs.io/f/AxBstrLG0jqGfgeRyqYApzBaj7YsVFWEH3QqdZU5v9I2y8f0'}
                         width={48}
                         height={48}
-                        alt="Ayub Abdi"
-                        className="rounded-full w-full h-full object-cover"
+                        alt="Coding Course Creator"
+                        className="rounded-full w-full h-full object-cover ring-2 ring-blue-500/50"
                       />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg">Ayub Abdi</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Coding Course Creator</p>
+                      <p className="text-base font-medium">Coding Course Creator</p>
                     </div>
                   </div>
-
                   <blockquote className="text-sm italic">
-                    &quot;Finally, a platform that <b>doesn&apos;t take a huge cut!</b> Setting up my coding courses was <b>super quick</b>, and my students love it.&quot;
+                    &quot;Finally, a platform that <span className="font-semibold text-blue-500 dark:text-blue-400">doesn&apos;t take a huge cut</span>! Setting up my coding courses was <span className="font-semibold text-blue-500 dark:text-blue-400">super quick</span>, and my students love it.&quot;
                   </blockquote>
                 </div>
 
                 <div className="p-6 rounded-lg shadow-lg dark:bg-neutral-900 dark:shadow-gray-700/30">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center text-white text-lg font-bold">
+                    <div className="w-12 h-12 rounded-full relative">
                       <Image
                         src={'https://9xm64gpr09.ufs.sh/f/AxBstrLG0jqGu66ZkzXbiX0qBQUEIP6OZ7McYLAyTFwlf1RS'}
                         width={48}
                         height={48}
-                        alt="Tom Ellis"
-                        className="rounded-full w-full h-full object-cover"
+                        alt="Public Speaking Coach"
+                        className="rounded-full w-full h-full object-cover ring-2 ring-blue-500/50"
                       />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg">Tom Ellis</h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Public Speaking Coach</p>
+                      <p className="text-base font-medium">Public Speaking Coach</p>
                     </div>
                   </div>
                   <blockquote className="text-sm italic">
-                    &quot;Perfect for my public speaking courses. <b>No tech headaches</b>, just smooth sailing. My students can focus on learning, and so can I.&quot;
+                    &quot;Perfect for my public speaking courses. <span className="font-semibold text-blue-500 dark:text-blue-400">No tech headaches</span>, just smooth sailing. My students can focus on learning, and so can I.&quot;
                   </blockquote>
                 </div>
               </div>
