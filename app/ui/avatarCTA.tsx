@@ -16,8 +16,8 @@ export default function AvatarCTA() {
             total={25}
         >
             <Avatar src="https://utfs.io/f/AxBstrLG0jqGfgeRyqYApzBaj7YsVFWEH3QqdZU5v9I2y8f0" />
-            <Avatar src="https://9xm64gpr09.ufs.sh/f/AxBstrLG0jqGu66ZkzXbiX0qBQUEIP6OZ7McYLAyTFwlf1RS" />
-            <Avatar src="https://9xm64gpr09.ufs.sh/f/AxBstrLG0jqGmQOKLPo5Ld0cbjIDAWBvNfZ9THuUkxaEKO1M" />
+            <Avatar src="face1.png" />
+            <Avatar src="face2.png" />
             <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
             <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026702d" />
         </AvatarGroup>
