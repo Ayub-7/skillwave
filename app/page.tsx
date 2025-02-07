@@ -59,7 +59,7 @@ const LandingPage = () => {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-full relative">
                       <Image
-                        src={'https://9xm64gpr09.ufs.sh/f/AxBstrLG0jqGmQOKLPo5Ld0cbjIDAWBvNfZ9THuUkxaEKO1M'}
+                        src={'/face2.png'}
                         width={48}
                         height={48}
                         alt="Graphic Design Teacher"
@@ -99,7 +99,7 @@ const LandingPage = () => {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-full relative">
                       <Image
-                        src={'https://9xm64gpr09.ufs.sh/f/AxBstrLG0jqGu66ZkzXbiX0qBQUEIP6OZ7McYLAyTFwlf1RS'}
+                        src={'/face1.png'}
                         width={48}
                         height={48}
                         alt="Public Speaking Coach"
