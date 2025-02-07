@@ -169,17 +169,20 @@ const LandingPage = () => {
                 />
               </Link>
             </div>
-            <p className="text-sm">
+            <p className="text-sm mb-4">
               Copyright © 2025 skillwave.io All rights reserved.
             </p>
-            {/* <div className="mt-4">
-              <Link href="/terms" className="text-gray-400 hover:text-white mx-2">
-                Terms of Service
+            <div className="flex justify-center gap-6 text-sm text-gray-500 dark:text-gray-400">
+              <Link href="/terms" className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                Terms & Conditions
               </Link>
-              <Link href="/privacy" className="text-gray-400 hover:text-white mx-2">
+              <Link href="/privacy" className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
                 Privacy Policy
               </Link>
-            </div> */}
+              <Link href="mailto:support@skillwave.io" className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+                Contact Us
+              </Link>
+            </div>
           </div>
         </footer>
       </main>
