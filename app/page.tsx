@@ -79,7 +79,7 @@ const LandingPage = () => {
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-full relative">
                       <Image
-                        src={'https://utfs.io/f/AxBstrLG0jqGfgeRyqYApzBaj7YsVFWEH3QqdZU5v9I2y8f0'}
+                        src={'/ayub.png'}
                         width={48}
                         height={48}
                         alt="Coding Course Creator"
