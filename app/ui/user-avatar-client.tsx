@@ -17,6 +17,10 @@ export default function UserAvatarClient({ image, name, email, id }: any) {
     return email.split('@')[0];
   };
 
+  const handleAffiliateClick = () => {
+    window.open('https://skillwave.promotekit.com', '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <Dropdown placement="bottom-start">
       <DropdownTrigger>
@@ -36,6 +40,13 @@ export default function UserAvatarClient({ image, name, email, id }: any) {
         </DropdownItem>
         <DropdownItem key="profile" href={`/dashboard/profile/${id}`}>My Profile</DropdownItem>
         <DropdownItem color="success" key="billing" href={`/dashboard/billing`}>Billing</DropdownItem>
+        <DropdownItem
+          key="affiliate"
+          color="success"
+          onPress={handleAffiliateClick}
+        >
+          Affiliate Program
+        </DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"

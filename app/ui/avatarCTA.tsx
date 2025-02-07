@@ -15,7 +15,7 @@ export default function AvatarCTA() {
             )}
             total={25}
         >
-            <Avatar src="https://utfs.io/f/AxBstrLG0jqGfgeRyqYApzBaj7YsVFWEH3QqdZU5v9I2y8f0" />
+            <Avatar src="ayub.png" />
             <Avatar src="face1.png" />
             <Avatar src="face2.png" />
             <Avatar src="https://i.pravatar.cc/150?u=a04258114e29026302d" />
