@@ -2,13 +2,34 @@
 import { useRouter, usePathname } from 'next/navigation';
 import { Lock, PlayCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/app/lib/utils';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-export default function SectionsBar({ sections, courseId, hasAccess, defaultCollapsed }: any) {
+export default function SectionsBar({ sections, courseId, hasAccess, defaultCollapsed = false }: any) {
     const router = useRouter();
     const pathname = usePathname();
     const currentSectionId = pathname.split('/').pop();
     const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+
+    const sidebarRef = useRef<HTMLDivElement>(null);
+
+    // Collapse the mobile menu if a click occurs outside of it (only for mobile).
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                !isCollapsed &&
+                sidebarRef.current &&
+                !sidebarRef.current.contains(event.target as Node)
+            ) {
+                if (window.innerWidth < 768) {  // Only collapse on mobile (Tailwind's md breakpoint)
+                    setIsCollapsed(true);
+                }
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isCollapsed]);
 
     const handleCardPress = (sectionId: any) => {
         if (hasAccess) {
@@ -25,12 +46,14 @@ export default function SectionsBar({ sections, courseId, hasAccess, defaultColl
     }
 
     return (
-        <aside className={cn(
-            "py-6 shadow-lg border border-transparent rounded-xl bg-white dark:bg-neutral-900 dark:shadow-gray-700/30",
-            "transform transition-all duration-200 ease-out",
-            "mt-4",
-            isCollapsed ? "w-16" : "w-72"
-        )}>
+        <aside
+            ref={sidebarRef}
+            className={cn(
+                "relative py-6 shadow-lg border border-transparent rounded-xl bg-white dark:bg-neutral-900 dark:shadow-gray-700/30",
+                "transform transition-all duration-200 ease-out mt-4",
+                isCollapsed ? "w-16 z-10" : "w-72 z-50"
+            )}
+        >
             <button
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 className="absolute -right-3 top-8 p-1.5 rounded-full bg-white dark:bg-neutral-900 border border-gray-200 dark:border-neutral-700 hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors z-50"
@@ -61,10 +84,7 @@ export default function SectionsBar({ sections, courseId, hasAccess, defaultColl
                                 !pathname.includes('/section/') && "bg-blue-50 dark:bg-blue-900/20"
                             )}
                         >
-                            <PlayCircle className={cn(
-                                "h-5 w-5 mr-3",
-                                !pathname.includes('/section/') ? "text-blue-500" : "text-gray-400"
-                            )} />
+                            <PlayCircle className={cn("h-5 w-5 mr-3", !pathname.includes('/section/') ? "text-blue-500" : "text-gray-400")} />
                             <span className={cn(
                                 "text-gray-700 dark:text-gray-300",
                                 !pathname.includes('/section/') && "font-semibold text-blue-600 dark:text-blue-400"
@@ -123,10 +143,7 @@ export default function SectionsBar({ sections, courseId, hasAccess, defaultColl
                             !pathname.includes('/section/') && "bg-blue-50 dark:bg-blue-900/20"
                         )}
                     >
-                        <PlayCircle className={cn(
-                            "h-5 w-5",
-                            !pathname.includes('/section/') ? "text-blue-500" : "text-gray-400"
-                        )} />
+                        <PlayCircle className={cn("h-5 w-5", !pathname.includes('/section/') ? "text-blue-500" : "text-gray-400")} />
                     </li>
 
                     {sections.sort((a: any, b: any) => a.order - b.order).map((section: any, index: number) => (

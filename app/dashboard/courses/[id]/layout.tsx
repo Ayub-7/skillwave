@@ -36,7 +36,7 @@ export default async function Layout({ children, params }: { children: React.Rea
             </div>
 
             {/* Mobile view - with added spacing and positioning */}
-            <div className="md:hidden absolute left-0 top-0 w-full z-50">
+            <div className="md:hidden absolute">
                 <SectionsBar
                     sections={course.Sections}
                     courseId={id}
