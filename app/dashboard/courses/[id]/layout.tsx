@@ -35,20 +35,23 @@ export default async function Layout({ children, params }: { children: React.Rea
                 />
             </div>
 
-            {/* Mobile view - with added spacing and positioning */}
-            <div className="md:hidden absolute">
-                <SectionsBar
-                    sections={course.Sections}
-                    courseId={id}
-                    hasAccess={hasAccess}
-                    defaultCollapsed={true}
-                />
-            </div>
+            {/* Main Content with mobile bottom bar */}
+            <div className="flex-1 flex flex-col">
+                {/* Children content - add negative margin to counteract WYSIWYG spacing */}
+                <div className="mb-[-1.5rem]">  {/* or try -2rem if -1.5rem isn't enough */}
+                    {children}
+                </div>
 
-            {/* Main content with padding to prevent overlap */}
-            <div className="flex-1 md:pl-0 pl-12"> {/* Added left padding for mobile */}
-                {children}
+                {/* Mobile Bottom Bar */}
+                <div className="md:hidden w-full px-4 flex flex-col items-center">
+                    <h3 className="font-bold">Course Content</h3>
+                    <SectionButtons
+                        sections={course.Sections}
+                        courseId={id}
+                        hasAccess={hasAccess}
+                    />
+                </div>
             </div>
         </div>
-    )
+    );
 }

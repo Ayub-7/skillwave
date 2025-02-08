@@ -30,7 +30,7 @@ export default function SectionButtons({ sections, courseId, hasAccess }: any) {
                     onPress={backToPreview}
                     className={cn(
                         "w-full h-12 text-left justify-start px-4",
-                        "bg-white dark:bg-neutral-900 hover:bg-gray-50 dark:hover:bg-neutral-800",
+                        "bg-gray-50 dark:bg-neutral-900 hover:bg-gray-50 dark:hover:bg-neutral-800",
                         !pathname.includes('/section/') && "bg-blue-50 dark:bg-blue-900/20"
                     )}
                     startContent={

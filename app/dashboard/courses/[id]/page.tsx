@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Tiptap from "@/app/components/tiptap";
 import Link from 'next/link';
 import { Avatar } from "@heroui/avatar";
+import Image from 'next/image';
 import { getUser } from "@/app/lib/data";
 import { BuyCourse } from '@/app/lib/actions'; // adjust the import path
 import { BuyButton } from "@/app/ui/button";
@@ -28,8 +29,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <div className="w-full relative mb-4">
                     <h1 className="text-3xl font-bold text-center">{course.name}</h1>
                     <div className="flex items-center justify-center mt-6">
-                        <div className="mr-2">
-                            <Avatar src={course.author.image as any} />
+                        <div className="mr-2 w-12 h-12 rounded-full relative">
+                            <Image
+                                src={course.author.image as any}
+                                width={35}
+                                height={35}
+                                alt="Graphic Design Teacher"
+                                className="rounded-full w-full h-full object-cover ring-2 ring-blue-500/50"
+                            />
                         </div>
                         <Link href={`/dashboard/profile/${course.author.id}`} className="text-blue-500 hover:underline focus:outline-none">
                             By {course.author.name}
