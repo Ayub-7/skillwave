@@ -39,10 +39,9 @@ export default function UserAvatarClient({ image, name, email, id }: any) {
           <p className="font-bold">{getDisplayName()}</p>
         </DropdownItem>
         <DropdownItem key="profile" href={`/dashboard/profile/${id}`}>My Profile</DropdownItem>
-        <DropdownItem color="success" key="billing" href={`/dashboard/billing`}>Billing</DropdownItem>
+        <DropdownItem key="billing" href={`/dashboard/billing`}>Billing</DropdownItem>
         <DropdownItem
           key="affiliate"
-          color="success"
           onPress={handleAffiliateClick}
         >
           Affiliate Program

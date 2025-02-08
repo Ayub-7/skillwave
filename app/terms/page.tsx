@@ -16,7 +16,6 @@ const TermsAndConditions = () => {
                     <section>
                         <h2 className="text-xl font-semibold mb-4">2. User Accounts</h2>
                         <ul className="list-disc pl-6 space-y-2">
-                            <li>You must be 18 years or older to create an account</li>
                             <li>You are responsible for maintaining the security of your account</li>
                             <li>You are responsible for all activities that occur under your account</li>
                             <li>You must notify us immediately of any unauthorized use of your account</li>
@@ -66,8 +65,8 @@ const TermsAndConditions = () => {
                         <h2 className="text-xl font-semibold mb-4">7. Contact Information</h2>
                         <p>
                             For any questions about these Terms, please contact us at{' '}
-                            <a href="mailto:support@skillwave.io" className="text-blue-500 hover:text-blue-600">
-                                support@skillwave.io
+                            <a href="mailto:info@skillwave.io" className="text-blue-500 hover:text-blue-600">
+                                info@skillwave.io
                             </a>
                         </p>
                     </section>

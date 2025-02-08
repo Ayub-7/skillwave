@@ -179,7 +179,7 @@ const LandingPage = () => {
               <Link href="/privacy" className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="mailto:support@skillwave.io" className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+              <Link href="mailto:info@skillwave.io" className="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
                 Contact Us
               </Link>
             </div>

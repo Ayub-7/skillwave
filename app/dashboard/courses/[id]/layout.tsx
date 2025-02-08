@@ -24,33 +24,31 @@ export default async function Layout({ children, params }: { children: React.Rea
     }
 
     return (
-        <div className="flex min-h-screen">
-            {/* Sidebar for larger screens */}
-            <div className="hidden md:block ml-2">
+        <div className="flex min-h-screen relative">
+            {/* Desktop view */}
+            <div className="hidden md:block">
                 <SectionsBar
                     sections={course.Sections}
                     courseId={id}
                     hasAccess={hasAccess}
+                    defaultCollapsed={false}
                 />
             </div>
 
-            {/* Main Content with mobile bottom bar */}
-            <div className="flex-1 flex flex-col">
-                {/* Children content */}
-                <div className="flex-1 overflow-auto">
-                    {children}
-                </div>
+            {/* Mobile view - with added spacing and positioning */}
+            <div className="md:hidden absolute left-0 top-0 w-full z-50">
+                <SectionsBar
+                    sections={course.Sections}
+                    courseId={id}
+                    hasAccess={hasAccess}
+                    defaultCollapsed={true}
+                />
+            </div>
 
-                {/* Mobile Bottom Bar */}
-                <div className="md:hidden w-full px-4 flex flex-col items-center">
-                    <h3 className="font-bold mb-4">Course Content</h3>
-                    <SectionButtons
-                        sections={course.Sections}
-                        courseId={id}
-                        hasAccess={hasAccess}
-                    />
-                </div>
+            {/* Main content with padding to prevent overlap */}
+            <div className="flex-1 md:pl-0 pl-12"> {/* Added left padding for mobile */}
+                {children}
             </div>
         </div>
-    );
+    )
 }

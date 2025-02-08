@@ -60,8 +60,8 @@ const PrivacyPolicy = () => {
                         <h2 className="text-xl font-semibold mb-4">6. Contact Us</h2>
                         <p>
                             If you have any questions about this Privacy Policy, please contact us at{' '}
-                            <a href="mailto:support@skillwave.io" className="text-blue-500 hover:text-blue-600">
-                                support@skillwave.io
+                            <a href="mailto:info@skillwave.io" className="text-blue-500 hover:text-blue-600">
+                                info@skillwave.io
                             </a>
                         </p>
                     </section>
