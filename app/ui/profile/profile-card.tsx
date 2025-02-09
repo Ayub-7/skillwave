@@ -1,5 +1,5 @@
 'use client'
-import { Image } from "@heroui/image";
+import Image from 'next/image';
 import { Card, CardHeader, CardBody } from "@heroui/card";
 import { XIcon } from "@/app/ui/custom-icons/x-icon";
 import { TiktokIcon } from "@/app/ui/custom-icons/tiktok-icon";
@@ -110,14 +110,18 @@ export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
                 {user?.image !== '' && user?.image !== null ? (
                     <Image
                         width={90}
+                        height={45}
                         alt="User Profile Image"
                         src={user?.image}
+                        className='rounded-md ring-2 ring-black dark:ring-white'
                     />
                 ) : (
                     <Image
                         width={90}
+                        height={45}
                         alt="User Profile Image"
                         src="/default-profile-image.png"
+                        className='rounded-md'
                     />
                 )}
                 <h2 className="mt-4 text-xl font-semibold text-center">{getDisplayName()}</h2>
