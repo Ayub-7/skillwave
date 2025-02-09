@@ -9,7 +9,6 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@herou
 import { Spinner } from "@heroui/spinner";
 import { LucideMenu, UserRound } from "lucide-react";
 import { Button } from "@heroui/button";
-import Link from 'next/link';
 import { deleteCourse, publishCourse, draftCourse } from "@/app/lib/actions";
 import toast from 'react-hot-toast';
 import { cn } from "@/app/lib/utils";
@@ -222,6 +221,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                             width={230} // Reduced width
                             height={175}
                             radius="sm"
+                            className="ring-2 ring-black dark:ring-white"
                         />
                     </CardBody>
                     <CardFooter className="text-small">
