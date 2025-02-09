@@ -113,7 +113,7 @@ export default function ProfileCard({ canEdit, user }: ProfileCardProps) {
                         height={45}
                         alt="User Profile Image"
                         src={user?.image}
-                        className='rounded-md ring-2 ring-black dark:ring-white'
+                        className='rounded-md'
                     />
                 ) : (
                     <Image
