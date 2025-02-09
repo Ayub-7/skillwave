@@ -221,7 +221,6 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                             width={230} // Reduced width
                             height={175}
                             radius="sm"
-                            className="ring-2 ring-black dark:ring-white"
                         />
                     </CardBody>
                     <CardFooter className="text-small">
