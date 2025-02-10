@@ -34,7 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                                 src={course.author.image as any}
                                 width={35}
                                 height={35}
-                                alt="Graphic Design Teacher"
+                                alt="Course Creator Image"
                                 className="rounded-full w-full h-full object-cover ring-2 ring-blue-500/50"
                             />
                         </div>

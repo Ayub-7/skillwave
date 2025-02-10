@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from "react";
 import { Image } from "@heroui/image";
+import NextImage from "next/image";
 import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
 import { useRouter, usePathname } from 'next/navigation';
 import { useTheme } from "next-themes";
@@ -217,6 +218,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                     <CardBody className="overflow-visible py-1">
                         <Image
                             alt="Card background"
+                            as={NextImage}
                             src={courseImage()}
                             width={230} // Reduced width
                             height={175}
