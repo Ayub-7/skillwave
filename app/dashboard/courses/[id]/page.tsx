@@ -23,6 +23,11 @@ export default async function Page({ params }: { params: { id: string } }) {
         notFound();
     }
 
+    const getDisplayName = () => {
+        if (course.author?.name) return course.author?.name;
+        return course.author.email.split('@')[0];
+    };
+
     return (
         <main className="flex min-h-screen justify-center items-start">
             <div className="flex-1 flex flex-col items-center p-6 max-w-4xl">
@@ -31,7 +36,9 @@ export default async function Page({ params }: { params: { id: string } }) {
                     <div className="flex items-center justify-center mt-6">
                         <div className="mr-2 w-12 h-12 rounded-full relative">
                             <Image
-                                src={course.author.image as any}
+                                src={
+                                    course.author?.image === null || course.author?.image === '' ? "/default-profile-image.png" : course.author?.image as any
+                                }
                                 width={35}
                                 height={35}
                                 alt="Course Creator Image"
@@ -39,7 +46,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             />
                         </div>
                         <Link href={`/dashboard/profile/${course.author.id}`} className="text-blue-500 hover:underline focus:outline-none">
-                            By {course.author.name}
+                            By {getDisplayName()}
                         </Link>
                         &nbsp;({course.students.toLocaleString()} Students)
                     </div>
