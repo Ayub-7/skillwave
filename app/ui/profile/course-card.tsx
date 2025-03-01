@@ -36,7 +36,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
 
     const courseImage = () => {
         if (!course.imageUrl) {
-            return `/SW-${theme}-sm.png`;
+            return `/logo.png`;
         }
         return course.imageUrl;
     };

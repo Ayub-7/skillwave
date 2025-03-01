@@ -10,7 +10,7 @@ export const AnimatedHeading = () => (
     >
         The modern platform for{" "}
         <motion.span
-            className="text-blue-500"
+            className="text-sky-500"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
