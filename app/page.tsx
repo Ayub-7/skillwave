@@ -30,7 +30,7 @@ const LandingPage = () => {
   return (
     <div>
       <NavBar />
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-8">
         <ThemeBadge />
       </div>
       <main className="min-h-screen flex flex-col">

@@ -16,7 +16,7 @@ export default async function NavBar() {
             <Navbar maxWidth="full">
                 <NavbarContent>
                     <Link href="/dashboard">
-                        <NavbarBrand>
+                        <NavbarBrand className="mt-6">
                             <ThemeLogo />
                         </NavbarBrand>
                     </Link>
