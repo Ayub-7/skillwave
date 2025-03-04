@@ -46,7 +46,7 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                 </div>
                                 {!user?.subscription && (
                                     <span className="text-sm font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full">
-                                        ⭐ 30-day free trial
+                                        ⭐ 14-day free trial
                                     </span>
                                 )}
                             </div>
