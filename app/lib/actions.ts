@@ -198,7 +198,7 @@ export async function publishCourse(id: string, authorId: string) {
   await prisma.course.update({
     where: { id },
     data: {
-      status: "PUBLISHED"
+      status: "REVIEW"
     },
   });
   revalidatePath('/dashboard/profile');
