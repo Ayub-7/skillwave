@@ -263,7 +263,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                 <ModalContent>
                     <ModalHeader className="flex flex-col gap-1">Submit Course for Review</ModalHeader>
                     <ModalBody>
-                        <p className="mb-4">By submitting your course for review, our team will verify that your content meets our quality standards and guidelines. This process typically takes 1-2 business days. You'll be notified once your course is approved and live on the platform.</p>
+                        <p className="mb-4">By submitting your course for review, our team will verify that your content meets our quality standards and guidelines. This process typically takes 1-2 business days. You&apos;ll be notified once your course is approved and live on the platform.</p>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="default" variant="light" onPress={() => setPublishDialogOpen(false)}>
