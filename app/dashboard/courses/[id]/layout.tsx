@@ -18,6 +18,10 @@ export default async function Layout({ children, params }: { children: React.Rea
     }
     if (session) {
         const user = await getUser(session.user?.id)
+        if (user?.id !== course.authorId && course.status !== "PUBLISHED") {
+            notFound();
+            return null;
+        }
         if (user?.purchasedCourses.includes(id) || user?.id === course.authorId) {
             hasAccess = true
         }

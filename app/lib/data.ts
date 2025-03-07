@@ -59,5 +59,5 @@ export async function getSection(id: string) {
 }
 
 export async function getAllCourses() {
-  return await prisma.course.findMany({where: {status: "PUBLISHED"}, include: {author: true}}) 
+  return await prisma.course.findMany({ where: { status: "PUBLISHED" }, include: { author: true } })
 }

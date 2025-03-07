@@ -88,7 +88,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
             await publishCourse(id, course.authorId);
             setIsLoading(false)
             setPublishDialogOpen(false);
-            toast.success('Course published successfully!', {
+            toast.success('Course Submitted for Reveiw!', {
                 duration: 3000,
                 position: 'top-right',
                 style: {
@@ -134,7 +134,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
 
     const showDropdown = pathname === `/dashboard/profile/${currUserId}` && course.authorId === currUserId;
     const onHomepage = !pathname.includes('profile');
-    const statusColor = course.status === "DRAFT" ? "orange" : "green";
+    const statusColor = course.status === "DRAFT" ? "orange" : course.status === "REVIEW" ? "blue" : "green";
     const computeStripeStatus = () => {
         if (!pathname.includes('profile') || course.authorId !== currUserId) return { notConnected: false, noSubscription: false };
         return {
@@ -164,7 +164,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                 {showDropdown && (
                     <div className="absolute top-2 left-1 z-10">
                         <div
-                            className={`w-2 h-2 rounded-full ${statusColor === "orange" ? "bg-orange-500" : "bg-green-500"}`}
+                            className={`w-2 h-2 rounded-full ${statusColor === 'orange' ? 'bg-orange-500' : statusColor === 'blue' ? 'bg-blue-500' : 'bg-green-500'}`}
                             title={course.status}
                         />
                     </div>
@@ -181,20 +181,20 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                                 {course.status === "DRAFT" ? (
                                     <>
                                         {noSubscription ? (
-                                            <DropdownItem key="publish" className="text-success" color="success"
+                                            <DropdownItem key="publish" className="text-primary" color="primary"
                                                 description="You need a subscription to publish courses"
                                                 isDisabled>
-                                                Publish
+                                                Submit for Review
                                             </DropdownItem>
                                         ) : notConnected ? (
-                                            <DropdownItem key="publish" className="text-success" color="success"
+                                            <DropdownItem key="publish" className="text-primary" color="primary"
                                                 description="You need to connect your Stripe account to publish courses"
                                                 isDisabled>
-                                                Publish
+                                                Submit for Review
                                             </DropdownItem>
                                         ) : (
-                                            <DropdownItem key="publish" className="text-success" color="success" onPress={handlePublishClick}>
-                                                Publish
+                                            <DropdownItem key="publish" className="text-primary" color="primary" onPress={handlePublishClick}>
+                                                Submit for Review
                                             </DropdownItem>
                                         )}
                                     </>
@@ -261,17 +261,16 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
             </Modal>
             <Modal isOpen={publishDialogOpen} onClose={() => setPublishDialogOpen(false)} disableAnimation>
                 <ModalContent>
-                    <ModalHeader className="flex flex-col gap-1">Publish Course</ModalHeader>
+                    <ModalHeader className="flex flex-col gap-1">Submit Course for Review</ModalHeader>
                     <ModalBody>
-                        <p>Are you sure you want to publish this course? This course will now be visible on your
-                            profile and homepage.</p>
+                        <p className="mb-4">By submitting your course for review, our team will verify that your content meets our quality standards and guidelines. This process typically takes 1-2 business days. You&apos;ll be notified once your course is approved and live on the platform.</p>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="default" variant="light" onPress={() => setPublishDialogOpen(false)}>
                             Cancel
                         </Button>
-                        <Button color="success" onPress={handlePublish}>
-                            {isLoading ? <Spinner color="white" /> : 'Publish'}
+                        <Button color="primary" onPress={handlePublish}>
+                            {isLoading ? <Spinner color="white" /> : 'Submit'}
                         </Button>
                     </ModalFooter>
                 </ModalContent>
@@ -280,7 +279,7 @@ export default function CourseCard({ id, course, user, currUserId }: any) {
                 <ModalContent>
                     <ModalHeader className="flex flex-col gap-1">Draft Course</ModalHeader>
                     <ModalBody>
-                        <p>Are you sure you want to set this course to draft? It will no longer be visible on your profile and homepage.</p>
+                        <p>Are you sure you want to set this course to draft?</p>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="default" variant="light" onPress={() => setDraftDialogOpen(false)}>
