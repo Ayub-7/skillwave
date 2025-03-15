@@ -5,10 +5,11 @@ import { Card, CardBody, Tabs, Tab, Button } from "@heroui/react"
 import { SubscribeButton } from '@/app/ui/subscribeButton';
 import { ManageSubscriptionButton } from '@/app/ui/manageSubscriptionButton';
 import { CircleCheck, ArrowRight } from 'lucide-react';
+import { SubscribeButtonLifetime } from '@/app/ui/subscriptionLifetime';
 
 export default function SubscriptionCards({ user, pricingOptions }: any) {
     const router = useRouter();
-    const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+    const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly' | 'lifetime'>('monthly');
     const currentPricing = pricingOptions[billingCycle];
 
     const login = () => {
@@ -25,10 +26,11 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                 <Tabs
                                     aria-label="Billing Cycle"
                                     selectedKey={billingCycle}
-                                    onSelectionChange={(key) => setBillingCycle(key as 'monthly' | 'yearly')}
+                                    onSelectionChange={(key) => setBillingCycle(key as 'monthly' | 'yearly' | 'lifetime')}
                                 >
                                     <Tab key="monthly" title="Monthly" />
                                     <Tab key="yearly" title="Yearly" />
+                                    <Tab key="lifetime" title="Lifetime" />
                                 </Tabs>
                             </div>
 
@@ -44,7 +46,7 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                     <span className="text-3xl font-bold">${currentPricing.price}</span>
                                     <span className="text-small text-default-500">{currentPricing.description}</span>
                                 </div>
-                                {!user?.subscription && (
+                                {!user?.subscription && billingCycle !== 'lifetime' && (
                                     <span className="text-sm font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full">
                                         ⭐ 14-day free trial
                                     </span>
@@ -91,7 +93,11 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                     <div>
                                         <p>No active subscription</p>
                                         <div className="mt-4">
-                                            <SubscribeButton priceId={currentPricing.priceId as any} />
+                                            {billingCycle === 'lifetime' ? (
+                                                <SubscribeButtonLifetime priceId={currentPricing.priceId as any} />
+                                            ) : (
+                                                <SubscribeButton priceId={currentPricing.priceId as any} />
+                                            )}
                                         </div>
                                     </div>
                                 )
