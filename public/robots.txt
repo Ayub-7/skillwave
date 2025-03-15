@@ -1,0 +1,12 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Disallow admin and private areas
+Disallow: /dashboard/admin/
+Disallow: /api/
+Disallow: /login/
+Disallow: /auth/
+
+# Sitemap location
+Sitemap: https://skillwave.io/sitemap.xml 

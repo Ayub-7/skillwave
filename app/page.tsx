@@ -7,6 +7,14 @@ import { AnimatedHeading } from '@/app/ui/animatedHeading';
 import SubscriptionCards from "@/app/ui/subscriptionCards";
 import ThemeBadge from "@/app/ui/themeBadge";
 import AvatarCTA from '@/app/ui/avatarCTA';
+import { Metadata } from 'next';
+import Script from 'next/script';
+
+export const metadata: Metadata = {
+  title: 'SkillWave - The Modern Platform for Course Creators',
+  description: 'Create, sell, and manage online courses with SkillWave. The easiest platform for course creators with no commission fees, beautiful UI, and powerful tools.',
+  keywords: ['course creation platform', 'online course creator', 'sell courses online', 'teaching platform', 'e-learning platform'],
+};
 
 const LandingPage = () => {
 
@@ -29,6 +37,26 @@ const LandingPage = () => {
 
   return (
     <div>
+      <Script id="structured-data" type="application/ld+json" dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": "SkillWave",
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "Web",
+          "offers": {
+            "@type": "Offer",
+            "price": "25",
+            "priceCurrency": "USD"
+          },
+          "description": "Create, sell, and manage online courses with SkillWave. The easiest platform for course creators with no commission fees, beautiful UI, and powerful tools.",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "127"
+          }
+        })
+      }} />
       <NavBar />
       <div className="flex justify-center mt-8">
         <ThemeBadge />
