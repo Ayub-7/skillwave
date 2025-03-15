@@ -407,6 +407,70 @@ export async function createCheckoutSession(priceId: string, promoteKitReferral:
   }
 }
 
+export async function createCheckoutSessionLifetime(priceId: string) {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.email) {
+      throw new Error('Not authenticated');
+    }
+
+    // Get or create stripe customer
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    let customerId = user.stripeCustomerId;
+
+    if (!customerId) {
+      const customer = await stripe.customers.create({
+        email: session.user.email,
+      });
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { stripeCustomerId: customer.id },
+      });
+
+      customerId = customer.id;
+    }
+
+    // Handle stripe connect account creation
+    await createStripeAccount(user)
+
+    // Create checkout session
+    const checkoutSession = await stripe.checkout.sessions.create({
+      customer: customerId,
+      allow_promotion_codes: true,
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000/dashboard/payment/success"
+          : "https://skillwave.io/dashboard/payment/success",
+      cancel_url:
+        process.env.NODE_ENV === "development"
+          ? "http://localhost:3000/dashboard/payment/cancel"
+          : "https://skillwave.io/dashboard/payment/cancel",
+    });
+
+    revalidatePath('/dashboard/billing');
+    return { sessionId: checkoutSession.id };
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+
 export async function manageSubscription() {
   try {
     const session = await auth();

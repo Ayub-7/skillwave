@@ -32,6 +32,11 @@ const LandingPage = () => {
       price: 200,
       priceId: process.env.NODE_ENV === "production" ? process.env.PRICE_ID_YEARLY_PROD : process.env.PRICE_ID_YEARLY_DEV,
       description: "per year"
+    },
+    lifetime: {
+      price: 250,
+      priceId: process.env.NODE_ENV === "production" ? process.env.PRICE_ID_LIFETIME_PROD : process.env.PRICE_ID_LIFETIME_DEV,
+      description: "Lifetime Access"
     }
   };
 
