@@ -453,6 +453,11 @@ export async function createCheckoutSessionLifetime(priceId: string) {
         },
       ],
       mode: 'payment',
+      metadata: {
+        userId: session.user?.id as string,
+        isLifetime: "true",
+        priceId: priceId,
+      },
       success_url:
         process.env.NODE_ENV === "development"
           ? "http://localhost:3000/dashboard/payment/success"
