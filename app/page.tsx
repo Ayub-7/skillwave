@@ -190,18 +190,6 @@ const LandingPage = () => {
         {/* Footer */}
         <footer className="py-10">
           <div className="max-w-7xl mx-auto px-6 text-center">
-            <div className="mb-6">
-              <Link href="https://x.com/skillwaveio" target="_blank" rel="noopener noreferrer">
-                <Image
-                  src="/App-Logo-Twitter.jpg"
-                  width={50}
-                  height={50}
-                  style={imageStyle}
-                  alt="Skill Wave Logo"
-                  className="inline-block"
-                />
-              </Link>
-            </div>
             <p className="text-sm mb-4">
               Copyright © 2025 skillwave.io All rights reserved.
             </p>
