@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   switch (event.type) {
     case 'checkout.session.completed':
       const session = event.data.object;
-    
+
       if (session.metadata?.courseId) {
         await prisma.user.update({
           where: { id: session.metadata?.userId },
@@ -37,6 +37,18 @@ export async function POST(req: Request) {
           where: { id: session.metadata.courseId },
           data: {
             students: { increment: 1 }
+          },
+        });
+      }
+      if (session.metadata?.isLifetime === "true") {
+        await prisma.subscription.create({
+          data: {
+            userId: session.metadata.userId,
+            status: 'active',
+            priceId: session.metadata.priceId,
+            stripeSubscriptionId: session.id,
+            currentPeriodStart: new Date(),
+            currentPeriodEnd: new Date('2099-12-31'), // Far future date for lifetime access
           },
         });
       }
@@ -74,7 +86,7 @@ export async function POST(req: Request) {
         },
       });
       break;
-    
+
     default: {
       console.log("unhandled event");
     }
