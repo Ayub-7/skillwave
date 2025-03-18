@@ -8,13 +8,19 @@ import { createCheckoutSessionLifetime } from '@/app/lib/actions';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
+declare global {
+    interface Window {
+        promotekit_referral: any;
+    }
+}
+
 export function SubscribeButtonLifetime({ priceId }: { priceId: string }) {
     const [loading, setLoading] = useState(false);
 
     const handleSubscribe = async () => {
         try {
             setLoading(true);
-            const { sessionId } = await createCheckoutSessionLifetime(priceId);
+            const { sessionId } = await createCheckoutSessionLifetime(priceId, window.promotekit_referral);
             const stripe = await stripePromise;
             await stripe?.redirectToCheckout({ sessionId });
         } catch (error) {

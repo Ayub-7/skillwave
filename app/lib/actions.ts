@@ -407,7 +407,7 @@ export async function createCheckoutSession(priceId: string, promoteKitReferral:
   }
 }
 
-export async function createCheckoutSessionLifetime(priceId: string) {
+export async function createCheckoutSessionLifetime(priceId: string, promoteKitReferral: any) {
   try {
     const session = await auth();
 
@@ -457,6 +457,7 @@ export async function createCheckoutSessionLifetime(priceId: string) {
         userId: session.user?.id as string,
         isLifetime: "true",
         priceId: priceId,
+        promotekit_referral: promoteKitReferral
       },
       success_url:
         process.env.NODE_ENV === "development"
