@@ -67,19 +67,19 @@ export default function BlogPost() {
                 <p className="mb-4">
                     Think you need thousands of followers to launch a successful online course? Think again.
                     Many creators successfully market and sell their courses without a large audience.
-                    In this post, we'll show you how to get your course in front of the right people, even if you're starting from zero.
+                    In this post, we&apos;ll show you how to get your course in front of the right people, even if you&apos;re starting from zero.
                 </p>
 
                 <p className="mb-4">
-                    Growing an audience from scratch takes time, but that doesn't mean you can't start making sales today.
+                    Growing an audience from scratch takes time, but that doesn&apos;t mean you can&apos;t start making sales today.
                     With smart strategies and consistent effort, you can launch a successful course even without a large following.
-                    Here's how to start small and build momentum.
+                    Here&apos;s how to start small and build momentum.
                 </p>
 
                 <h2 id="niche-focus" className="text-2xl font-semibold mt-8 mb-4">1. Focus on a Specific Niche</h2>
                 <div className="pl-4 space-y-2">
-                    <p>🎯 Pick a very specific topic, don't try to please everyone.</p>
-                    <p>🧠 Think about a problem you've solved that others struggle with.</p>
+                    <p>🎯 Pick a very specific topic, don&apos;t try to please everyone.</p>
+                    <p>🧠 Think about a problem you&apos;ve solved that others struggle with.</p>
                     <p>🔍 Use niche communities to validate the interest before creating your content.</p>
                 </div>
 
@@ -87,7 +87,7 @@ export default function BlogPost() {
                 <div className="pl-4 space-y-2">
                     <p>💬 Engage in Facebook groups, Reddit threads, and niche forums.</p>
                     <p>🤝 Focus on building relationships and offering value, not just pitching.</p>
-                    <p>📢 Share your course when it's a natural fit to the conversation.</p>
+                    <p>📢 Share your course when it&apos;s a natural fit to the conversation.</p>
                 </div>
 
                 <h2 id="seo-strategy" className="text-2xl font-semibold mt-8 mb-4">3. Leverage SEO to Bring in Organic Traffic</h2>
@@ -108,11 +108,11 @@ export default function BlogPost() {
                 <div className="pl-4 space-y-2">
                     <p>🔗 Reach out to creators in similar but non-competing niches.</p>
                     <p>📬 Suggest cross-promotions, guest posts, or shoutouts.</p>
-                    <p>🌟 Leverage the trust they've built with their audience to promote your course.</p>
+                    <p>🌟 Leverage the trust they&apos;ve built with their audience to promote your course.</p>
                 </div>
 
                 <p className="mt-8 font-semibold">
-                    You don't need a huge audience to make an impact, you just need a clear message and the right strategy. Stay focused, help people, and the growth will follow.
+                    You don&apos;t need a huge audience to make an impact, you just need a clear message and the right strategy. Stay focused, help people, and the growth will follow.
                 </p>
 
                 <div className="mt-16 bg-sky-500 text-white p-8 rounded-lg shadow-lg text-center">

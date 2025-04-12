@@ -67,12 +67,8 @@ export default function NavBar() {
                 </NavbarContent>
                 <NavbarContent justify="end">
                     <NavbarItem>
-                        <Button
-                            color="primary"
-                            className="bg-sky-500 hover:bg-sky-600 text-white font-medium px-6 py-2 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-                            onClick={() => router.push('/login')}
-                        >
-                            Start Teaching Today →
+                        <Button color="primary" variant="flat" onClick={() => router.push('/login')}>
+                            Get Started
                         </Button>
                     </NavbarItem>
                 </NavbarContent>

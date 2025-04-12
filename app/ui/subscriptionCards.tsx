@@ -30,7 +30,6 @@ export default function SubscriptionCards({ user, pricingOptions }: any) {
                                 >
                                     <Tab key="monthly" title="Monthly" />
                                     <Tab key="yearly" title="Yearly" />
-                                    <Tab key="lifetime" title="Lifetime" />
                                 </Tabs>
                             </div>
 

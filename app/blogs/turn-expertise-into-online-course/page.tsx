@@ -66,25 +66,25 @@ export default function BlogPost() {
                 </header>
 
                 <p className="mb-4">
-                    You don't need to be a celebrity or influencer to create a successful online course. If you've mastered a skill or solved a problem others struggle with, you can teach it and people will pay to learn.
+                    You don&apos;t need to be a celebrity or influencer to create a successful online course. If you&apos;ve mastered a skill or solved a problem others struggle with, you can teach it and people will pay to learn.
                 </p>
                 <p className="mb-4">
-                    Here's a step-by-step guide to turning your knowledge into an income-generating course.
+                    Here&apos;s a step-by-step guide to turning your knowledge into an income-generating course.
                 </p>
 
                 <section>
-                    <h2 className="text-2xl font-bold mt-10 mb-3" id="identify-expertise">1. Identify What You're Great At</h2>
+                    <h2 className="text-2xl font-bold mt-10 mb-3" id="identify-expertise">1. Identify What You&apos;re Great At</h2>
                     <div className="pl-4 space-y-2">
                         <p>🔍 Think about what people come to you for advice on, those are clues to your expertise.</p>
-                        <p>🧠 Consider skills you've used in your job, side hustle, or hobby that deliver results.</p>
-                        <p>🗣️ Ask your network: "If I taught something, what would you want to learn from me?"</p>
+                        <p>🧠 Consider skills you&apos;ve used in your job, side hustle, or hobby that deliver results.</p>
+                        <p>🗣️ Ask your network: &quot;If I taught something, what would you want to learn from me?&quot;</p>
                     </div>
                 </section>
 
                 <section>
                     <h2 className="text-2xl font-bold mt-10 mb-3" id="validate-demand">2. Validate That Others Want to Learn It</h2>
                     <div className="pl-4 space-y-2 ">
-                        <p>📊 Look for existing courses on similar topics, it means there's a market.</p>
+                        <p>📊 Look for existing courses on similar topics, it means there&apos;s a market.</p>
                         <p>💬 Browse Reddit, Quora, and YouTube comments to see what questions people are asking.</p>
                         <p>📣 Test demand with a short landing page and see if people join a waitlist.</p>
                     </div>

@@ -65,13 +65,13 @@ export default function BlogPost() {
                 </h1>
 
                 <p className="mb-4">
-                    Whether you're a coach, a designer, a marketer, or just someone with a passion to share, this roadmap is your no-fluff blueprint to get started. You don't need fancy tools or a huge following!
+                    Whether you&apos;re a coach, a designer, a marketer, or just someone with a passion to share, this roadmap is your no-fluff blueprint to get started. You don&apos;t need fancy tools or a huge following!
                 </p>
 
                 <h2 id="week-1" className="text-2xl font-bold mt-10 mb-3">Week 1: Define and Validate Your Course Idea</h2>
                 <div className="mb-6">
                     <div className="pl-4 space-y-2">
-                        <p>✅ Choose a topic you're confident in and passionate about, your enthusiasm will translate into engaging content.</p>
+                        <p>✅ Choose a topic you&apos;re confident in and passionate about, your enthusiasm will translate into engaging content.</p>
                         <p>🔍 Research your audience: what problems are they trying to solve? What are they already searching for?</p>
                         <p>📝 Validate your idea with a quick survey, a social media poll, or a basic landing page collecting emails.</p>
                     </div>
@@ -89,7 +89,7 @@ export default function BlogPost() {
                 <h2 id="week-3" className="text-2xl font-bold mt-10 mb-3">Week 3: Create Your Course Materials</h2>
                 <div className="mb-6">
                     <div className="pl-4 space-y-2 ">
-                        <p>🎥 Record your content using a webcam or screen recorder—don't worry about perfection.</p>
+                        <p>🎥 Record your content using a webcam or screen recorder, don&apos;t worry about perfection.</p>
                         <p>🛠️ Edit videos and organize your lessons clearly with helpful titles and descriptions.</p>
                         <p>📤 Upload everything to your course platform (like Skill Wave) and test the student experience.</p>
                     </div>
@@ -98,7 +98,7 @@ export default function BlogPost() {
                 <h2 id="week-4" className="text-2xl font-bold mt-10 mb-3">Week 4: Launch and Promote</h2>
                 <div className="mb-6">
                     <div className="pl-4 space-y-2 ">
-                        <p>🌐 Create a compelling landing page that clearly explains what your course offers and who it's for.</p>
+                        <p>🌐 Create a compelling landing page that clearly explains what your course offers and who it&apos;s for.</p>
                         <p>📧 Email your subscribers or warm leads with launch details, bonus offers, or early bird discounts.</p>
                         <p>📣 Share in communities (Reddit, Facebook, Slack, etc.) where your audience is already active.</p>
                         <p>🎁 Offer limited-time deals to create urgency and encourage early signups.</p>
@@ -106,7 +106,7 @@ export default function BlogPost() {
                 </div>
 
                 <p className="mt-8 font-semibold">
-                    Remember, perfection isn't the goal, shipping is. The faster you launch, the quicker you can learn and improve.
+                    Remember, perfection isn&apos;t the goal, shipping is. The faster you launch, the quicker you can learn and improve.
                 </p>
 
                 <div className="mt-16 bg-sky-500 text-white p-8 rounded-lg shadow-lg text-center">
