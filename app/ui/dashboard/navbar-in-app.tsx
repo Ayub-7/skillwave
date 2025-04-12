@@ -1,0 +1,33 @@
+import {
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
+    NavbarItem
+} from "@heroui/navbar";
+import { Link } from "@heroui/link";
+import React from "react";
+import UserAvatar from '@/app/ui/user-avatar-server';
+import { ThemeSwitcher } from "@/app/ui/theme-switcher";
+import ThemeLogo from '@/app/ui/theme-logo';
+
+export default async function NavBar() {
+    return (
+        <div>
+            <Navbar maxWidth="full">
+                <NavbarContent>
+                    <Link href="/dashboard">
+                        <NavbarBrand className="mt-6">
+                            <ThemeLogo />
+                        </NavbarBrand>
+                    </Link>
+                </NavbarContent>
+                <NavbarContent justify="end">
+                    <NavbarItem>
+                        <ThemeSwitcher />
+                    </NavbarItem>
+                    <UserAvatar />
+                </NavbarContent>
+            </Navbar>
+        </div>
+    );
+}
