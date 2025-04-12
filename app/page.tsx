@@ -180,7 +180,7 @@ const LandingPage = () => {
         </section>
 
         {/* Pricing Section */}
-        <section>
+        <section id="pricing">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h2 className="text-3xl font-bold mb-8">Simple Pricing Plans</h2>
             <SubscriptionCards user={null} pricingOptions={pricingOptions} />

@@ -1,16 +1,29 @@
+'use client'
 import {
     Navbar,
     NavbarBrand,
     NavbarContent,
-    NavbarItem
-} from "@heroui/navbar";
-import { Link } from "@heroui/link";
+    NavbarItem,
+    Link,
+    Button,
+} from "@heroui/react";
 import React from "react";
-import UserAvatar from '@/app/ui/user-avatar-server';
-import { ThemeSwitcher } from "@/app/ui/theme-switcher";
+import { useRouter } from 'next/navigation';
 import ThemeLogo from '@/app/ui/theme-logo';
 
-export default async function NavBar() {
+export default function NavBar() {
+    const router = useRouter();
+
+    const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+        e.preventDefault();
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    ;
+
     return (
         <div>
             <Navbar maxWidth="full">
@@ -21,11 +34,43 @@ export default async function NavBar() {
                         </NavbarBrand>
                     </Link>
                 </NavbarContent>
+                <NavbarContent className="hidden sm:flex gap-8" justify="center">
+                    <NavbarItem>
+                        <Link
+                            className="font-medium text-lg hover:text-sky-500 transition-colors duration-200"
+                            color="foreground"
+                            href="#features"
+                            onClick={(e) => scrollToSection(e, 'features')}
+                        >
+                            Features
+                        </Link>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <Link
+                            className="font-medium text-lg hover:text-sky-500 transition-colors duration-200"
+                            color="foreground"
+                            href="#pricing"
+                            onClick={(e) => scrollToSection(e, 'pricing')}
+                        >
+                            Pricing
+                        </Link>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <Link
+                            className="font-medium text-lg hover:text-sky-500 transition-colors duration-200"
+                            color="foreground"
+                            href="/blogs"
+                        >
+                            Blog
+                        </Link>
+                    </NavbarItem>
+                </NavbarContent>
                 <NavbarContent justify="end">
                     <NavbarItem>
-                        <ThemeSwitcher />
+                        <Button color="primary" variant="flat" onClick={() => router.push('/login')}>
+                            Get Started
+                        </Button>
                     </NavbarItem>
-                    <UserAvatar />
                 </NavbarContent>
             </Navbar>
         </div>
