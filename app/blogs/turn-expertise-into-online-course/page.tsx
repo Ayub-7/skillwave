@@ -12,7 +12,7 @@ export default function BlogPost() {
                 />
                 <meta
                     name="keywords"
-                    content="create online course, profitable course creation, monetize expertise, online teaching, course development, digital products, knowledge business, e-learning 2025"
+                    content="create online course, profitable course creation, monetize expertise, online teaching, course development, digital products, knowledge business, e-learning 2025, create course, course builder, make money online, digital products"
                 />
                 <meta name="author" content="Skill Wave" />
                 <meta property="og:title" content="How to Create a Profitable Online Course in 2025 | Skill Wave" />
