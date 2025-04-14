@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 export default function BlogPost() {
-    const keywords = "online course marketing, sell online course without audience, course creation tips, digital course marketing strategy, small audience course launch";
+    const keywords = "online course marketing, sell online course without audience, course creation tips, digital course marketing strategy, small audience course launch, create course, course builder, make money online, digital products";
 
     return (
         <>

@@ -13,7 +13,7 @@ import Script from 'next/script';
 export const metadata: Metadata = {
   title: 'SkillWave - The Modern Platform for Course Creators',
   description: 'Create, sell, and manage online courses with SkillWave. The easiest platform for course creators with no commission fees, beautiful UI, and powerful tools.',
-  keywords: ['course creation platform', 'online course creator', 'sell courses online', 'teaching platform', 'e-learning platform'],
+  keywords: ['course creation platform', 'online course creator', 'sell courses online', 'teaching platform', 'e-learning platform', 'create course', 'course builder', 'digital products', 'make money online'],
 };
 
 const LandingPage = () => {

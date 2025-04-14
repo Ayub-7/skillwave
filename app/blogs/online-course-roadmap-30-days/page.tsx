@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 export default function BlogPost() {
-    const keywords = "online course roadmap, create course in 30 days, online course launch plan, digital course creation, first online course, course creator guide, step by step course creation";
+    const keywords = "online course roadmap, create course in 30 days, online course launch plan, digital course creation, first online course, course creator guide, step by step course creation, create course, course builder, make money online, digital products";
 
     return (
         <>

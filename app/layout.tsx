@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   },
   description: 'Create, sell, and manage online courses with SkillWave. The easiest platform for course creators with no commission fees, beautiful UI, and powerful tools.',
   metadataBase: new URL('https://skillwave.io'),
-  keywords: ['course creation', 'online courses', 'teaching platform', 'e-learning', 'digital courses', 'course marketplace', 'education platform', 'online teaching'],
+  keywords: ['course creation', 'online courses', 'teaching platform', 'e-learning', 'digital courses', 'course marketplace', 'education platform', 'online teaching', 'create course', 'course builder', 'digital products', 'make money online'],
   creator: 'SkillWave',
   publisher: 'SkillWave',
   authors: [{ name: 'SkillWave Team' }],

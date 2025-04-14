@@ -59,6 +59,15 @@ export default function NavBar() {
                         <Link
                             className="font-medium text-lg hover:text-sky-500 transition-colors duration-200"
                             color="foreground"
+                            href="/dashboard"
+                        >
+                            Browse
+                        </Link>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <Link
+                            className="font-medium text-lg hover:text-sky-500 transition-colors duration-200"
+                            color="foreground"
                             href="/blogs"
                         >
                             Blog
