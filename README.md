@@ -30,4 +30,4 @@ previously hosted on domain: skillwave.io,
 decided to not renew the domain as this startup wasn't profitable.
 onto the next 😀
 
-SaaS is still accessible here: https://nextjs-dashboard-virid-seven-38.vercel.app
+Skillwave is still accessible here: https://nextjs-dashboard-virid-seven-38.vercel.app
