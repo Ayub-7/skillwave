@@ -25,3 +25,7 @@ Most platforms take big cuts or limit your control. Skill Wave gives creators th
 • Authentication: NextAuth  
 • Database: Prisma ORM + PostgreSQL  
 • Payments: Stripe
+
+previously hosted on domain: skillwave.io
+decided to not renew the domain as this startup wasn't profitable.
+onto the next 😀
