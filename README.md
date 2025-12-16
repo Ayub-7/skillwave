@@ -26,5 +26,4 @@ Most platforms take big cuts or limit your control. Skill Wave gives creators th
 • Database: Prisma ORM + PostgreSQL  
 • Payments: Stripe
 
-previously hosted on domain: skillwave.io
-Skillwave is still accessible here: https://nextjs-dashboard-virid-seven-38.vercel.app
+Skillwave is accessible here: https://skillwave-ayub-s-projects.vercel.app/
